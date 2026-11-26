@@ -1,0 +1,217 @@
+Notebook[{Cell["Rational partitions", "Title"], 
+  Cell["Exact counts, explicit partitions and asymptotic estimates", 
+   "Subtitle"], Cell["Keep this notebook and RationalPartitions.wl in the \
+same directory. Evaluate the first cell with Shift+Enter. The examples use \
+the definition in K. Srinivasa Raghava's Diagonal Rational Partitions.", 
+   "Text"], Cell[BoxData[RowBox[{"Get", "[", 
+      RowBox[{"FileNameJoin", "[", RowBox[
+         {"{", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], ",", 
+            "\"RationalPartitions.wl\""}], "}"}], "]"}], "]"}]], "Input"], 
+  Cell["Which fractions count as parts?", "Section"], 
+  Cell["Fix a positive integer n. The allowed parts are reduced a/b with 1 \
+\[AHat]\211\[Currency] a \[AHat]\211\[Currency] n and 2 \
+\[AHat]\211\[Currency] b \[AHat]\211\[Currency] n. Improper fractions such as \
+3/2 are allowed. A partition is a multiset of these parts: repetitions are \
+allowed, and ordering has no effect.", "Text"], 
+  Cell[CellGroupData[{Cell[BoxData[RowBox[{"RationalPartitionKeys", "[", "4", 
+         "]"}]], "Input"], 
+     Cell[BoxData[RowBox[{"{", RowBox[{FractionBox["1", "4"], ",", 
+           FractionBox["1", "3"], ",", FractionBox["1", "2"], ",", 
+           FractionBox["2", "3"], ",", FractionBox["3", "4"], ",", 
+           FractionBox["4", "3"], ",", FractionBox["3", "2"]}], "}"}]], 
+      "Output"]}, Open]], Cell["R_n(m) counts partitions of the integer \
+target m using the keys of n. For example, there are three ways to sum to 1 \
+using the keys of 3.", "Text"], 
+  Cell[CellGroupData[{Cell[BoxData[RowBox[{"RationalPartitionExamples", "[", 
+         RowBox[{"3", ",", "1", ",", "All"}], "]"}]], "Input"], 
+     Cell[BoxData[RowBox[{"{", RowBox[
+          {RowBox[{"{", RowBox[{FractionBox["2", "3"], ",", FractionBox["1", 
+                "3"]}], "}"}], ",", RowBox[{"{", RowBox[{FractionBox["1", 
+                "2"], ",", FractionBox["1", "2"]}], "}"}], ",", 
+           RowBox[{"{", RowBox[{FractionBox["1", "3"], ",", FractionBox["1", 
+                "3"], ",", FractionBox["1", "3"]}], "}"}]}], "}"}]], 
+      "Output"]}, Open]], Cell["The third argument limits how many examples \
+Mathematica returns. Its default is 10. Use All for a small set you want to \
+enumerate in full.", "Text"], Cell["Exact counts", "Section"], 
+  Cell["The list returned by RationalPartitionCounts starts at target 0, for \
+which the empty partition contributes one. List position m+1 therefore \
+contains R_n(m). For the diagonal, RationalPartitionCount[n] sets the target \
+equal to n.", "Text"], 
+  Cell[CellGroupData[{Cell[BoxData[RowBox[{"RationalPartitionCounts", "[", 
+         RowBox[{"3", ",", "5"}], "]"}]], "Input"], 
+     Cell[BoxData[RowBox[{"{", RowBox[{"1", ",", "3", ",", "8", ",", "16", 
+           ",", "29", ",", "47"}], "}"}]], "Output"]}, Open]], 
+  Cell[CellGroupData[
+    {Cell[BoxData[RowBox[{"{", RowBox[{RowBox[{"RationalPartitionCount", "[", 
+             RowBox[{"3", ",", "5"}], "]"}], ",", 
+           RowBox[{"RationalPartitionCount", "[", "3", "]"}]}], "}"}]], 
+      "Input"], Cell[BoxData[RowBox[{"{", RowBox[{"47", ",", "16"}], "}"}]], 
+      "Output"]}, Open]], 
+  Cell[CellGroupData[
+    {Cell[BoxData[RowBox[{"Table", "[", RowBox[
+          {RowBox[{"{", RowBox[{"n", ",", RowBox[
+                {"RationalPartitionKeyCount", "[", "n", "]"}], ",", RowBox[
+                {"RationalPartitionCount", "[", "n", "]"}]}], "}"}], ",", 
+           RowBox[{"{", RowBox[{"n", ",", "1", ",", "10"}], "}"}]}], "]"}]], 
+      "Input"], Cell[BoxData[RowBox[
+        {"{", RowBox[{RowBox[{"{", RowBox[{"1", ",", "0", ",", "0"}], "}"}], 
+           ",", RowBox[{"{", RowBox[{"2", ",", "1", ",", "1"}], "}"}], ",", 
+           RowBox[{"{", RowBox[{"3", ",", "4", ",", "16"}], "}"}], ",", 
+           RowBox[{"{", RowBox[{"4", ",", "7", ",", "226"}], "}"}], ",", 
+           RowBox[{"{", RowBox[{"5", ",", "14", ",", "8047"}], "}"}], ",", 
+           RowBox[{"{", RowBox[{"6", ",", "17", ",", "223310"}], "}"}], ",", 
+           RowBox[{"{", RowBox[{"7", ",", "28", ",", "19427673"}], "}"}], 
+           ",", RowBox[{"{", RowBox[{"8", ",", "35", ",", "1208928320"}], 
+             "}"}], ",", RowBox[{"{", RowBox[{"9", ",", "46", ",", 
+               "209924387816"}], "}"}], ",", RowBox[
+            {"{", RowBox[{"10", ",", "53", ",", "29755936703990"}], "}"}]}], 
+         "}"}]], "Output"]}, Open]], Cell["The three columns are n, the \
+number of keys K(n), and the diagonal count R(n). K(n) = 2 Sum[EulerPhi[j], \
+{j, 1, n}] \[AHat]\210\222 n \[AHat]\210\222 1. The count grows quickly; use \
+the counting function when you want the number of partitions.", "Text"], 
+  Cell["The exact counter groups denominators by their largest prime factor \
+and processes the groups in decreasing prime order. After each denominator, \
+it discards a partial sum if its reduced denominator fails to divide the \
+least common multiple of the remaining denominators. Such a sum cannot reach \
+an integer target. Each retained coefficient is an exact integer.", "Text"], 
+  Cell["An exact generating function for fixed order", "Section"], 
+  Cell["Write the multiplicity of a/b as b q + r, with 0 \
+\[AHat]\211\[Currency] r < b. The q part contributes a factor 1/(1 \
+\[AHat]\210\222 z^a). The residues that sum to an integer give a finite \
+numerator polynomial. This produces a rational function in integer powers of \
+z. It is practical to construct symbolically for small fixed n.", "Text"], 
+  Cell[CellGroupData[
+    {Cell[BoxData[RowBox[{"RationalPartitionGeneratingFunction", "[", 
+         RowBox[{"3", ",", "z"}], "]"}]], "Input"], 
+     Cell[BoxData[FractionBox[RowBox[{"1", "+", SuperscriptBox["z", "2"]}], 
+        RowBox[{SuperscriptBox[RowBox[{"(", RowBox[{RowBox[{"-", "1"}], "+", 
+               "z"}], ")"}], "4"], " ", RowBox[{"(", RowBox[{"1", "+", "z"}], 
+            ")"}]}]]], "Output"]}, Open]], 
+  Cell[CellGroupData[{Cell[BoxData[RowBox[{"SeriesCoefficient", "[", 
+         RowBox[{RowBox[{"RationalPartitionGeneratingFunction", "[", 
+             RowBox[{"3", ",", "z"}], "]"}], ",", 
+           RowBox[{"{", RowBox[{"z", ",", "0", ",", "5"}], "}"}]}], "]"}]], 
+      "Input"], Cell[BoxData["47"], "Output"]}, Open]], 
+  Cell["Use the supplied 101-row table", "Section"], 
+  Cell["For immediate lookup, use R_values.txt from the supplied package. The \
+cell looks beside the notebook, then in the original package location. On \
+another computer it opens a file picker if needed.", "Text"], 
+  Cell[BoxData[RowBox[{RowBox[{"tableFile", "=", 
+        RowBox[{"SelectFirst", "[", RowBox[
+           {RowBox[{"{", RowBox[{RowBox[{"FileNameJoin", "[", RowBox[
+                   {"{", RowBox[{RowBox[{"NotebookDirectory", "[", "]"}], 
+                      ",", "\"R_values.txt\""}], "}"}], "]"}], ",", 
+                RowBox[{"FileNameJoin", "[", RowBox[{"{", RowBox[
+                     {"$HomeDirectory", ",", "\"OneDrive\"", ",", 
+                      "\"Desktop\"", ",", "\"Rational Partitions Package\"", 
+                      ",", "\"R_values.txt\""}], "}"}], "]"}]}], "}"}], ",", 
+            "FileExistsQ", ",", RowBox[{"Missing", "[", "\"ChooseFile\"", 
+              "]"}]}], "]"}]}], ";"}]], "Input"], 
+  Cell[BoxData[RowBox[
+     {RowBox[{"If", "[", RowBox[{RowBox[{"MissingQ", "[", "tableFile", "]"}], 
+          ",", RowBox[{"tableFile", "=", RowBox[{"SystemDialogInput", "[", 
+              "\"FileOpen\"", "]"}]}]}], "]"}], ";"}]], "Input"], 
+  Cell[BoxData[RowBox[{RowBox[{"reference", "=", 
+        RowBox[{"If", "[", RowBox[{RowBox[{"StringQ", "[", "tableFile", 
+              "]"}], ",", RowBox[{"ReadRationalPartitionTable", "[", 
+              "tableFile", "]"}], ",", "$Canceled"}], "]"}]}], ";"}]], 
+   "Input"], Cell[CellGroupData[
+    {Cell[BoxData[RowBox[{"If", "[", RowBox[
+          {RowBox[{"AssociationQ", "[", "reference", "]"}], ",", 
+           RowBox[{"{", RowBox[{RowBox[{RowBox[{"reference", "[", "101", 
+                   "]"}], "[", "\"KeyCount\"", "]"}], ",", RowBox[
+                {"IntegerLength", "[", RowBox[{RowBox[{"reference", "[", 
+                     "101", "]"}], "[", "\"Count\"", "]"}], "]"}]}], "}"}]}], 
+         "]"}]], "Input"], 
+     Cell[BoxData[RowBox[{"{", RowBox[{"6186", ",", "564"}], "}"}]], 
+      "Output"]}, Open]], Cell["In Wolfram 15.0, the exact counter reproduced \
+the supplied R(n) for n = 1 through 60 and all 564 digits at n = 101. The n = \
+101 computation took about 164 seconds on the test machine. Reading that \
+value from the table avoids repeating the computation.", "Text"], 
+  Cell["These two checks compare freshly computed quantities with the \
+imported file.", "Text"], 
+  Cell[CellGroupData[
+    {Cell[BoxData[RowBox[{"If", "[", RowBox[
+          {RowBox[{"AssociationQ", "[", "reference", "]"}], ",", 
+           RowBox[{"{", RowBox[{RowBox[{"AllTrue", "[", RowBox[
+                  {RowBox[{"Keys", "[", "reference", "]"}], ",", RowBox[
+                    {RowBox[{RowBox[{"RationalPartitionKeyCount", "[", "#1", 
+                         "]"}], "\[Equal]", RowBox[{RowBox[{"reference", "[", 
+                          "#1", "]"}], "[", "\"KeyCount\"", "]"}]}], "&"}]}], 
+                 "]"}], ",", RowBox[{"AllTrue", "[", RowBox[
+                  {RowBox[{"Range", "[", "20", "]"}], ",", RowBox[
+                    {RowBox[{RowBox[{"RationalPartitionCount", "[", "#1", 
+                         "]"}], "\[Equal]", RowBox[{RowBox[{"reference", "[", 
+                          "#1", "]"}], "[", "\"Count\"", "]"}]}], "&"}]}], 
+                 "]"}]}], "}"}]}], "]"}]], "Input"], 
+     Cell[BoxData[RowBox[{"{", RowBox[{"True", ",", "True"}], "}"}]], 
+      "Output"]}, Open]], Cell["Estimates for natural log R(n)", "Section"], 
+  Cell["The proved large-n expansion for log R(n) starts with \
+\[AHat]\210\2322 n^(3/2) \[AHat]\210\222 \[CapitalIHat]\272 n^(3/2)/log n \
+\[AHat]\210\222 \[CapitalIHat]\272\[AHat]\202\202 n^(3/2)/(log n)^2. The \
+remainder is O(n^(3/2)/(log n)^3). RationalPartitionLogAsymptotic uses the \
+rounded values \[CapitalIHat]\272 \[AHat]\211\210 0.0026471306 and \
+\[CapitalIHat]\272\[AHat]\202\202 \[AHat]\211\210 0.0010771199. The full and \
+compact manuscripts label this result Theorem 4.1; the supplement cites it as \
+Theorem 1.1.", "Text"], 
+  Cell[CellGroupData[{Cell[BoxData[RowBox[{"RationalPartitionLogAsymptotic", 
+         "[", "100", "]"}]], "Input"], 
+     Cell[BoxData["1413.58795591381043175187810664499957564309`16."], 
+      "Output"]}, Open]], Cell["RationalPartitionSaddlePoint[n] conditions on \
+all prime blocks. PsiMinimum is the numerical evaluation of a theoretical \
+upper bound on log R(n). LogGaussianEstimate uses a conjectural local \
+Gaussian approximation. The additional C2 correction in LogCorrectedEstimate \
+is supported by numerical evidence. With the scope \"LargePrimes\", \
+LogGaussianEstimate evaluates the version of Conjecture 8.1 using primes \
+above Sqrt[n].", "Text"], 
+  Cell[BoxData[RowBox[{RowBox[{"saddle", "=", 
+        RowBox[{"RationalPartitionSaddlePoint", "[", "10", "]"}]}], ";"}]], 
+   "Input"], Cell[CellGroupData[
+    {Cell[BoxData[RowBox[{"N", "[", RowBox[
+          {RowBox[{"{", RowBox[{RowBox[{"Log", "[", RowBox[
+                  {"RationalPartitionCount", "[", "10", "]"}], "]"}], ",", 
+               RowBox[{"saddle", "[", "\"LogGaussianEstimate\"", "]"}], ",", 
+               RowBox[{"saddle", "[", "\"LogCorrectedEstimate\"", "]"}]}], 
+             "}"}], ",", "9"}], "]"}]], "Input"], 
+     Cell[BoxData[RowBox[{"{", RowBox[{"31.024049781087414596`9.", ",", 
+           "31.0224179061702923772`9.", ",", "31.0166731133656412512`9."}], 
+         "}"}]], "Output"]}, Open]], 
+  Cell[BoxData[RowBox[{RowBox[{"RationalPartitionSaddlePoint", "[", 
+        RowBox[{"10", ",", "\"LargePrimes\""}], "]"}], "[", 
+      "\"LogGaussianEstimate\"", "]"}]], "Input"], 
+  Cell["At n = 100 the table gives log R(100) \[AHat]\211\210 1272.940067174. \
+The all-prime estimate with C2 gives 1272.940066617, while the three-term \
+expansion gives 1413.587956. For a smaller case such as n = 10, adding the \
+correction need not improve the estimate.", "Text"], 
+  Cell["An analytic check at n = 2 is \[CapitalIHat]\262 = log(3/2), variance \
+= 6 and C2 = \[AHat]\210\2227/72.", "Text"], 
+  Cell[CellGroupData[
+    {Cell[BoxData[RowBox[{"With", "[", RowBox[
+          {RowBox[{"{", RowBox[{"s", "=", RowBox[
+                {"RationalPartitionSaddlePoint", "[", "2", "]"}]}], "}"}], 
+           ",", RowBox[{RowBox[{"Max", "[", RowBox[{"Abs", "[", 
+                 RowBox[{RowBox[{"{", RowBox[{RowBox[{"s", "[", "\"Beta\"", 
+                         "]"}], ",", RowBox[{"s", "[", "\"Variance\"", "]"}], 
+                       ",", RowBox[{"s", "[", "\"C2\"", "]"}]}], "}"}], "-", 
+                   RowBox[{"{", RowBox[{RowBox[{"Log", "[", FractionBox["3", 
+                          "2"], "]"}], ",", "6", ",", RowBox[{"-", 
+                         FractionBox["7", "72"]}]}], "}"}]}], "]"}], "]"}], 
+             "<", FractionBox["1", SuperscriptBox["10", "10"]]}]}], "]"}]], 
+      "Input"], Cell[BoxData["True"], "Output"]}, Open]], 
+  Cell["How the source files fit together", "Section"], 
+  Cell["diagonal_rational_partitions and diagonal_rational_partitions_compact \
+(PDF and TeX for each) present the full and condensed theory. With n fixed, \
+R_n(m) is a quasipolynomial in m of degree K(n) \[AHat]\210\222 1 for n \
+\[AHat]\211\[Yen] 2. With m proportional to n, prime congruences enter the \
+asymptotic count. The papers also study how the denominator and size of a \
+sampled part depend on whether it is selected by mass or uniformly among \
+distinct parts.", "Text"], Cell["R_values.txt gives n, K(n), R(n) for n = 1 \
+through 101. R_values_table.tex and its PDF format these data, and README.md \
+includes them alongside worked examples. All 101 rows agree digit for digit \
+across these four representations.", "Text"], Cell["rational_partitions.py \
+generates exact counts by eliminating primes. verify.py checks them with \
+direct enumeration at small orders and two computations modulo 2^64, \
+including a M\[CapitalATilde]\[Paragraph]bius-inversion product. \
+asymptotics.py evaluates the three-term expansion, the prime-conditioned \
+saddle and the numerical correction.", "Text"]}, 
+ WindowTitle -> "Rational partitions", StyleDefinitions -> "Default.nb"]

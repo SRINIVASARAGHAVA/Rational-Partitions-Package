@@ -1,0 +1,1913 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,microtype}
+\usepackage[letterpaper,hmargin=1.25in,vmargin=1.15in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Diagonal Rational Partitions},
+  pdfauthor={K. Srinivasa Raghava}}
+\allowdisplaybreaks[1]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\li}{li}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\Ee}{\mathbb E}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\CN}{\mathcal C_N}
+
+\title{Diagonal Rational Partitions}
+\author{K. Srinivasa Raghava}
+\address{Pie Mathematics Association}
+\email{srinivasaraghavak@gmail.com}
+\dedicatory{To the lasting memory of Hardy and Ramanujan, in honour of their work on integer partitions}
+\subjclass[2020]{Primary 11P82; Secondary 05A17, 11N05, 60F05}
+\keywords{Rational partitions, large primes, Boltzmann measures, limit laws, finite Fourier analysis}
+
+\begin{document}
+\begin{abstract}
+Let \(R_N(m)\) count unordered partitions of \(m\) into nonintegral reduced fractions whose positive numerators and denominators are at most \(N\). For \(m\asymp N\), a variational formula for \(\log R_N(m)\) expresses the correction due to integrality as a prime sum, with error \(O(N^{5/4}/\log N)\). It gives the terms of orders \(N^{3/2}/\log N\) and \(N^{3/2}/\log^2 N\) after the leading term. The first correction coefficient has second-derivative jumps on a dense set. A counting identity gives two-term asymptotics for consecutive-count ratios in two ranges of \(m/N\) and simultaneous concentration of the sums of parts with prime denominators above \(N/2\). We obtain joint limits for the denominator and size under size-biased sampling and uniform sampling among distinct parts. For fixed \(N\), \(R_N(m)\) is a quasipolynomial with an explicit leading coefficient. The normalized numerator coefficients of its generating function satisfy a central limit theorem, and we determine the first moment that differs from that of the corresponding sum of independent residues.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+
+For an integer \(N\ge2\), let
+\[
+ \mathcal C_N=\{a/b:1\le a\le N,\ 2\le b\le N,\ (a,b)=1\}.
+\]
+A configuration \(x=(x_\alpha)_{\alpha\in\mathcal C_N}\) records the
+nonnegative integer multiplicities of the parts. Its total is
+\(S(x)=\sum_{\alpha\in\mathcal C_N}\alpha x_\alpha\). Define
+\[
+ R_N(m)=\#\{x:S(x)=m\},\qquad m\in\Z_{\ge0},
+\]
+and let \(\mathbb U_{N,m}\) be the uniform law on these configurations, which we call rational partitions of \(m\). Write \(R(n)=R_n(n)\) for the diagonal count. For instance, the rational partitions of \(1\) for \(N=3\) are \(1/2+1/2\), \(1/3+2/3\), and \(1/3+1/3+1/3\). The first diagonal values \(R(2),\ldots,R(8)\) are \(1,16,226,8047,223310,19427673,1208928320\). Write \(\Phi_k=\sum_{j\le k}\phi(j)\), where \(\phi\) is Euler's totient function with \(\phi(1)=1\), and \(L_k=\lcm(1,\ldots,k)\).
+
+For \(m=\lfloor\rho N\rfloor\), the saddle point for the unrestricted sum predicts \(\sqrt{2\rho}\,N^{3/2}\) as the leading term of \(\log R_N(m)\). For each prime \(p>\sqrt N\), group the fractions whose denominators are divisible by \(p\). The groups are disjoint, and the requirement that \(S\) be an integer imposes a separate congruence on the sum in each group. For primes comparable to \(N\), the logarithm of the probability of this congruence can be of order \(\sqrt N\).
+
+Theorem~\ref{thm:enumeration} uses the probabilities of these congruences to derive the first two corrections to the leading term. For the lower bound, the proof constructs an injection by adding copies of selected fractions to satisfy the remaining congruences and make the sum equal to \(m\). The integral form of the variational formula in Corollary~\ref{cor:prime-integral} has an error which, after division by \(N^{3/2}\), is smaller than every fixed power of \(1/\log N\). Proposition~\ref{prop:kappa-corners} shows that the first correction coefficient is not twice differentiable at the transition densities and on a dense subset of positive densities. Section~\ref{sec:exchange} uses a counting identity to estimate \(R_N(m+1)/R_N(m)\) directly. On the diagonal it also gives a transition near \(p/N=0.7522\) between sums of \(2\) and \(3\) for the parts with denominator \(p\). Theorem~\ref{thm:fixed-shells} bounds the number of exceptions in each fixed prime range away from the values at which the minimum in \eqref{eq:G} is attained twice.
+
+Theorem~\ref{thm:sampling} gives the joint limiting law of the denominator and scaled size of a part sampled from a uniform partition of \(m\). Theorems~\ref{thm:residue-moments} and~\ref{thm:residue-gaussian} concern the probability distribution obtained by normalizing the coefficients of the numerator of the generating function. Its moments agree with those of a sum of independent residues up to order \(\lceil N/2\rceil-1\), and the character indexed by \(L_N/2\) determines the difference at the next order. Appendix~\ref{sec:free-energy} gives the term of order \(N\) in the logarithm of the Boltzmann normalizing constant.
+
+The Hardy--Ramanujan formula \cite{hardy-ramanujan} gives an asymptotic estimate for the number of configurations of a fixed positive integer total using parts with denominator \(p>N/2\) as \(N\to\infty\). For asymptotics of partitions with prescribed integer parts, see \cite{ingham-tauberian,meinardus,roth-szekeres}. Vaughan \cite{vaughan} treats partitions into primes. The use of independent geometric variables followed by conditioning is classical in partition theory \cite{fristedt}. Related approaches include probabilistic methods for integer and weighted partitions \cite{erdos-lehner,granovsky-stark-erlihson,vershik} and Boltzmann sampling \cite{duchon-et-al}. Here the changing set of denominators imposes congruences that must be estimated when recovering the coefficient at \(m\).
+
+Hoelscher and Palsson \cite{hoelscher-palsson} study fractional partitions with a common denominator and restrictions on the numerators. For results on unit fractions, see \cite{croot,bloom,bloom-elsholtz}. Conlon et al.\ \cite{conlon-et-al} and Liu and Sawhney \cite{liu-sawhney} count representations of a prescribed rational number as a sum of distinct unit fractions with bounded denominators. Bettin et al.\ \cite{bettin-et-al} study the number of distinct rational values representable by such sums. Our model permits repetition and reduced fractions with arbitrary numerators up to \(N\).
+
+All logarithms are natural. Sums indexed by \(p\) or \(\ell\) run over primes unless stated otherwise, and \(\pi(x)\) counts primes. Constants in uniform estimates may depend on the compact intervals specified in their statements.
+
+
+
+\section{The Boltzmann measure and large primes}
+\label{sec:boltzmann}
+
+For \(\beta>0\), let \(\mathbb P_\beta\) be the product law under which the multiplicities satisfy
+\(\Pp_\beta(X_\alpha\ge j)=e^{-\beta\alpha j}\) for integers \(j\ge0\). Let
+\[
+ F_N(\beta)=-\sum_{\alpha\in\CN}\log(1-e^{-\beta\alpha}).
+\]
+A configuration \(x\) has probability \(\exp(-F_N(\beta)-\beta S(x))\), so \(F_N(\beta)\) is the logarithm of the normalizing constant. Consequently
+\begin{equation}
+ R_N(m)=e^{F_N(\beta)+\beta m}\Pp_\beta(S=m),
+ \qquad \mathbb U_{N,m}=\Pp_\beta(\,\cdot\,\mid S=m).
+ \label{eq:boltzmann}
+\end{equation}
+
+\begin{lemma}
+\label{lem:bulk}
+Uniformly for \(\beta/\sqrt N\) in a compact positive interval,
+\begin{align*}
+ F_N(\beta)&=\frac{N^2}{2\beta}+O(N\log^2 N),\\
+ \Ee_\beta S&=\frac{N^2}{2\beta^2}+O(\sqrt N\log N),&
+ \Var_\beta S&=\frac{N^2}{\beta^3}+O(\log N).
+\end{align*}
+\end{lemma}
+
+\begin{proof}
+Use the nonnegative decreasing functions
+\[
+ f_0(x)=-\log(1-e^{-x}),\qquad
+ f_1(x)=\frac{x}{e^x-1},\qquad
+ f_2(x)=\left(\frac{x}{2\sinh(x/2)}\right)^2 .
+\]
+Their integrals on \((0,\infty)\) are \(\zeta(2),\zeta(2),2\zeta(2)\), respectively, by expansion in \(e^{-x}\) and termwise integration. For decreasing integrable \(f\) and \(s>0\), comparison with the integral gives
+\[
+ \left|\sum_{a\ge1} f(sa)-s^{-1}\int_0^\infty f(x)\,dx\right|
+ \le \int_0^1 f(sx)\,dx .
+\]
+For \(f_1,f_2\) the error is at most \(1\), and for \(f_0\) it is \(O(1+\log^+(1/s))\), where \(\log^+ y=\max(0,\log y)\). We may extend the numerator sums from \(a\le N\) to all \(a\ge1\) with an error \(O(1)\) in the sums of \(f_i(\beta a/b)\). Indeed \(f_i(x)\ll e^{-x/2}\) for \(x\ge1\), and for each \(b\le N\) the tail is \(O(N e^{-\beta/2})\) by a geometric sum.
+
+For each \(b\), apply M\"obius inversion in the condition \((a,b)=1\). Using \(\sum_{d\mid b}\mu(d)/d=\phi(b)/b\), where \(\mu\) is the M\"obius function, this gives
+\[
+ \sum_{a/b\in\CN} f_i(\beta a/b)
+ =\frac{\Phi_N-1}{\beta}\int_0^\infty f_i(x)\,dx+
+ \begin{cases}
+ O(N\log^2N),&i=0,\\
+ O(N\log N),&i=1,2.
+ \end{cases}
+\]
+Here \(\sum_{b\le N}\sum_{d\mid b}1=O(N\log N)\). Multiplying these sums by \(1,\beta^{-1},\beta^{-2}\), respectively, gives \(F_N(\beta)\), \(\Ee_\beta S\), and \(\Var_\beta S\). The estimates follow from \(\Phi_N=3N^2/\pi^2+O(N\log N)\) \cite{hardy-wright}.
+\end{proof}
+
+Fix a prime \(\sqrt N<p\le N\) and write \(k=\lfloor N/p\rfloor\). Let \(B_p\) be the set of fractions with denominator \(jp\) for \(1\le j\le k\). Let \(V_p=\sum_{\alpha\in B_p}\alpha X_\alpha\) and \(E_p=\{V_p\in L_k^{-1}\Z\}\). The denominators of the fractions in \(B_p\) divide \(pL_k\), where \((p,L_k)=1\). Thus \(E_p\) is equivalent to \(S\) having reduced denominator prime to \(p\), since the remaining fractions have denominators prime to \(p\). Distinct primes above \(\sqrt N\) give disjoint sets \(B_p\). Set
+\begin{equation}
+ K=\lfloor\log N\rfloor,\qquad
+ \mathcal S_N=\{p\text{ prime}:N/(K+1)<p\le N\},\qquad \mathcal E_N=\bigcap_{p\in\mathcal S_N} E_p .
+ \label{eq:cutoff}
+\end{equation}
+For all sufficiently large \(N\), these primes exceed \(\sqrt N\) and have \(k\le K\).
+
+For \(u>0\) and \(0<t\le1\), set \(k=\lfloor 1/t\rfloor\), \(\theta_k^2=\pi^2\Phi_k/6\), and
+\begin{equation}
+ G(u,t)=\min_{w\in L_k^{-1}\Z_{\ge0}}
+ \left(\sqrt{uw}-\theta_k\sqrt{\frac{t}{u}}\right)^2.
+ \label{eq:G}
+\end{equation}
+Write \(I_k=(1/(k+1),1/k]\). Let \(D_k(y)=\dist(y,\{\sqrt{r/L_k}:r\in\Z_{\ge0}\})\) for \(y\ge0\). For \(y>0\),
+\begin{equation}
+ D_k(y)\le \min\{y,(2L_k y)^{-1}\}.
+ \label{eq:grid}
+\end{equation}
+Indeed, if \(r/L_k\le y^2\le(r+1)/L_k\), then the difference between the square roots of the two endpoints is at most \((L_k y)^{-1}\). Thus \(G(u,t)=uD_k(\theta_k\sqrt t/u)^2\). Since \(\theta_k^2t\asymp k\) on \(1/(k+1)<t\le1/k\), \eqref{eq:grid} gives
+\begin{equation}
+ G(u,t)\ll_U (kL_k^2)^{-1}\quad(u\in U),\qquad
+ 0\le G(u,t)\le\frac{\pi}{\sqrt{12}}<1\quad(u>0,\ 0<t\le1)
+ \label{eq:G-bounds}
+\end{equation}
+for every compact \(U\subset(0,\infty)\). For the global bound, take the weighted geometric mean with weights \(3/4,1/4\) of \(\theta_k^2 t/u\) and \(u^3/(4L_k^2\theta_k^2t)\). The result is \(\theta_k\sqrt{t/(2L_k)}\le\pi/\sqrt{12}\), since \(\Phi_k\le k^2\), \(t\le1/k\), and \(L_k\ge k\).
+
+\section{A uniform estimate for one prime}
+\label{sec:block-estimate}
+
+For \(p\in\mathcal S_N\), let \(F_{N,p}(\gamma)=\sum_{\alpha\in B_p} f_0(\gamma\alpha)\) and put \(\lambda_p=p\theta_k^2\), where \(k=\lfloor N/p\rfloor\).
+
+\begin{lemma}
+\label{lem:block-energy}
+Uniformly for \(p\in\mathcal S_N\) and \(\log^2 N\le\gamma\le p/k\),
+\begin{equation}
+ F_{N,p}(\gamma)=\frac{\lambda_p}{\gamma}+O(\log N).
+ \label{eq:block-energy}
+\end{equation}
+For \(\gamma\ge\log^2N\),
+\begin{equation}
+ \Ee_\gamma V_p=\frac{\lambda_p}{\gamma^2}+O(k^2/\gamma),\qquad
+ \Var_\gamma V_p=\frac{2\lambda_p}{\gamma^3}+O(k^2/\gamma^2).
+ \label{eq:block-moments}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+As in Lemma~\ref{lem:bulk}, one may extend each numerator sum past \(N\) with total error \(O(1)\). The integral comparison for \(f_1,f_2\) applies with error \(O(\sum_{j\le k}\sum_{d\mid jp}1)=O(k^2)\). Because \(p>k\), \(\sum_{j\le k}\phi(jp)=(p-1)\Phi_k\). Replacing \(p-1\) by \(p\) contributes \(O(k^2/\gamma)\) before multiplication by \(\gamma^{-1}\) and \(\gamma^{-2}\), respectively. This proves the moment estimates.
+
+To estimate \(F_{N,p}\), use \(g(s)=\sum_{a\ge1} f_0(as)\). Applying the Dedekind eta transformation to \(\tau=is/(2\pi)\) \cite[Ch.~3]{apostol-modular} gives
+\begin{equation}
+ g(s)=\frac{\pi^2}{6s}+\frac12\log\frac{s}{2\pi}-\frac{s}{24}
+          +g(4\pi^2/s).
+ \label{eq:eta}
+\end{equation}
+In particular \(g(s)=\pi^2/(6s)+\tfrac12\log(s/(2\pi))+O(s)\) for \(0<s\le1\), and \(g(s)\ll e^{-s}\) for \(s\ge1\). M\"obius inversion gives
+\[
+ F_{N,p}(\gamma)=\sum_{j\le k}\sum_{d\mid j}\mu(d)
+ \left(g\left(\frac{\gamma d}{jp}\right)-g\left(\frac{\gamma d}{j}\right)\right)
+ +O(1).
+\]
+Here \(\gamma d/(jp)\le1\) and \(\gamma d/j\ge\log N\), so the terms \(g(\gamma d/j)\) contribute \(O(k^2/N)\). The \(O(s)\) terms contribute \(O(\gamma k/p)=O(1)\), since
+\(\sum_{j\le k}\sum_{d\mid j}d/j=\sum_{e\le k}e^{-1}\lfloor k/e\rfloor\ll k\).
+The terms \(\pi^2/(6s)\) give \(\lambda_p/\gamma\), and the logarithms sum to
+\(\frac12\log(\gamma/(2\pi p))-\frac12\log L_k\), using
+\(\sum_{d\mid j}\mu(d)\log d=-\Lambda(j)\) and \(\sum_{j\le k}\Lambda(j)=\log L_k\), where \(\Lambda\) is the von Mangoldt function. The prime number theorem gives \(\log L_k\sim k\) as \(k\to\infty\) \cite[Section~6.2, (6.12)]{montgomery-vaughan}. Since \(k\le K\), the logarithmic contribution is \(O(\log N)\), proving \eqref{eq:block-energy}.
+\end{proof}
+
+\begin{lemma}
+\label{lem:completion}
+For any \(k\ge1\), every integer \(d\ge\pi(k)L_k\) is a nonnegative integer combination of \(L_k/j\), \(1\le j\le k\).
+\end{lemma}
+
+\begin{proof}
+For each prime \(\ell\le k\), let \(q_\ell\) be its highest power at most \(k\). Choose \(0\le n_\ell<q_\ell\) so that \(n_\ell L_k/q_\ell\equiv d\pmod{q_\ell}\). The difference \(d-\sum_\ell n_\ell L_k/q_\ell\) is divisible by \(L_k\) and is nonnegative. Supply it using the generator \(L_k\). The same argument includes \(k=1\), when the sum is empty.
+\end{proof}
+
+\begin{proposition}
+\label{prop:block}
+Let \(u\) range over a compact positive interval and set \(\beta=u\sqrt N\). Uniformly for \(p\in\mathcal S_N\), with \(k=\lfloor N/p\rfloor\),
+\begin{align}
+ \left|\log\Pp_\beta(E_p)+\sqrt N\,G(u,p/N)\right|
+ &\ll \sqrt{k}\,N^{1/4}+k\log N+\log^3 N,\label{eq:local}\\
+ \Ee_\beta(V_p^2\mid E_p)&\ll k^2.\label{eq:block-second}
+\end{align}
+\end{proposition}
+
+\begin{proof}
+Every \(\gamma\) comparable to \(\sqrt N\) lies in the range of \eqref{eq:block-energy} for large \(N\), since \(p/k\gg N/(\log N)^2\). Set \(\lambda=\lambda_p\), \(w_0=\lambda/\beta^2\asymp k\), \(F=F_{N,p}\), and
+\[
+ M=\min_{w\in L_k^{-1}\Z_{\ge0}}\beta(\sqrt w-\sqrt{w_0})^2
+   =\sqrt N\,G(u,p/N).
+\]
+On the coordinates indexed by \(B_p\), the ratio of the probabilities
+of any configuration of total \(w\) under parameters \(\beta\) and \(\gamma\)
+is \(\exp(F(\gamma)-F(\beta)+(\gamma-\beta)w)\). Summing over these
+configurations gives, for \(w\in L_k^{-1}\Z_{\ge0}\),
+\begin{equation}
+ \Pp_\beta(V_p=w)
+  =\exp\{F(\gamma)-F(\beta)+(\gamma-\beta)w\}\Pp_\gamma(V_p=w)
+  \le \exp\{F(\gamma)-F(\beta)+(\gamma-\beta)w\}.
+ \label{eq:block-tilt}
+\end{equation}
+For \(0<w\le16w_0\), the quantity \(\lambda/\gamma+\gamma w\) has minimum \(2\sqrt{\lambda w}\) at \(\gamma_*=\sqrt{\lambda/w}\ge\beta/4\). If \(\gamma_*\le p/k\), substituting into \eqref{eq:block-tilt} and applying \eqref{eq:block-energy} gives the exponent \(-\beta(\sqrt w-\sqrt{w_0})^2+O(\log N)\). Otherwise choose \(\gamma=p/k\). The increase of \(\lambda/\gamma+\gamma w\) from its minimum is then
+\((\sqrt{\lambda/\gamma}-\sqrt{\gamma w})^2\le\lambda/\gamma=O(k^3)\).
+At \(w=0\) the probability is \(e^{-F(\beta)}\), with the same bound. Thus
+\begin{equation}
+ \Pp_\beta(V_p=w)\le
+ \exp\{-\beta(\sqrt w-\sqrt{w_0})^2+C\log^3 N\},\qquad
+ w\in L_k^{-1}\Z_{\ge0},\quad w\le16w_0 .
+ \label{eq:bounded-block-upper}
+\end{equation}
+For \(w>16w_0\), take \(\gamma=\beta/2\), giving \(\Pp_\beta(V_p=w)\le \exp(-\beta w/4+C\log N)\). The number of possible values of the sum up to \(16w_0\) and the reciprocal \(1/(1-e^{-\beta/(4L_k)})\) are polynomial in \(N\), since \(\log L_k=O(k)\). The sum over \(w>16w_0\) is bounded by
+\(e^{-4\beta w_0+O(\log N)}\). Since \(M\le\beta w_0\), summing
+\eqref{eq:bounded-block-upper} over the remaining values gives
+\(\Pp_\beta(E_p)\le e^{-M+O(\log^3N)}\).
+
+Let \(w_*\) attain the minimum defining \(M\). If \(w_*=0\), the probability \(e^{-F(\beta)}\) gives the desired lower bound. If \(w_*>0\), then \(w_0/4\le w_*\le4w_0\). The upper inequality follows by comparison with \(0\). For the lower one, if \(w_*<w_0/4\), then \(1/L_k\le w_*\), so there is a multiple of \(1/L_k\) in \([3w_0/4,w_0]\) whose square root is closer to \(\sqrt{w_0}\) than \(\sqrt{w_*}\) is.
+
+Set \(\gamma_0=\sqrt{\lambda/w_*}\asymp\sqrt N\) and remove the \(k\) fractions \(1/(jp)\) from \(B_p\). For the remaining fractions, write \(V'\) for the sum, \(\Pp'_\gamma\) for the product law, and \(F_{\mathrm{rem}}(\gamma)\) for the logarithm of its normalizing constant. On \([\gamma_0/2,2\gamma_0]\), the mean of \(V'\) is
+\(\lambda/\gamma^2+O(k^2/\sqrt N)\), since each removed mean contribution is at most \(1/\gamma\). Its variance is at most \(v=C k/\sqrt N\) for a sufficiently large constant \(C\), by \eqref{eq:block-moments}. Put
+\(\delta=4\sqrt v+\pi(k)/p\). The means at the two endpoints are \(4w_*+O(k^2/\sqrt N)\) and \(w_*/4+O(k^2/\sqrt N)\). Hence one can choose \(\gamma\) so that the mean is the midpoint of
+\[
+ W=[w_*-\delta,\,w_*-\pi(k)/p].
+\]
+Chebyshev's inequality gives \(\Pp'_\gamma(V'\in W)\ge3/4\). For a configuration in this event, \(pL_k(w_*-V')\) is an integer at least \(\pi(k)L_k\). Lemma~\ref{lem:completion} supplies multiplicities of the fractions
+set aside that bring the total to \(w_*\). If there is more than one
+choice, use the lexicographically least vector in the order \(j=1,\ldots,k\).
+The original configuration is recovered by setting these \(k\)
+multiplicities back to zero, so the map is injective.
+
+Each configuration counted in \(W\) has probability at most \(e^{-F_{\mathrm{rem}}(\gamma)-\gamma(w_*-\delta)}\). The removed fractions have size at least \(1/N\), so each omitted term \(f_0(\gamma/(jp))\) is \(O(\log N)\) when \(\gamma\asymp\sqrt N\). Thus
+\[
+ F_{\mathrm{rem}}(\gamma)\ge\lambda/\gamma-O(k\log N),\qquad
+ \gamma\delta=O(\sqrt{k}\,N^{1/4}).
+\]
+Since \(\lambda/\gamma+\gamma w_*\ge2\sqrt{\lambda w_*}\), the injection gives at least \(\exp\{2\sqrt{\lambda w_*}-O(\sqrt k\,N^{1/4}+k\log N)\}\) configurations of weight \(w_*\). Their probability under \(\Pp_\beta\) is therefore bounded below by
+\begin{equation}
+ \Pp_\beta(V_p=w_*)\ge e^{-M-C(\sqrt k\,N^{1/4}+k\log N)} .
+ \label{eq:winning-block-lower}
+\end{equation}
+For \(w_*=0\) this inequality also holds. This proves \eqref{eq:local}.
+
+Finally \(\Pp_\beta(E_p)\ge e^{-F(\beta)}\). Markov's inequality
+applied to \(e^{\beta V_p/2}\) gives
+\[
+ \Pp_\beta(V_p>x\mid E_p)\le e^{F(\beta/2)-\beta x/2}.
+\]
+Since \(F(\beta/2)=O(k\sqrt N)\), this is at most \(e^{-\beta x/4}\) for \(x\ge C'k\) with a sufficiently large \(C'\). Integration of the tail yields \eqref{eq:block-second}.
+\end{proof}
+
+
+
+\clearpage
+\section{Asymptotic enumeration}
+\label{sec:enumeration}
+
+Write \(u_\rho=(2\rho)^{-1/2}\), \(h_\rho(u)=1/(2u)+\rho u\), and \(P_N(u)=\sum_{p\le N}G(u,p/N)\). Define
+\begin{equation}
+ \begin{split}
+ J(u)&=\int_0^1G(u,t)\,dt,\qquad
+ J_1(u)=\int_0^1 G(u,t)\log(1/t)\,dt,\\
+ \kappa(\rho)&=J(u_\rho),\qquad
+ \kappa_2(\rho)=J_1(u_\rho)+\tfrac12 u_\rho^3J'(u_\rho)^2 .
+ \end{split}
+ \label{eq:kappas}
+\end{equation}
+
+\begin{theorem}
+\label{thm:enumeration}
+Let \(I\subset(0,\infty)\) be compact. Uniformly for \(\rho\in I\),
+\begin{equation}
+ \log R_N(\lfloor\rho N\rfloor)
+ =\min_{u>0}\{N^{3/2}h_\rho(u)-\sqrt N\,P_N(u)\}
+   +O\!\left(\frac{N^{5/4}}{\log N}\right).
+ \label{eq:prime-variational}
+\end{equation}
+The derivative \(J'\) is locally Lipschitz, and
+\begin{equation}
+ \log R_N(\lfloor\rho N\rfloor)
+ =\sqrt{2\rho}\,N^{3/2}
+ -\kappa(\rho)\frac{N^{3/2}}{\log N}
+ -\kappa_2(\rho)\frac{N^{3/2}}{\log^2 N}
+ +O\!\left(\frac{N^{3/2}}{\log^3 N}\right).
+ \label{eq:three-terms}
+\end{equation}
+\end{theorem}
+
+\subsection{Enforcing integrality and choosing the saddle point}
+
+Because the prime events in \(\mathcal E_N\) are independent, we can write
+\begin{equation}
+ \Psi_{N,m}(\beta)=\beta m+F_N(\beta)+\sum_{p\in\mathcal S_N}\log\Pp_\beta(E_p)
+                 =\log\sum_{x\in \mathcal E_N}e^{\beta(m-S(x))}.
+ \label{eq:psi-saddle}
+\end{equation}
+For the last expression \(\mathcal E_N\) is viewed as a set of configurations. Differentiation is justified locally on \(\beta>0\) by the product weights and their exponential decay. The first derivative is \(m-\Ee_\beta(S\mid \mathcal E_N)\) and the second is \(\Var_\beta(S\mid \mathcal E_N)\).
+
+\begin{proposition}
+\label{prop:saddle}
+Uniformly for integers \(m\) with \(m/N\) in a compact positive interval, \(\Psi_{N,m}\) has a unique minimizer \(\widehat\beta_{N,m}\asymp\sqrt N\), with
+\begin{equation}
+ \log R_N(m)=\Psi_{N,m}(\widehat\beta_{N,m})+O(N).
+ \label{eq:sharp-saddle}
+\end{equation}
+The minimizers are strictly decreasing in \(m\) and, when \(m,m+1\) both lie in this range,
+\begin{equation}
+ 0<\widehat\beta_{N,m}-\widehat\beta_{N,m+1}\ll N^{-1/2}.
+ \label{eq:saddle-difference}
+\end{equation}
+For any event \(A\) and \(\beta=\widehat\beta_{N,m}\),
+\begin{equation}
+ \mathbb U_{N,m}(A)\le e^{CN}\Pp_\beta(A\mid \mathcal E_N).
+ \label{eq:transfer}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The Brun--Titchmarsh bound \cite[(1.12)]{montgomery-vaughan-sieve} gives, for \(1\le k\le K\),
+\begin{equation}
+ \#\{p:N/(k+1)<p\le N/k\}\ll \frac{N}{k^2\log N},
+ \label{eq:prime-shell-count}
+\end{equation}
+since the interval length is \(N/(k(k+1))\) and its logarithm is comparable to \(\log N\). For \(\beta/\sqrt N\) in a compact positive interval, \eqref{eq:block-moments} and \eqref{eq:block-second} bound the unconditional and conditional means of \(V_p\) by \(O(k)\) and the conditional variance by \(O(k^2)\). The sets \(B_p\) for \(p\in\mathcal S_N\) are conditionally independent, and the other variables keep their original joint law. Thus Lemma~\ref{lem:bulk} and \eqref{eq:prime-shell-count} give
+\begin{equation}
+ \Ee_\beta(S\mid \mathcal E_N)=\frac{N^2}{2\beta^2}
+       +O\!\left(\frac{N\log\log N}{\log N}\right),
+ \qquad \Var_\beta(S\mid \mathcal E_N)\ll N .
+ \label{eq:conditioned-moments}
+\end{equation}
+The contribution to the conditional variance from fractions outside the sets \(B_p\) for \(p\in\mathcal S_N\) is at least \(c\sqrt N\). Indeed the unconditional variances of the sums \(V_p\) for \(p\in\mathcal S_N\) satisfy
+\[
+ \sum_{p\in\mathcal S_N}\Var_\beta V_p
+ \ll \sum_{k\le K}\frac{N}{k^2\log N}\frac{k}{\sqrt N}
+ \ll \frac{\sqrt N\,\log\log N}{\log N}.
+\]
+For \(m/N\) in a compact interval \(I\), choose \(0<b_1<b_2\) so that \(1/(2b_1^2)>\max I\) and \(1/(2b_2^2)<\min I\). Equation~\eqref{eq:conditioned-moments} places a root of \(\Psi_{N,m}'\) between \(b_1\sqrt N\) and \(b_2\sqrt N\). The variance is positive for all \(\beta>0\), since the empty configuration and two copies of \(1/2\) both belong to \(\mathcal E_N\). Thus \(\Psi_{N,m}\) is strictly convex and the root is its unique minimizer. Adding one to \(m\) adds \(1\) to \(\Psi'_{N,m}\). Monotonicity and the variance lower bound on the intervening interval give \eqref{eq:saddle-difference}.
+
+Every configuration of total \(m\) belongs to \(\mathcal E_N\), so \(R_N(m)\le e^{\Psi_{N,m}(\beta)}\) for every \(\beta>0\). For the lower bound, set aside the following fractions:
+\[
+ \frac12,\qquad
+ \frac1{q_\ell}\quad(\ell\le\sqrt N),\qquad
+ \frac1{jp}\quad\bigl(\sqrt N<p\le N/(K+1),\ 1\le j\le K\bigr),
+\]
+where \(q_\ell\) is the highest power of \(\ell\) at most \(N\). For large \(N\) these fractions are distinct and lie outside \(B_p\) for every \(p\in\mathcal S_N\). Their number is at most \(1+\pi(\sqrt N)+K\pi(N/(K+1))=O(N/\log N)\)
+by the prime number theorem.
+
+Consider a configuration in \(\mathcal E_N\) that uses only the remaining fractions. For a prime \(\sqrt N<p\le N/(K+1)\), write \(V_p\) as \(A/(pL_k)\) with \(k=\lfloor N/p\rfloor\ge K+1\). Adding \(d/(pL_K)\) makes the reduced denominator of this sum prime to \(p\) exactly when
+\[
+ A+dL_k/L_K\equiv0\pmod p .
+\]
+Here \(p>k\), so there is one solution \(d\) in the interval \([\pi(K)L_K,\pi(K)L_K+p)\). Lemma~\ref{lem:completion} represents this increment using copies
+of \(1/(jp)\). As before, use the lexicographically least vector of
+multiplicities. The increment is less than \(\pi(K)/p+1/L_K\). The added fractions have denominators prime to every other prime above \(\sqrt N\). After doing this for all such \(p\), the reduced denominator of the total divides \(Q_N=\prod_{\ell\le\sqrt N}q_\ell\). For a rational \(a/Q_N\), the Chinese remainder theorem gives \(0\le n_\ell<q_\ell\) for which \(a/Q_N+\sum_\ell n_\ell/q_\ell\) is an integer. This increases the total by less than \(\pi(\sqrt N)\).
+
+The total addition so far is at most
+\[
+ \Delta_N=\pi(\sqrt N)+
+ \sum_{\sqrt N<p\le N/(K+1)}\left(\frac{\pi(K)}p+\frac1{L_K}\right)
+ =O(\sqrt N).
+\]
+Indeed \(\log L_K\sim K\) gives \(L_K\ge e^{K/2}\ge\sqrt{N/e}\) for large \(N\). The sum of \(1/p\) is bounded by the harmonic sum up to \(N\), so that term contributes \(O(\log^2N)\). If the original total is at most \(m-\Delta_N\), the resulting integer is at most \(m\). Add copies of \(1/2\) until the total is \(m\). Deleting all fractions set aside at the start recovers the original configuration.
+
+Given \(\mathcal E_N\), the mean of the sum over the remaining fractions differs from \(\Ee_\beta(S\mid \mathcal E_N)\) by \(O(N/(\beta\log N))\), since each fraction set aside contributes at most \(1/\beta\) in mean. The variance of this sum is at most \(C_1 N\). Set \(W=4\sqrt{C_1 N}\). At \(b_1\sqrt N\) and \(b_2\sqrt N\), the mean lies on opposite sides of \(m-\Delta_N-W/2\) by the choice of \(b_1,b_2\). By continuity there is a \(\beta^\dagger\) between them at which the mean equals this value. Chebyshev's inequality gives conditional probability at least \(3/4\) that the sum lies in \([m-\Delta_N-W,m-\Delta_N]\).
+
+Let \(D(\beta)\) be the sum of \(f_0(\beta\alpha)\) over the fractions set aside. Each term is \(O(\log N)\), so \(D(\beta)=O(N)\) on this interval for \(\beta\). For the product measure on the remaining fractions, the logarithm of the normalizing constant is \(F_N-D\). The number of configurations on those fractions whose total lies in the last interval and which satisfy \(\mathcal E_N\) is at least
+\[
+ \frac34\exp\{\Psi_{N,m}(\beta^\dagger)-D(\beta^\dagger)
+                         -\beta^\dagger(\Delta_N+W)\}.
+\]
+The injection and \(\Psi_{N,m}(\beta^\dagger)\ge\Psi_{N,m}(\widehat\beta_{N,m})\) give the lower bound in \eqref{eq:sharp-saddle}. At the minimizer \(\beta=\widehat\beta_{N,m}\), \eqref{eq:boltzmann}
+and \eqref{eq:sharp-saddle} give
+\[
+ \Pp_\beta(S=m\mid\mathcal E_N)
+   =R_N(m)e^{-\Psi_{N,m}(\beta)}\ge e^{-CN}.
+\]
+Since \(\{S=m\}\subset\mathcal E_N\), the uniform probability of \(A\)
+is \(\Pp_\beta(A\cap\{S=m\}\mid\mathcal E_N)/\Pp_\beta(S=m\mid\mathcal E_N)\).
+Bounding the numerator by \(\Pp_\beta(A\mid\mathcal E_N)\) proves
+\eqref{eq:transfer}.
+\end{proof}
+
+\subsection{From the prime sum to the asymptotic expansion}
+
+Let \(m=\lfloor\rho N\rfloor\), with \(\rho\) in a compact positive interval. By Proposition~\ref{prop:saddle}, the scaled minimizers \(\widehat\beta_{N,m}/\sqrt N\) lie in a common compact positive interval \(U\). Enlarge \(U\) so that all \(u_\rho\) lie in its interior. Uniformly for \(u\in U\), Proposition~\ref{prop:block} and \eqref{eq:prime-shell-count} give
+\[
+ \sum_{p\in\mathcal S_N}\log\Pp_{u\sqrt N}(E_p)
+ =-\sqrt N\sum_{p\in\mathcal S_N}G(u,p/N)
+    +O\!\left(\frac{N^{5/4}}{\log N}\right),
+\]
+The \(\sqrt k\,N^{1/4}\) error in \eqref{eq:local} contributes \(O(N^{5/4}/\log N)\) because \(\sum_{k\ge1}k^{-3/2}<\infty\). The other two errors contribute \(O(N\log(K+1)+N\log^2 N)\), which is smaller. The primes \(p\le N/(K+1)\) contribute \(O(1)\) to \(P_N(u)\) by \eqref{eq:G-bounds} and \(L_{K+1}^2\ge e^{K+1}\ge N\) for large \(N\). The floor in \(m\) changes \(\beta m\) by \(O(\sqrt N)\). Together with Lemma~\ref{lem:bulk}, this yields
+\begin{equation}
+ \Psi_{N,m}(u\sqrt N)=N^{3/2}h_\rho(u)-\sqrt N\,P_N(u)
+    +O\!\left(\frac{N^{5/4}}{\log N}\right).
+ \label{eq:saddles-close}
+\end{equation}
+In particular, this equality holds with \(\rho=m/N\). The function minimized in \eqref{eq:prime-variational} attains its minimum in the interior of \(U\) for large \(N\). Indeed \(h_\rho(u)-h_\rho(u_\rho)\) is bounded below by a positive constant outside the interior of \(U\), uniformly in \(\rho\), and \(P_N(u)=O(N/\log N)\) for all \(u>0\) by \eqref{eq:G-bounds}. Thus \eqref{eq:sharp-saddle} and \eqref{eq:saddles-close} prove \eqref{eq:prime-variational}.
+
+\begin{lemma}
+\label{lem:prime-summation}
+Write \(\mathcal D_N=1+\sup_{2\le x\le N}|\pi(x)-\li(x)|\).
+For \(2\le a<b\le N\) and a real function \(f\) of bounded variation on
+\((a,b]\),
+\[
+ \left|\sum_{a<p\le b}f(p)-\int_a^b f(x)\frac{dx}{\log x}\right|
+ \ll \mathcal D_N\bigl(\|f\|_\infty+\operatorname{Var}_{(a,b]} f\bigr),
+\]
+where \(\operatorname{Var}_{(a,b]} f\) denotes total variation.
+If \(\chi:(0,1]\to\mathbb R\) satisfies
+\(\sup_{t\in I_k}|\chi(t)|\le A/L_k\) and
+\(\operatorname{Var}_{I_k}\chi\le A\) for every \(k\), then
+\begin{equation}
+ \frac1N\sum_{p\le N}\chi(p/N)
+ =\frac{1}{\log N}\int_0^1\chi(t)\,dt
+  +\frac{1}{\log^2 N}\int_0^1\chi(t)\log(1/t)\,dt
+  +O\!\left(\frac{A}{\log^3 N}\right).
+ \label{eq:general-prime-expansion}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The discrepancy between prime counting and integration against
+\(dx/\log x\) on any interval in \((a,b]\) is at most \(2\mathcal D_N\),
+regardless of whether either endpoint is included. Integrating this
+bound over the level sets of a bounded nonnegative monotone function
+proves the first estimate for such functions. For a general \(f\),
+write \(f(x)=f(b)+V_-(x,b)-V_+(x,b)\), where \(V_+(x,b)\) and
+\(V_-(x,b)\) are its positive and negative variations on \([x,b]\).
+Both are nonnegative and nonincreasing in \(x\), and the sum of their
+suprema equals the total variation on \((a,b]\).
+
+Apply the first estimate to \(x\mapsto\chi(x/N)\) on
+\((N/(k+1),N/k]\) for \(k\le K\). The prime number theorem with error
+\(O(xe^{-c\sqrt{\log x}})\) \cite[Section~6.2, (6.14)]{montgomery-vaughan}
+makes the sum of the errors \(O(AN/\log^3 N)\).
+The primes \(p\le N/(K+1)\) contribute \(O(A\sqrt N)\), since
+\(L_{K+1}\ge\sqrt N\) for large \(N\). On the remaining range,
+\[
+ \frac{1}{\log(Nt)}
+ =\frac{1}{\log N}+\frac{\log(1/t)}{\log^2 N}
+  +O\!\left(\frac{\log^2(1/t)}{\log^3 N}\right).
+\]
+The remainder is integrable against \(\chi\), since
+\(|\chi|\le A\) and \(\log^2(1/t)\) is integrable. On
+\((0,1/(K+1)]\) we have \(|\chi|\le A/L_{K+1}\), so both main
+integrals can be extended to \(0\) within the stated error.
+\end{proof}
+
+\begin{lemma}
+\label{lem:prime-expansion}
+The function \(J\) is continuously differentiable with locally Lipschitz derivative, and \(J_1\) is locally Lipschitz. On compact positive \(u\)-intervals, putting \(\epsilon=1/\log N\), we have
+\begin{equation}
+ \frac{P_N(u)}{N}=\epsilon J(u)+\epsilon^2 J_1(u)+O(\epsilon^3),
+ \qquad
+ \frac{\partial_u^\pm P_N(u)}{N}=\epsilon J'(u)+O(\epsilon^2).
+ \label{eq:prime-expansion}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+On \(I_k\), \(G\) is the minimum of the functions
+\[
+ g_w(u,t)=uw-2\theta_k\sqrt{wt}+\theta_k^2 t/u,\qquad
+ w\in L_k^{-1}\Z_{\ge0}.
+\]
+On a compact \(u\)-interval and at each fixed \(t>0\), only finitely many \(w\) need to be considered. At a minimizing \(w\), \(\partial_u g_w=w-y^2\), where \(y=\theta_k\sqrt t/u\asymp\sqrt k\). A minimizing \(w\) is one of the two successive multiples of \(1/L_k\)
+bracketing \(y^2\), so \(|w-y^2|\le1/L_k\). This bounds both one-sided
+derivatives, including when two values minimize the expression. For fixed \(u\), the minimum is attained twice only when \(y\) is the midpoint of successive values \(\sqrt{r/L_k}\) and \(\sqrt{(r+1)/L_k}\). There are at most countably many such \(t\). Dominated convergence gives \(J'(u)=\int_0^1\partial_u G(u,t)\,dt\). The bound on the one-sided derivatives also implies local Lipschitz continuity of \(J,J_1\).
+
+On each \(I_k\), the identity
+\(\partial_u G=G/u-(2t/u)\partial_tG\) holds wherever the minimizer is unique, by the formula \(G=uD_k(y)^2\). As a function of \(t\), \(G\) is continuous on the interior of \(I_k\) and piecewise smooth. Integration by parts, with one-sided limits from within \(I_k\) at its endpoints, yields
+\[
+ J'(u)=\frac{3}{u}J(u)
+ -2\sum_{k\ge1}\left[
+ \frac{D_k(\theta_k/(u\sqrt k))^2}{k}
+ -\frac{D_k(\theta_k/(u\sqrt{k+1}))^2}{k+1}\right].
+\]
+On the ranges of the arguments \(y\asymp\sqrt k\), \(D_k(y)^2\) has Lipschitz constant \(O(1/(L_k\sqrt k))\), by \eqref{eq:grid} and the Lipschitz bound \(1\) for a distance function. Each summand therefore has Lipschitz constant \(O(1/(kL_k))\) in \(u\). Summability proves the assertion about \(J'\).
+
+For fixed \(u\), \(y^2\) increases by \(O(1)\) across \(I_k\), so there are \(O(L_k)\) subintervals on which the minimizing \(w\) is constant. The derivative \(\partial_u^\pm G=w-y^2\) decreases on each such subinterval and jumps by \(1/L_k\) when \(w\) changes, so its total variation on \(I_k\) is \(O(1)\). The bound \(|\partial_t g_w|=(\theta_k^2/u)|1-\sqrt w/y|\ll k/L_k\) on these subintervals and the length \(O(k^{-2})\) of \(I_k\) give the same total variation bound for \(G\).
+
+Apply Lemma~\ref{lem:prime-summation} to \(G(u,\cdot)\) and to
+\(\partial_u^\pm G(u,\cdot)\). The bounds on the functions and their
+variation on each \(I_k\) are uniform in \(u\). For the derivatives,
+the first integral in \eqref{eq:general-prime-expansion} is \(J'(u)\),
+and the integral weighted by \(\log(1/t)\) is uniformly bounded.
+Since \(P_N\) is a finite sum, this proves \eqref{eq:prime-expansion}.
+\end{proof}
+
+Let \(\widetilde u\) be any minimizer in \eqref{eq:prime-variational}. By the left and right first-order conditions at \(\widetilde u\) and \eqref{eq:prime-expansion},
+\[
+ h_\rho'(\widetilde u)-\epsilon J'(\widetilde u)=O(\epsilon^2).
+\]
+On \(U\), \(h_\rho''(u)=u^{-3}\) is bounded away from \(0\), and \(J'\) is Lipschitz. Thus \(h_\rho'-\epsilon J'\) has a uniform positive lower bound on its difference quotients for large \(N\). Its value at \(u_\rho+\epsilon u_\rho^3J'(u_\rho)\) is \(O(\epsilon^2)\), so
+\begin{equation}
+ \widetilde u=u_\rho+\epsilon u_\rho^3J'(u_\rho)+O(\epsilon^2).
+ \label{eq:discrete-optimizer}
+\end{equation}
+With \(\delta=\widetilde u-u_\rho\), the displacement in \(h_\rho-\epsilon J-\epsilon^2 J_1\) contributes
+\[
+ \tfrac12u_\rho^{-3}\delta^2-\epsilon J'(u_\rho)\delta+O(\epsilon^3)
+ =-\tfrac12\epsilon^2u_\rho^3J'(u_\rho)^2+O(\epsilon^3),
+\]
+by \eqref{eq:discrete-optimizer} and the regularity in Lemma~\ref{lem:prime-expansion}. This proves \eqref{eq:three-terms} by \eqref{eq:prime-expansion}, because \(N^{5/4}/\log N=o(N^{3/2}/\log^3 N)\). The coefficients \(\kappa,\kappa_2\) are positive because, for each fixed \(u\), \(G(u,t)\) vanishes only at a countable set of \(t\). On the diagonal, \(\kappa(1)\approx0.00264713\) and \(\kappa_2(1)\approx0.00107712\). To compute these values, split the integrals on \(I_k\) at the points where the minimizer changes and use \eqref{eq:grid} to bound the tail of the sum over \(k\).
+
+For \(\rho=m/N\), the minimizer of \(\Psi_{N,m}\) satisfies
+\begin{equation}
+ \frac{\widehat\beta_{N,m}}{\sqrt N}
+     = u_\rho-\frac{\kappa'(\rho)}{\log N}
+         +O((\log N)^{-2}).
+ \label{eq:saddle-expansion}
+\end{equation}
+The uniform comparison \eqref{eq:saddles-close} bounds
+\(\Psi_{N,m}(\sqrt N\,\widetilde u)-\Psi_{N,m}(\widehat\beta_{N,m})\)
+by \(O(N^{5/4}/\log N)\). The second derivative bound \(\Psi_{N,m}''\gg\sqrt N\) from Proposition~\ref{prop:saddle} applies throughout the interval between the two points. Since \(\Psi_{N,m}'(\widehat\beta_{N,m})=0\), the same difference is at least \(c\sqrt N(\sqrt N\,\widetilde u-\widehat\beta_{N,m})^2\) for some \(c>0\). Consequently
+\[
+ \left|\sqrt N\,\widetilde u-\widehat\beta_{N,m}\right|
+ \ll N^{3/8}/\sqrt{\log N}.
+\]
+After division by \(\sqrt N\) this error is \(o((\log N)^{-2})\). Equation~\eqref{eq:saddle-expansion} now follows from \eqref{eq:discrete-optimizer} and \(\kappa'(\rho)=-u_\rho^3J'(u_\rho)\).
+
+\subsection{The probability of an integer total}
+
+\begin{corollary}
+\label{cor:integer-total}
+Uniformly for \(u\) in compact subintervals of \((0,\infty)\), at \(\beta=u\sqrt N\) we have
+\begin{align*}
+ \log\Pp_\beta(S\in\Z)
+  &=-\sqrt N\,P_N(u)+O\!\left(\frac{N^{5/4}}{\log N}\right)\\
+  &=-J(u)\frac{N^{3/2}}{\log N}
+    -J_1(u)\frac{N^{3/2}}{\log^2 N}
+    +O\!\left(\frac{N^{3/2}}{\log^3 N}\right).
+\end{align*}
+\end{corollary}
+
+\begin{proof}
+For the upper bound use \(\{S\in\Z\}\subset\mathcal E_N\). For the lower bound, take \(m\) to be an integer nearest to \(\Ee_\beta(S\mid\mathcal E_N)\). The estimate \eqref{eq:conditioned-moments} places \(m/N\) in a compact positive interval, and \(|\Psi'_{N,m}(\beta)|\le1/2\). By convexity,
+\[
+ \Psi_{N,m}(\widehat\beta_{N,m})\ge
+ \Psi_{N,m}(\beta)+\Psi'_{N,m}(\beta)(\widehat\beta_{N,m}-\beta)
+ \ge\Psi_{N,m}(\beta)-O(\sqrt N).
+\]
+Proposition~\ref{prop:saddle} and \eqref{eq:boltzmann} then give
+\(\log\Pp_\beta(S=m)\ge\log\Pp_\beta(\mathcal E_N)-O(N)\).
+Thus it suffices to expand the logarithm of \(\Pp_\beta(\mathcal E_N)\). This is the sum of the logarithms of \(\Pp_\beta(E_p)\) for \(p\in\mathcal S_N\), by independence. The estimates leading to \eqref{eq:saddles-close} give the first line and Lemma~\ref{lem:prime-expansion} gives the second.
+\end{proof}
+
+In particular, \(\mathbb P_{u\sqrt N}(S\in\mathbb Z)=o(L_N^{-1})\),
+uniformly on compact positive \(u\)-intervals, since \(J\) is positive
+there and \(\log L_N\sim N\).
+
+\subsection{An integral approximation}
+
+\begin{corollary}
+\label{cor:prime-integral}
+Let \(I\subset(0,\infty)\) be compact. Uniformly for \(\rho\in I\),
+\[
+ \log R_N(\lfloor\rho N\rfloor)
+ =\min_{u>0}\left\{N^{3/2}h_\rho(u)
+    -\sqrt N\int_2^N G(u,x/N)\frac{dx}{\log x}\right\}
+    +O\!\left(N^{3/2}e^{-c\sqrt{\log N}}\right).
+\]
+Under the Riemann hypothesis the error is \(O(N^{5/4}/\log N)\).
+\end{corollary}
+
+\begin{proof}
+Fix a compact interval \(U\subset(0,\infty)\). On \(I_k\), the variation
+of \(G(u,\cdot)\) is \(O(1/(kL_k))\) uniformly for \(u\in U\), by the
+bound on \(\partial_t g_w\) in the proof of
+Lemma~\ref{lem:prime-expansion}. The jump at \(1/(k+1)\) is
+\(O(1/(kL_k^2))\) by \eqref{eq:G-bounds}. Both bounds are summable,
+so \(G(u,\cdot)\) has bounded variation uniformly for \(u\in U\).
+Applying Lemma~\ref{lem:prime-summation} on \((2,N]\) and including the
+term at \(p=2\) gives
+\[
+ P_N(u)=\int_2^N G(u,x/N)\frac{dx}{\log x}
+       +O\!\left(1+\sup_{2\le x\le N}|\pi(x)-\li(x)|\right)
+       \qquad(u\in U).
+\]
+The discrepancy is \(O(Ne^{-c\sqrt{\log N}})\) unconditionally and
+\(O(\sqrt N\log N)\) under the Riemann hypothesis
+\cite[(6.14) and (13.4)]{montgomery-vaughan}.
+Since \(G\) is uniformly bounded for all \(u>0\), the integral
+and \(P_N(u)\) are \(O(N/\log N)\) on \((0,\infty)\).
+The same comparison with \(h_\rho(u_\rho)\) as in the proof of
+\eqref{eq:prime-variational} therefore places both minima in a common
+compact subinterval \(U\). Substitution in \eqref{eq:prime-variational}
+proves both assertions.
+\end{proof}
+
+\subsection{Regularity and endpoint behavior}
+
+\begin{proposition}
+\label{prop:kappa-corners}
+The one-sided derivatives of \(J'\) exist at every \(u>0\). Put
+\[
+ \rho_r=\frac{3(\sqrt r+\sqrt{r+1})^2}{4\pi^2}
+ \qquad(r\in\Z_{\ge0}).
+\]
+At \(u=u_{\rho_r}\), the right derivative of \(J'\) exceeds its left
+derivative by exactly \(2/u\). The function \(\kappa\) is continuously
+differentiable with locally Lipschitz derivative, and its right
+second derivative at \(\rho_r\) minus its left second derivative is
+\(-2u_{\rho_r}^{5}\). The one-sided derivatives of \(J'\) differ on a
+dense subset of \((0,\infty)\), and the same holds for the one-sided
+second derivatives of \(\kappa\).
+\end{proposition}
+
+\begin{proof}
+If \(s=\sqrt{r/L_k}\) and \(s'=\sqrt{(r+1)/L_k}\), the derivative of
+\(D_k(y)^2\) jumps from \(s'-s\) to \(-(s'-s)\) at their midpoint
+\(y_0=(s+s')/2\). Since \(2y_0(s'-s)=1/L_k\), the jump in the derivative
+of \(D_k(a/u)^2\) as \(u\) increases through a value with \(a/u=y_0\)
+is \(-1/(L_ku)\). This function has one-sided derivatives everywhere.
+
+Use the series for \(J'\) in the proof of
+Lemma~\ref{lem:prime-expansion}. The term \(3J(u)/u\) has continuous
+derivative. The other terms are locally Lipschitz with constants
+\(O(1/(kL_k))\), so dominated convergence permits one-sided
+differentiation term by term. The resulting difference between the
+right and left derivatives is
+\[
+ \frac{2}{u}
+ \left(\sum_{\theta_k/(u\sqrt k)\,\text{a midpoint}}\frac1{kL_k}
+   -\sum_{\theta_k/(u\sqrt{k+1})\,\text{a midpoint}}
+            \frac1{(k+1)L_k}\right),
+\]
+where each midpoint is relative to the corresponding \(D_k\).
+To group terms that can contribute at the same \(u\), define
+\(a_k=\Phi_k L_k/k\),
+\(b_k=\Phi_k L_k/(k+1)\), and for rational \(A>0\) put
+\[
+ \Delta(A)=\sum_{k:\,a_k=A}\frac{1}{kL_k}
+          -\sum_{k:\,b_k=A}\frac{1}{(k+1)L_k}.
+\]
+The sums are absolutely convergent. Put \(c_j=(\sqrt{j}+\sqrt{j+1})^2\). The midpoint conditions above
+occur at \(u^2=4\zeta(2)A/c_j\), with \(A=a_k\) or \(b_k\). For
+\(j\ge1\), \(c_j=2j+1+2\sqrt{j(j+1)}\) is a quadratic irrational
+whose conjugate is \(1/c_j\). If \(c_i/c_j\) is rational for
+\(i,j\ge1\), the two numbers generate the same quadratic field
+and the norm of their ratio is one. The ratio is positive, so it
+equals one and \(i=j\). Since \(c_0=1\) is rational, the same
+uniqueness holds among all pairs \((A,j)\) with \(A>0\) rational
+and \(j\ge0\). The derivative jump at \(u^2=4\zeta(2)A/c_j\) is thus
+\(2\Delta(A)/u\). At \(u=u_{\rho_r}\) we have \(A=1\) and \(j=r\).
+Here \(\Delta(1)=1\), since \(a_1=1\), \(b_1=1/2\), and
+\(a_k>b_k\ge k^2/(k+1)>1\) for \(k\ge2\).
+
+For any \(T>0\), the sum of \(\Delta(A)\) over \(A>T\) is strictly
+positive. Each \(k\) contributes a nonnegative amount, since
+\(a_k>b_k\) and \(1/(kL_k)>1/((k+1)L_k)\), and there are terms with
+\(b_k>T\) since \(b_k\to\infty\). Thus arbitrarily large \(A\) have
+\(\Delta(A)\ne0\). Given \(v>0\), let \(A\to\infty\) through these
+values and take \(j=\lfloor\zeta(2)A/v\rfloor\).
+Since \(c_j=4j+O(1)\), the resulting values of \(u^2\) tend to \(v\),
+proving density for \(J'\).
+
+Finally \(u_\rho'=-u_\rho^3\) and \(\kappa'(\rho)=-u_\rho^3 J'(u_\rho)\).
+The right and left derivatives interchange under the decreasing
+map \(\rho\mapsto u_\rho\), so the jump of \(\kappa''\) is
+\(-u_\rho^6\) times the jump in the derivative of \(J'\).
+This proves the exact value and density for \(\kappa\).
+\end{proof}
+
+\begin{proposition}
+\label{prop:kappa-endpoints}
+As \(\rho\downarrow0\),
+\[
+ \kappa(\rho)=\sqrt{\rho/2}\,\log\log(1/\rho)+O(\sqrt\rho).
+\]
+As \(\rho\to\infty\),
+\[
+ \kappa(\rho)=c_\infty\rho^{-3/2}\bigl(1+O(\rho^{-1})\bigr),
+ \qquad
+ c_\infty=\frac{1}{16\sqrt2\,\pi^2}
+      \sum_{k\ge1}\frac{\log(1+1/k)}{\Phi_k L_k^2}
+      =0.0033408689\ldots .
+\]
+\end{proposition}
+
+\begin{proof}
+Set \(u=u_\rho\). In the integral over \(I_k\), change variables
+to \(y=\theta_k\sqrt t/u\). This gives
+\begin{equation}
+ \int_{I_k}G(u,t)\,dt
+ =\frac{2u^3}{\theta_k^2}\int_{\theta_k/(u\sqrt{k+1})}^{\theta_k/(u\sqrt k)}
+       D_k(y)^2 y\,dy.
+ \label{eq:kappa-shell-integral}
+\end{equation}
+For large \(\rho\), we have \(u\to0\). If \(s=\sqrt{r/L_k}\) and
+\(s'=\sqrt{(r+1)/L_k}\), integration over the two halves of \([s,s']\)
+gives
+\[
+ \int_s^{s'}D_k(y)^2y\,dy
+ =\frac{(s+s')(s'-s)^3}{24}
+ =\frac{1}{96L_k^2r}+O\!\left(\frac1{L_k^2r^2}\right)
+ \qquad(r\ge1).
+\]
+The variable \(L_ky^2\) ranges over \([a,b]\), where
+\(a=L_k\theta_k^2/(u^2(k+1))\) and \(b=a(1+1/k)\).
+The two end intervals each contribute \(O(1/(L_k^2a))\).
+Summing over the complete intervals, and comparing the harmonic
+sum with its integral, gives
+\[
+ \int_{a\le L_ky^2\le b}D_k(y)^2y\,dy
+ =\frac{1}{96L_k^2}\left(\log(1+1/k)+O(a^{-1})\right).
+\]
+Since \(a\gg kL_k/u^2\), the error relative to \(\log(1+1/k)\)
+is \(O(u^2/L_k)\), uniformly in \(k\). Substitution in
+\eqref{eq:kappa-shell-integral} and summation give the asserted
+asymptotic at infinity.
+
+For small \(\rho\), put \(s=\log(1/\rho)\), \(K_-=\lfloor s/4\rfloor\),
+and \(K_+=\lceil4s\rceil\). The point \(w=0\) minimizes \eqref{eq:G}
+if \(4L_k\theta_k^2t/u^2\le1\), which holds on \(I_k\) for \(k\le K_-\)
+by \(\theta_k^2t\ll k\) and \(L_k\ll e^{2k}\). The sum of the
+integrals obtained by choosing \(w=0\) for \(k\le K\) is
+\[
+ \frac{1}{2u}\sum_{k\le K}\theta_k^2
+          \left(\frac1{k^2}-\frac1{(k+1)^2}\right)
+ =\frac{\log K}{2u}+O(u^{-1}),
+\]
+using \(\theta_k^2=k^2/2+O(k\log k)\).
+The expression with \(K=K_-\) is a lower bound for \(\kappa(\rho)\);
+the expression with \(K=K_+\) is an upper bound for its contribution
+from \(k\le K_+\). By \eqref{eq:grid},
+\(\int_{I_k}G(u,t)\,dt\ll u^3/(k^3L_k^2)\). Hence the tail with
+\(k>K_+\) is \(O(u^3e^{-K_+})=o(u^{-1})\). Since
+\(\log K_\pm=\log s+O(1)\) and \(1/(2u)=\sqrt{\rho/2}\), the
+asymptotic at zero follows.
+\end{proof}
+
+\begin{remark}
+For fixed \(k\), the contribution from \(I_k\) to \(J(u)\) or \(J_1(u)\)
+is a finite sum of elementary integrals. To bound the error after
+summing through \(k=B\), use
+\(G(u,t)\le u^3/(4\theta_k^2 L_k^2t)\) on \(I_k\).
+The tails of \(J(u)\) and \(J_1(u)\) are therefore bounded by
+\[
+ \frac{u^3}{4}\sum_{k>B}\frac{\log(1+1/k)}{\theta_k^2 L_k^2}
+ \quad\text{and}\quad
+ \frac{u^3}{8}\sum_{k>B}
+ \frac{\log^2(k+1)-\log^2 k}{\theta_k^2 L_k^2},
+\]
+respectively. In the series for \(J'\) in Lemma~\ref{lem:prime-expansion},
+the tail is bounded by \(3/u\) times the bound for \(J\), plus
+\(u^2\sum_{k>B}(\theta_k^2 L_k^2)^{-1}\) from the endpoint terms.
+At \(u=1/\sqrt2\), taking \(B=10\) and using
+\(\theta_k^2\ge\zeta(2)k\) and \(L_k\ge\max(k,27720)\) gives tail
+bounds \(7.1\cdot10^{-12}\), \(2.4\cdot10^{-11}\), and
+\(3.4\cdot10^{-9}\) for \(J\), \(J_1\), and \(J'\), respectively.
+\end{remark}
+
+
+\section{Consecutive counts and prime denominators}
+\label{sec:exchange}
+
+For \(N\ge4\) and a prime \(p\in(N/2,N]\), the set \(B_p\) consists
+of the fractions \(a/p\) with \(1\le a\le N\) and \(a\ne p\).
+Let \(a_p(j)\) count configurations of total \(j\in\mathbb Z_{\ge0}\)
+using only these fractions. In particular, \(a_p(j)\ge1\), since \(pj\)
+copies of \(1/p\) give total \(j\). The sum \(V_p\) of parts with denominator
+\(p\) is integral whenever \(S\) is integral, since the other
+denominators are prime to \(p\).
+Under \(\mathbb P_\beta(\,\cdot\mid\mathcal E_N)\) for all sufficiently
+large \(N\), the variables \(V_p\) for these primes are independent.
+Each has mass proportional to
+\[
+    q_p^\beta(j)=a_p(j)e^{-\beta j},\qquad j\ge 0.
+\]
+\subsection{A counting identity and the distribution for one prime}
+
+\begin{lemma}[Counting identity]
+\label{lem:block-exchange}
+For integers \(m\ge 1\) and \(0\le r\le m\),
+\begin{equation}
+\label{eq:block-exchange}
+ \frac{R_N(m+1)}{R_N(m)}
+ =\frac{a_p(r+1)}{a_p(r)}
+   \frac{\mathbb U_{N,m}(V_p=r)}
+        {\mathbb U_{N,m+1}(V_p=r+1)} .
+\end{equation}
+For integers \(0\le j\le m\) and \(r\ge 0\),
+\begin{equation}
+\label{eq:block-exchange-bound}
+ \mathbb U_{N,m}(V_p=j)
+ \le \frac{a_p(j)}{a_p(r)}\,\frac{R_N(m-j+r)}{R_N(m)} .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let \(R_N^{(p)}(s)\) count configurations of total \(s\) with no
+parts of denominator \(p\). Separating the parts of denominator \(p\)
+from the other parts gives
+\[
+ R_N(m)\mathbb U_{N,m}(V_p=j)=a_p(j)R_N^{(p)}(m-j).
+\]
+Taking \(j=r\) at total \(m\) and \(j=r+1\) at total \(m+1\)
+gives the common factor \(R_N^{(p)}(m-r)\), which is
+positive because \(1/2\) is available among the remaining fractions. This proves
+\eqref{eq:block-exchange}. The inequality
+\(a_p(r)R_N^{(p)}(m-j)\le R_N(m-j+r)\) proves
+\eqref{eq:block-exchange-bound}.
+\end{proof}
+
+Put \(C_0=\pi\sqrt{2/3}\) and
+\(e_p(j)=\log(a_p(j+1)/a_p(j))\). For each integer \(J\ge 1\), uniformly in
+\(N/2<p\le N\) and \(0\le j\le J\),
+\begin{equation}
+\label{eq:block-profile}
+ e_p(j)=C_0(\sqrt{j+1}-\sqrt j)\sqrt p+O_J(\log N),
+ \qquad
+ a_p(j)\le \exp(C_0\sqrt{pj})\quad(j\ge 0).
+\end{equation}
+Indeed, \(a_p(j)\) counts ordinary partitions of \(pj\) into parts at most
+\(N\), excluding \(p\). If \(\mathfrak p(s)\) denotes the ordinary
+partition function, then for \(j\ge 1\),
+\[
+ \mathfrak p(pj)-(1+pj)\mathfrak p(p(j-1))
+     \le a_p(j)\le \mathfrak p(pj).
+\]
+For the lower bound, sum over the forbidden sizes and remove one part of
+the prohibited size. The Hardy--Ramanujan formula \cite{hardy-ramanujan}
+shows that for fixed \(j\ge 1\) the relative size of the subtracted term
+tends to zero exponentially in \(\sqrt p\), up to a polynomial factor.
+In the form \(\mathfrak p(s)=e^{C_0\sqrt s}(4\sqrt3\,s)^{-1}(1+O(s^{-1/2}))\),
+the same formula gives, uniformly for each bounded range \(1\le j\le J\),
+\begin{align}
+ e_p(j)&=C_0(\sqrt{j+1}-\sqrt j)\sqrt p-\log\frac{j+1}{j}
+                 +O_J(N^{-1/2}),\label{eq:block-profile-refined}\\
+ e_p(0)&=C_0\sqrt p-\log(4\sqrt3\,p)+O(N^{-1/2}),\nonumber
+\end{align}
+using \(a_p(0)=1\).
+For \(b>0\), the logarithm of the ordinary partition product at \(e^{-b}\) is at most
+\(b^{-1}\int_0^\infty-\log(1-e^{-x})\,dx=\pi^2/(6b)\) by monotonicity.
+Thus \(\mathfrak p(s)\le\exp(bs+\pi^2/(6b))\). Minimizing the right-hand side
+over \(b>0\) gives the bound for all \(j\).
+
+Define
+\[
+ t_j(u)=\frac{u^2(\sqrt{j+1}+\sqrt j)^2}{C_0^2},
+ \qquad
+ \rho_j=\frac{3(\sqrt{j+1}+\sqrt j)^2}{4\pi^2}
+ \qquad(j\in\Z_{\ge0}).
+\]
+Set \(t_{-1}(u)=0\). For \(1/2<t\le 1\), let \(\omega(u,t)\) be the
+unique integer satisfying \(t_{\omega-1}(u)<t\le t_\omega(u)\), and put
+\(d(u,t)=\min_{j\ge 0}|t-t_j(u)|\).
+The values \(t_j(u)\) are the transition points for \(\omega(u,t)\).
+We have \(t_j(u_\rho)=\rho_j/\rho\) for \(u_\rho=(2\rho)^{-1/2}\).
+The integer \(\omega(u,t)\) is the smallest maximizer of
+\(C_0\sqrt{tj}-uj\) over nonnegative integers \(j\).
+Near a transition point, the logarithmic terms in \eqref{eq:block-profile-refined}
+can change which of the two adjacent integers has the larger exact weight.
+
+\begin{lemma}
+\label{lem:block-profile-gap}
+Let \(U\subset(0,\infty)\) be compact. There are \(c,D>0\) such that
+for \(u\in U\), \(\beta=u\sqrt N\), \(t=p/N\), and \(d=d(u,t)\) with
+\(d\sqrt N\ge D\log N\), one has
+\begin{equation}
+\label{eq:block-profile-gap}
+ \frac{q_p^\beta(j)}{q_p^\beta(\omega(u,t))}
+ \le \exp\!\bigl(-c d\sqrt N\,|j-\omega(u,t)|\bigr)
+ \qquad(j\ge 0).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The integer \(\omega=\omega(u,t)\) is bounded uniformly for \(u\in U\) and \(1/2<t\le1\).
+For each bounded range of indices, \eqref{eq:block-profile} gives
+\[
+ \log\frac{q_p^\beta(j+1)}{q_p^\beta(j)}
+ =\sqrt N\,C_0(\sqrt{j+1}-\sqrt j)
+     \bigl(\sqrt t-\sqrt{t_j(u)}\bigr)+O(\log N).
+\]
+On that range, the leading term has magnitude at least \(c_1 d\sqrt N\).
+It is positive for \(j<\omega\) and negative for \(j\ge\omega\).
+Taking \(D\) large absorbs the error. This proves
+\eqref{eq:block-profile-gap} by summing increments for all \(j\) up to a
+fixed \(J>\omega\), and shows \(q_p^\beta(\omega)\ge q_p^\beta(0)=1\).
+Increase \(J\), depending only on \(U\), so that
+\(C_0\sqrt{pj}\le\beta j/2\) for \(j>J\). Then
+\(q_p^\beta(j)\le e^{-\beta j/2}\) by \eqref{eq:block-profile}.
+Since \(d\) is bounded on the specified range of \(u,t\), this tail also
+satisfies \eqref{eq:block-profile-gap}, after decreasing \(c\).
+\end{proof}
+
+\subsection{Asymptotics for ratios of consecutive counts}
+
+\begin{theorem}
+\label{thm:ratio}
+Let \(I\) be a compact subset of \((\rho_0,2\rho_0)\cup(\rho_1,\infty)\). Uniformly for
+integers \(m\) with \(\rho=m/N\in I\),
+\begin{align}
+\label{eq:ratio-at-saddle}
+ \log\frac{R_N(m+1)}{R_N(m)}
+ &=\widehat\beta_{N,m}+O_I(N^{1/4}\sqrt{\log N}),\\
+\label{eq:ratio-two-term}
+ \log\frac{R_N(m+1)}{R_N(m)}
+ &=\sqrt N\left(u_\rho-\frac{\kappa'(\rho)}{\log N}
+              +O_I\bigl((\log N)^{-2}\bigr)\right).
+\end{align}
+\end{theorem}
+
+\begin{proof}
+Write \(\widehat\beta=\widehat\beta_{N,m}\) and
+\(u=\widehat\beta/\sqrt N\). By \eqref{eq:saddle-expansion},
+\(u=u_\rho+o(1)\) uniformly.
+The intervals \((\rho_j,2\rho_j)\), \(j\ge 1\), cover
+\((\rho_1,\infty)\), since
+\(\sqrt{\rho_{j+1}/\rho_j}<\sqrt{(j+1)/j}\le\sqrt2\).
+The interval \((\rho_0,2\rho_0)\) gives the transition with \(r=0\).
+By compactness there are \(\eta>0\) and \(J\) depending on \(I\) such
+that, for all large \(N\), some \(0\le r\le J\) satisfies
+\(1/2+\eta\le t_r(u)\le 1-\eta\).
+
+Let \(p_* = Nt_r(u)\) and
+\(\delta=B N^{-1/4}\sqrt{\log N}\), with \(B>0\) fixed for now.
+Consider the primes in the two short intervals
+\[
+ W_+ = \{p:p_*+\delta N<p\le p_*+2\delta N\},\qquad
+ W_- = \{p:p_*-2\delta N<p\le p_*-\delta N\}.
+\]
+They lie in \((N/2,N]\). We use the short-interval prime number theorem
+\[
+ \sum_{x<j\le x+h}\Lambda(j)\sim h
+ \qquad (x^{7/12+\varepsilon}\le h\le x),
+\]
+uniformly for fixed \(\varepsilon>0\). This follows from Huxley's
+zero-density estimate \cite[Section~1]{huxley} and Ingham's argument
+\cite[Theorem~1]{ingham}. See also \cite[(1.1)]{matomaki-teravainen}.
+Here \(h=\delta N\), \(x\asymp N\), and \(h\ge x^{7/12+\varepsilon}\)
+for sufficiently small fixed \(\varepsilon>0\). Prime powers of exponent
+at least two contribute \(O(\sqrt N\log^2 N)=o(h)\), and each prime in
+the intervals has logarithm \(\log N+O(1)\). Thus
+\(|W_\pm|\sim\delta N/\log N\) uniformly.
+
+For \(p\in W_+\), \(\omega(\beta/\sqrt N,p/N)=r+1\) at
+\(\beta=\widehat\beta_{N,m+1}\). For \(p\in W_-\), it equals \(r\) at
+\(\beta=\widehat\beta\). Indeed, Proposition~\ref{prop:saddle} gives
+\(\widehat\beta_{N,m+1}-\widehat\beta=O(N^{-1/2})\), so the transition
+points \(t_j(\beta/\sqrt N)\) in this bounded index range change by
+\(O(N^{-1})\). Adjacent transition points are uniformly separated, so
+each prime under consideration has \(d\gg\delta\) at its corresponding
+value of \(\beta\). Summing \eqref{eq:block-profile-gap} shows that for
+each such prime, the probability that \(V_p\) differs from the specified
+value, conditional on \(\mathcal E_N\), is at most \(C_1e^{-c_1\delta\sqrt N}\).
+
+Let \(A_+\) be the event that at least a quarter of the primes in \(W_+\)
+have \(V_p\ne r+1\), and let \(A_-\) be the corresponding event for
+\(V_p\ne r\) in \(W_-\). Conditional independence and a union bound
+over subsets give, at the corresponding values of \(\beta\),
+\[
+ \mathbb P_\beta(A_\pm\mid \mathcal E_N)
+ \le 2^{|W_\pm|}
+   \bigl(C_1e^{-c_1\delta\sqrt N}\bigr)^{\lceil|W_\pm|/4\rceil}
+ \le \exp(-c_2\delta\sqrt N\,|W_\pm|)
+ \le \exp(-c_3 B^2 N).
+\]
+The constants \(c_2,c_3>0\) can be chosen independently of the fixed
+\(B>0\), since \(\delta\sqrt N\to\infty\) and
+\(|W_\pm|\sim\delta N/\log N\) for each such \(B\).
+Apply \eqref{eq:transfer} on a compact positive interval containing
+the densities for \(m\) and \(m+1\). Choosing \(B\) large gives
+\(\mathbb U_{N,m+1}(A_+)\le e^{-N}\) and
+\(\mathbb U_{N,m}(A_-)\le e^{-N}\).
+The expected fraction of exceptions in each set of primes is at most
+\(1/4+e^{-N}\). Hence there are primes \(p_+\in W_+\) and \(p_-\in W_-\)
+with \(\mathbb U_{N,m+1}(V_{p_+}=r+1)\ge1/2\) and
+\(\mathbb U_{N,m}(V_{p_-}=r)\ge1/2\). The counting identity
+\eqref{eq:block-exchange} bounds the ratio between
+\(\tfrac12 e^{e_{p_-}(r)}\) and \(2e^{e_{p_+}(r)}\).
+By \eqref{eq:block-profile} and
+\(C_0(\sqrt{r+1}-\sqrt r)\sqrt{p_*}=\widehat\beta\), both increments
+are \(\widehat\beta+O(\delta\sqrt N)\), which proves
+\eqref{eq:ratio-at-saddle}. Substitution of \eqref{eq:saddle-expansion}
+gives \eqref{eq:ratio-two-term}.
+\end{proof}
+
+\subsection{Simultaneous concentration at a fixed total}
+
+\begin{theorem}
+\label{thm:top-concentration}
+Let \(I\) be a compact subset of \((\rho_0,2\rho_0)\cup(\rho_1,\infty)\). There are \(B,c>0\)
+such that, uniformly for \(m/N\in I\) and \(p\in(N/2,N]\), if
+\(u=\widehat\beta_{N,m}/\sqrt N\) and
+\(d=d(u,p/N)\ge B N^{-1/4}\sqrt{\log N}\), then
+\[
+ \mathbb U_{N,m}\bigl(V_p\ne\omega(u,p/N)\bigr)
+ \le \exp(-c d\sqrt N).
+\]
+For all large \(N\), the equality \(V_p=\omega(u,p/N)\) holds
+simultaneously at all such primes with probability at least
+\(1-e^{-N^{1/4}}\).
+\end{theorem}
+
+\begin{proof}
+Choose \(\eta>0\) so that changing \(m\) by at most \(\eta N\) leaves
+its density in a compact subset of \((\rho_0,2\rho_0)\cup(\rho_1,\infty)\).
+By \eqref{eq:ratio-at-saddle} and monotonicity of
+\(\widehat\beta_{N,m}\) in \(m\), there is
+\(\Delta=O(N^{1/4}\sqrt{\log N})\), taken positive, such that
+for each integer \(0\le h\le\eta N\),
+\[
+ \frac{R_N(m+h)}{R_N(m)}\le e^{h(\widehat\beta_{N,m}+\Delta)},
+ \qquad
+ \frac{R_N(m-h)}{R_N(m)}\le e^{-h(\widehat\beta_{N,m}-\Delta)} .
+\]
+Write \(\omega=\omega(u,p/N)\) and \(\beta=\widehat\beta_{N,m}\).
+For \(j\ne\omega\), \(j\le m\), and \(|j-\omega|\le\eta N\),
+the preceding bounds and \eqref{eq:block-exchange-bound} give
+\[
+ \mathbb U_{N,m}(V_p=j)
+ \le e^{\Delta|j-\omega|}\frac{q_p^\beta(j)}{q_p^\beta(\omega)}
+ \le e^{-c_1 d\sqrt N|j-\omega|}.
+\]
+The last inequality is \eqref{eq:block-profile-gap}, with \(B\) large
+enough that its exponent absorbs \(\Delta|j-\omega|\).
+If \(j-\omega>\eta N\), then \(R_N(m-j+\omega)\le
+R_N(m-\lfloor\eta N\rfloor)\), since adding two copies of \(1/2\)
+injects the configurations of any integer total into those of the
+next total. With \eqref{eq:block-exchange-bound}, \(a_p(\omega)\ge 1\),
+and \eqref{eq:block-profile}, this yields
+\[
+ \mathbb U_{N,m}(V_p=j)
+ \le \exp\!\left(C_0\sqrt{pj}
+       -\lfloor\eta N\rfloor(\widehat\beta_{N,m}-\Delta)\right)
+ \le e^{-c_2 N^{3/2}}.
+\]
+There are no \(j<\omega-\eta N\) for large \(N\), since \(\omega\)
+is bounded. Summing the geometric bound and the tail proves the
+single-prime estimate. Summing it over the at most \(N\) primes
+gives the simultaneous assertion.
+\end{proof}
+
+\begin{corollary}
+\label{cor:diagonal-concentration}
+Put \(t_*=\rho_2=3(\sqrt2+\sqrt3)^2/(4\pi^2)\).
+For every fixed \(\varepsilon>0\), under \(\mathbb U_{N,N}\), with
+probability at least \(1-e^{-c_\varepsilon\sqrt N}\) for all large \(N\),
+both assignments below hold simultaneously for every prime \(p\) in the
+indicated ranges:
+\[
+ V_p=2\quad (1/2<p/N\le t_*-\varepsilon),\qquad
+ V_p=3\quad (t_*+\varepsilon\le p/N\le 1).
+\]
+\end{corollary}
+
+\begin{proof}
+Set \(u=\widehat\beta_{N,N}/\sqrt N\). By \eqref{eq:saddle-expansion},
+\(u\to1/\sqrt2\), so the transition points converge to the corresponding
+\(\rho_j\). Since \(\rho_1<1/2<\rho_2<1<\rho_3\), the values of
+\(\omega(u,p/N)\) on the two indicated ranges are 2 and 3 for sufficiently large \(N\). There
+\(d\) is bounded below by a positive constant depending only on
+\(\varepsilon\). Apply the single-prime bound and sum over the primes.
+\end{proof}
+
+If \(\rho_0<\rho<2\rho_0\) is fixed and \(m=\lfloor\rho N\rfloor\),
+for every fixed \(\varepsilon>0\) the same argument gives the following
+assignments simultaneously for all primes in the indicated ranges,
+with probability at least \(1-e^{-c_{\rho,\varepsilon}\sqrt N}\) for all
+large \(N\):
+\[
+ V_p=0\quad (1/2<p/N\le \rho_0/\rho-\varepsilon),\qquad
+ V_p=1\quad (\rho_0/\rho+\varepsilon\le p/N\le1).
+\]
+Indeed \(t_0(u)\to\rho_0/\rho\in(1/2,1)\) and
+\(t_1(u)\to\rho_1/\rho>1\), so Theorem~\ref{thm:top-concentration}
+applies uniformly away from the indicated transition.
+
+On the diagonal, \eqref{eq:saddle-expansion} gives
+\[
+ t_2(\widehat\beta_{N,N}/\sqrt N)
+ =t_*\left(1-\frac{2\sqrt2\,\kappa'(1)}{\log N}+O((\log N)^{-2})\right).
+\]
+Numerically \(\kappa'(1)\approx-0.0052673\), using the series for \(J'\)
+in Lemma~\ref{lem:prime-expansion}.
+The intervals excluded in Theorem~\ref{thm:top-concentration} are centered
+at the transition points \(t_j(\widehat\beta_{N,m}/\sqrt N)\).
+
+\subsection{The transition under the conditional Boltzmann law}
+
+\begin{proposition}\label{prop:logistic-block}
+Let \(u\) range over a compact subset of \((0,\infty)\), let
+\(\beta=u\sqrt N\), and let \(0\le r\le J\) be an integer, where
+\(J\) is fixed. For fixed
+\(\eta>0\), suppose \(p\in(N/2,N]\) and
+\(t_{r-1}(u)+\eta\le p/N\le t_{r+1}(u)-\eta\). Then there is \(c>0\) such that
+\begin{align*}
+ \Pp_\beta(V_p=r+1\mid\mathcal E_N)
+   &=\frac{1+O(e^{-c\sqrt N})}{1+e^{\beta-e_p(r)}},\\
+ \Pp_\beta(V_p=r\mid\mathcal E_N)
+   &=\frac{1+O(e^{-c\sqrt N})}{1+e^{e_p(r)-\beta}}.
+\end{align*}
+\end{proposition}
+
+\begin{proof}
+Put \(b_j=a_p(j)e^{-\beta j}\), so \(\log(b_{j+1}/b_j)=e_p(j)-\beta\).
+For bounded \(j<r\) these increments are at least \(c_1\sqrt N\), and
+for bounded \(j\ge r+1\) they are at most \(-c_1\sqrt N\), by the
+separation from \(t_{r-1}(u)\) and \(t_{r+1}(u)\) and \eqref{eq:block-profile}.
+In particular \(b_r\ge b_0=1\), including the case \(r=0\).
+The bound \(b_j\le e^{-\beta j/2}\) for all sufficiently large \(j\)
+follows from \eqref{eq:block-profile}. Summing the weights gives
+\(\sum_{j\notin\{r,r+1\}}b_j=O(e^{-c\sqrt N})(b_r+b_{r+1})\).
+Dividing by the sum of all weights proves the formulas.
+\end{proof}
+
+For \(r\ge1\), \eqref{eq:block-profile-refined} gives
+\begin{equation}\label{eq:logistic-exponent}
+ \beta-e_p(r)=-C_0(\sqrt{r+1}-\sqrt r)
+   \bigl(\sqrt p-\sqrt{Nt_r(u)}\bigr)
+     +\log((r+1)/r)+O(N^{-1/2}).
+\end{equation}
+The logarithm of the odds varies on the scale \(\sqrt N\) in \(p\).
+When \(t_r(u)\) stays in a compact subinterval of \((1/2,1)\), the
+zero of the approximation to \(\beta-e_p(r)\) obtained by dropping
+the error term gives the center of the transition
+\[
+ \sqrt p=\sqrt{Nt_r(u)}
+         +\frac{\log((r+1)/r)}{C_0(\sqrt{r+1}-\sqrt r)}.
+\]
+For \(r=2\) and \(u=\widehat\beta_{N,N}/\sqrt N\), this center divided by
+\(Nt_2(u)\) is
+\[
+ 1+\frac{2\sqrt2\log(3/2)+o(1)}{\sqrt N}.
+\]
+For \(r=0\) put \(p_0=Nt_0(u)\). The corresponding center solves
+\(C_0(\sqrt p-\sqrt{p_0})=\log(4\sqrt3\,p)\). When \(t_0(u)\) stays in a
+compact subset of \((1/2,1)\), the difference of the two sides is
+strictly increasing on \([N/2,N]\) for large \(N\), with opposite signs
+at its endpoints. The unique solution has location
+\[
+ p=p_0+\frac{2\sqrt{p_0}}{C_0}\log(4\sqrt3\,p_0)+O((\log N)^2).
+\]
+Indeed the increment on the right gives a residual of order
+\((\log N)^2/\sqrt N\) in the equation for the center, whose derivative in
+\(p\) is of order \(N^{-1/2}\) there. The logarithm of the odds again
+varies on the scale \(\sqrt N\) about this center. These centers are
+defined by equations in the real variable \(p\).
+
+For integers \(m\ge1\) and \(0\le r\le m\), the uniform laws at totals
+\(m\) and \(m+1\) satisfy the exact relation from \eqref{eq:block-exchange}
+\begin{equation}\label{eq:adjacent-block-odds}
+ \frac{\mathbb U_{N,m+1}(V_p=r+1)}
+      {\mathbb U_{N,m}(V_p=r)}
+ =\exp\!\left(e_p(r)-\log\frac{R_N(m+1)}{R_N(m)}\right).
+\end{equation}
+The coefficient formula \(a_p(j)=[z^{pj}]\prod_{1\le a\le N,\,a\ne p}(1-z^a)^{-1}\)
+gives, at \(N=100\) and \(p=83\),
+\[
+ a_{83}(2)=189297163413,\qquad a_{83}(3)=213101829513341.
+\]
+The logarithm of \(R_{100}(101)/R_{100}(100)\) is approximately
+\(7.0372\), giving about \(0.9891\) in \eqref{eq:adjacent-block-odds}. At the fixed total
+\(m=100\), numerical evaluation gives
+\(\mathbb U_{100,100}(V_{83}=2)\approx0.4013985\) and
+\(\mathbb U_{100,100}(V_{83}=3)\approx0.3925051\). These can be computed
+from the complementary counts \(R_{100}^{(83)}(98)\) and \(R_{100}^{(83)}(97)\)
+using the coefficient procedure in Section~\ref{sec:conjecture} with the
+denominator \(83\) omitted. For comparison, the first two terms of
+\eqref{eq:ratio-two-term} at \(N=m=100\) give approximately \(7.0825\)
+for the logarithm of the ratio of consecutive counts. A logistic limit for \(\mathbb U_{N,m}\) inside
+the transition intervals remains open.
+
+\subsection{Concentration in other fixed prime ranges}
+
+For \(k\ge1\), \(\rho>0\), and \(1/(k+1)<t\le1/k\), let \(\omega_{k,\rho}(t)\) be the minimizing \(w\) in \eqref{eq:G} at \(u=u_\rho\) whenever it is unique. The minimum is attained twice at the following values of \(t\) in this range:
+\[
+ t=\frac{3(\sqrt r+\sqrt{r+1})^2}{4\pi^2\rho\,\Phi_k L_k},
+ \qquad r\in\Z_{\ge0},
+\]
+These correspond to the midpoints between successive values of \(\sqrt{r/L_k}\).
+
+\begin{theorem}
+\label{thm:fixed-shells}
+Fix \(k\ge1\) and \(\rho>0\), and let \(T\subset(1/(k+1),1/k]\) be a closed interval on which \(\omega_{k,\rho}\) is defined. Let \(M_N\) count the primes with \(p/N\in T\). Under \(\mathbb U_{N,\lfloor\rho N\rfloor}\), let \(Y_N\) count those primes with \(V_p\ne\omega_{k,\rho}(p/N)\). There are \(c,C>0\) such that for all large \(N\) and \(1\le r\le M_N\),
+\begin{equation}
+ \mathbb U_{N,\lfloor\rho N\rfloor}(Y_N\ge r)
+ \le e^{CN}\binom{M_N}{r} e^{-cr\sqrt N}.
+ \label{eq:shell-deviations}
+\end{equation}
+In particular, there are \(A,c'>0\) such that \(Y_N\le A\sqrt N\) with probability at least \(1-e^{-c'N}\).
+\end{theorem}
+
+\begin{proof}
+On \(T\), the smallest and second-smallest values of the expression in \eqref{eq:G} differ by at least a positive constant. It suffices to consider finitely many \(w\), since the expression tends uniformly to infinity as \(w\to\infty\). The gap persists for \(u\) close to \(u_\rho\), with the same minimizing \(w\) at each \(t\). Take \(\beta=\widehat\beta_{N,\lfloor\rho N\rfloor}\), so that \(\beta/\sqrt N\to u_\rho\) by \eqref{eq:saddle-expansion}.
+
+For these primes, \(k\) is fixed and \(w_0=\lambda_p/\beta^2\) stays in a compact positive interval. Divide \eqref{eq:bounded-block-upper} by \eqref{eq:winning-block-lower} and sum over the finitely many values \(w\le16w_0\) other than the minimizer. This gives a conditional probability bounded by \(e^{-c_1\sqrt N}\). The geometric estimate in Proposition~\ref{prop:block} gives the same bound for \(w>16w_0\), since \(M\le \beta w_0\). For large \(N\) these primes are all in \(\mathcal S_N\), so independence under \(\Pp_\beta(\cdot\mid \mathcal E_N)\), a union bound over the \(r\)-element subsets, and \eqref{eq:transfer} give \eqref{eq:shell-deviations}. For \(r=\lfloor A\sqrt N\rfloor+1\) the binomial factor has logarithm \(O_A(\sqrt N\log N)\). Choosing \(A\) large makes \(-cr\sqrt N\) dominate \(CN\) and the logarithm of the binomial factor. If \(r>M_N\), the event is empty.
+\end{proof}
+
+For \(k=1\) and densities in Theorem~\ref{thm:top-concentration}, that
+theorem gives \(Y_N=0\) with probability at least \(1-e^{-c\sqrt N}\)
+on any such fixed interval \(T\).
+
+\section{Denominator and size in a uniform partition}\label{sec:sampling}
+
+Fix \(\rho>0\), let \(m=\lfloor\rho N\rfloor\), and put \(u=(2\rho)^{-1/2}\).
+For \(\alpha=a/b\in\mathcal C_N\) write \(t_\alpha=b/N\) and
+\(x_\alpha=\sqrt N\,\alpha\). For \(N\) large enough that \(m>0\), size-biased
+sampling chooses \(\alpha\) with probability \(\alpha X_\alpha/m\).
+The second procedure chooses uniformly among the
+\(D_N=\sum_\alpha\mathbf 1_{\{X_\alpha>0\}}\) distinct fractions in the partition.
+These procedures have been studied for ordinary integer partitions by
+Corteel, Pittel, Savage and Wilf \cite{corteel-et-al}. The limiting size
+marginals in \eqref{eq:sampling-limits} agree after rescaling with those
+in \cite[Theorems~2--3]{mutafchiev}.
+
+\begin{theorem}\label{thm:sampling}
+Given a uniformly chosen partition of \(m\), the two sampling
+distributions of \((t_\alpha,x_\alpha)\), tested against any bounded continuous function
+on \([0,1]\times[0,\infty)\),
+converge in probability to the product laws on \((0,1)\times(0,\infty)\)
+with the following densities, respectively:
+\begin{equation}\label{eq:sampling-limits}
+  (2t)\,\frac{6u^2}{\pi^2}\frac{x}{e^{ux}-1},
+  \qquad
+  (2t)\,u e^{-ux}.
+\end{equation}
+The same product laws are the unconditional weak limits for the
+sampled part. Moreover, \(D_N/N^{3/2}\) converges to \(3/(\pi^2u)\) in probability and in \(L^q\) for each fixed \(1\le q<\infty\).
+\end{theorem}
+
+\begin{lemma}\label{lem:sampling-coprime}
+If \(H\) is continuous on \([0,1]\times[0,\infty)\) and
+\(|H(t,x)|\le C e^{-c x}\) for some \(C,c>0\), then
+\begin{equation}\label{eq:sampling-coprime}
+ \frac{1}{N^{3/2}}\sum_{\alpha\in\mathcal C_N}H(t_\alpha,x_\alpha)
+ \longrightarrow
+ \frac{6}{\pi^2}\int_0^1\int_0^\infty t H(t,x)\,dx\,dt.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Suppose first that \(H\) is supported on \(x\le A\). Apply the identity
+\(\mathbf 1_{\{\gcd(a,b)=1\}}=\sum_{d\mid a,\ d\mid b}\mu(d)\), where \(\mu\)
+is the M\"obius function. For each fixed \(d\), use the variables
+\(s=a/\sqrt N\) and \(t=b/N\). The mesh spacings for \(d\mid a,b\) are
+\(d/\sqrt N\) and \(d/N\). The normalized sum over this mesh tends to
+\[
+ d^{-2}\int_0^1\int_0^{At} H(t,s/t)\,ds\,dt.
+\]
+The bounded integrand, extended by zero off the triangle, is Riemann
+integrable, since possible discontinuities lie on its boundary. On the
+support \(a\le A\sqrt N\), so the upper bound \(a\le N\) is automatic for
+large \(N\). The line \(b=1\) is outside the support for large \(N\), since there
+the support requires \(a\le A/\sqrt N\). The normalized contribution from \(d>D\) is bounded in absolute value
+by
+\[
+ \frac{\|H\|_\infty}{N^{3/2}}
+ \sum_{d>D}\Big\lfloor\frac{A\sqrt N}{d}\Big\rfloor
+            \Big\lfloor\frac{N}{d}\Big\rfloor
+ \le A\|H\|_\infty\sum_{d>D}d^{-2}.
+\]
+Letting \(D\) tend to infinity gives \eqref{eq:sampling-coprime} by
+\(\sum_d\mu(d)/d^2=6/\pi^2\) and the substitution \(s=tx\).
+To remove the support restriction, use
+\[
+ \sum_{b=2}^N\sum_{a\ge1}e^{-c\sqrt N a/b}
+ =\sum_{b=2}^N\frac{1}{e^{c\sqrt N/b}-1}
+ \le\frac{1}{c\sqrt N}\sum_{b=2}^N b=O_c(N^{3/2}).
+\]
+For \(x_\alpha>A\), split the exponent into two equal parts to bound the
+normalized tail by \(O(e^{-cA/2})\). The integral has a vanishing tail as
+well, so a continuous cutoff proves the lemma.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:sampling}]
+Use the unconditioned Boltzmann parameter \(\beta=u\sqrt N\). For a bounded
+continuous real test function \(f\), define
+\[
+ M_N(f)=\frac{1}{N}\sum_{\alpha\in\mathcal C_N}
+           \alpha X_\alpha f(t_\alpha,x_\alpha),\qquad
+ O_N(f)=\frac{1}{N^{3/2}}\sum_{\alpha\in\mathcal C_N}
+           \mathbf 1_{\{X_\alpha>0\}} f(t_\alpha,x_\alpha).
+\]
+By independence and the geometric law, \(N^{-3/2}\) times the log moment
+generating function of \(N^{3/2}M_N(f)\) at \(\theta\) equals the left side
+of \eqref{eq:sampling-coprime} with
+\[
+ H(t,x)=\log\frac{1-e^{-ux}}{1-e^{-x(u-\theta f(t,x))}}.
+\]
+When \(|\theta|\|f\|_\infty\le u/2\), this function extends continuously to
+\(x=0\), where its value is \(\log(u/(u-\theta f(t,0)))\). Its
+\(\theta\)-derivative is \(x f(t,x)/(e^{x(u-\theta f(t,x))}-1)\), bounded
+in absolute value by \(\|f\|_\infty x/(e^{ux/2}-1)\). This bound, together
+with \(H=0\) at \(\theta=0\), verifies the lemma's exponential bound and
+permits differentiation of the limiting integral at zero. The derivative
+there is
+\[
+ \frac{6}{\pi^2}\int_0^1\int_0^\infty
+      \frac{tx f(t,x)}{e^{ux}-1}\,dx\,dt.
+\]
+For \(O_N(f)\) the same argument uses the log moment generating function
+per fraction \(\log(1+e^{-ux}(e^{\theta f(t,x)}-1))\). Its derivative on
+bounded \(\theta\)-intervals is \(O_{f,\theta}(e^{-ux})\), since the argument
+of the logarithm is a convex combination of \(1\) and \(e^{\theta f(t,x)}\).
+The derivative of the limiting integral at zero is
+\[
+ \frac{6}{\pi^2}\int_0^1\int_0^\infty t e^{-ux}f(t,x)\,dx\,dt.
+\]
+For either statistic and any fixed \(\varepsilon>0\), choose a small positive
+and a small negative \(\theta\) using differentiability of the limiting log
+moment generating function at zero. Chernoff's inequality then bounds the
+probability of an \(\varepsilon\)-deviation from the corresponding derivative
+by \(2e^{-c_{f,\rho,\varepsilon} N^{3/2}}\) for all sufficiently large
+\(N\), with \(c_{f,\rho,\varepsilon}>0\).
+
+Writing \(S=\sum_\alpha\alpha X_\alpha\), the estimates for \(R_N(m)\) and
+\(F_N(\beta)\) at \(\beta=u\sqrt N\) give
+\[
+ \log\mathbb P_\beta(S=m)=\log R_N(m)-\beta m-F_N(\beta)
+      =O_\rho(N^{3/2}/\log N),
+\]
+since \(\rho u+1/(2u)=\sqrt{2\rho}\). Dividing the two deviation bounds by
+\(\mathbb P_\beta(S=m)\) still gives bounds tending to zero. By
+\eqref{eq:boltzmann}, the conditional law given \(S=m\) is the uniform
+law on partitions of \(m\). Given the partition, the expectation of \(f\)
+is \(NM_N(f)/m\) for size-biased sampling and \(O_N(f)/O_N(1)\) for
+uniform sampling among distinct parts. Taking \(f=1\) yields
+\(O_N(1)\to 3/(\pi^2u)\) in probability. For the \(L^q\) assertion, the
+conditional probability of any fixed positive deviation is
+\(O(e^{-cN^{3/2}})\) for some \(c>0\), and \(D_N\le N^2\). Thus its
+contribution to the \(q\)-th absolute moment of the deviation tends to
+zero. On the complementary event the deviation is at most the chosen
+bound, which can be taken arbitrarily small. These limits give
+\eqref{eq:sampling-limits}. The conditional expectations of a bounded
+test function are uniformly bounded, so their convergence in probability
+also gives convergence of their expectations.
+\end{proof}
+
+
+\section{A fixed bound on numerators and denominators}\label{sec:residue}
+
+\subsection{The generating function}
+
+For each reduced part $a/b\in\mathcal C_N$, write its multiplicity as $bq_{a/b}+r_{a/b}$ with $0\le r_{a/b}<b$. Its contribution to the total is then the sum of the integer $aq_{a/b}$ and the term $(a/b)r_{a/b}$. Define the polynomial
+\[
+ A_N(z)=\sum_{\substack{0\le r_{a/b}< b\ (a/b\in\mathcal C_N)\\
+                        \sum_{a/b\in\mathcal C_N}(a/b)r_{a/b}\in\mathbb Z}}
+ z^{\sum_{a/b\in\mathcal C_N}(a/b)r_{a/b}}.
+\]
+The unique decomposition of the multiplicities gives
+\begin{equation}\label{eq:residue-numerator}
+ \sum_{m\ge0}R_N(m)z^m=
+ \frac{A_N(z)}{\displaystyle\prod_{a/b\in\mathcal C_N}(1-z^a)}.
+\end{equation}
+Geometrically, for fixed \(N\) this is the decomposition of the integer
+points in the cone \(\sum_{a/b}(a/b)x_{a/b}=m,\ x_{a/b}\ge0\)
+using the fundamental parallelepiped for the primitive rays
+\((b e_{a/b},a)\), where \(e_{a/b}\) is the corresponding coordinate
+vector. See \cite[Theorem~3.5]{beck-robins} for this construction.
+
+\begin{lemma}\label{lem:residue-map}
+The homomorphism
+\[
+ \prod_{a/b\in\CN}\Z/b\Z \longrightarrow (L_N^{-1}\Z)/\Z,\qquad
+ (r_{a/b})\longmapsto\sum_{a/b\in\CN}\frac ab r_{a/b}\pmod 1
+\]
+is surjective. In particular,
+\[
+ A_N(1)=L_N^{-1}\prod_{a/b\in\CN}b,\qquad
+ \deg A_N<\sum_{a/b\in\CN}a .
+\]
+\end{lemma}
+
+\begin{proof}
+For a prime \(p\le N\), write \(q_p\) for the largest power of \(p\) not exceeding \(N\). The coordinate for \(1/q_p\) generates the subgroup of order \(q_p\), and together these subgroups generate the target. Thus the kernel has size \(L_N^{-1}\prod_{a/b\in\CN}b\). Each residue sum is at most \(\sum_{a/b\in\CN}(a/b)(b-1)<\sum_{a/b\in\CN}a\).
+\end{proof}
+
+\begin{theorem}\label{thm:quasipolynomial}
+Let \(n=|\CN|\). There are periodic functions \(c_0,\ldots,c_{n-1}\), each with period dividing \(L_N\), such that
+\[
+ R_N(m)=\sum_{j=0}^{n-1}c_j(m)m^j\quad(m\ge0),
+ \qquad
+ c_{n-1}=\frac1{L_N(n-1)!\prod_{\alpha\in\CN}\alpha}.
+\]
+If \(e_N\) is the largest number of fractions in \(\CN\) whose numerators are divisible by a common prime, then \(c_j\) is constant for \(j\ge e_N\).
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{lem:residue-map}, \eqref{eq:residue-numerator} is a proper rational function, and all its poles are roots of unity of order dividing \(L_N\). Partial fractions and the binomial series give a sum of terms \(\zeta^{-m}P_\zeta(m)\), where the degree of \(P_\zeta\) is less than the order of the pole at \(\zeta\). At \(\zeta=1\) the leading part is
+\[
+ \frac{A_N(1)}{\prod_{a/b\in\CN}a}(1-z)^{-n},
+\]
+which gives the asserted leading coefficient. If \(\zeta\ne1\), choose a prime divisor of the order of \(\zeta\). Every factor \(1-z^a\) vanishing at \(\zeta\) has this prime dividing \(a\). Thus the pole order is at most \(e_N\), and such terms can contribute only to \(c_j\) with \(j<e_N\).
+\end{proof}
+
+\begin{remark}\label{ex:fixed-small}
+For \(N=3\) the residue restrictions give \(A_3(z)=(1+z^2)(1+z+z^2)\). Partial fractions in \eqref{eq:residue-numerator} give
+\[
+ R_3(m)=\frac{m^3}{6}+\frac{3m^2}{4}+\frac{4m}{3}+\frac78+\frac{(-1)^m}{8}
+ \qquad (m\ge0).
+\]
+For \(N=4\) one has \(e_4=2\). Expanding the residue sum in
+\eqref{eq:residue-numerator} gives
+\[
+ A_4(z)=(1+z)(1+z+z^2)(1+z+6z^2+3z^3+9z^4+2z^5+2z^6).
+\]
+The factors \(1+z\) and \(1+z+z^2\) cancel at least one order of the
+poles at the corresponding roots of unity, making \(c_1\) constant.
+\end{remark}
+
+\begin{remark}\label{rem:fixed-comparison}
+For fixed \(N\), let \(T_N(m)\) count all configurations with \(m\le S<m+1\). For each bounded residue vector, the integer-valued contribution from the quotients must take one specified integer value \(m+O_N(1)\). The quotient generating function is \(\prod_{a/b\in\CN}(1-z^a)^{-1}\), which has a pole of order \(n\) at \(1\) and smaller pole order elsewhere. Its leading coefficient, multiplied by the number \(\prod_{a/b\in\CN}b\) of residue vectors, gives
+\[
+ T_N(m)\sim\frac{m^{n-1}}{(n-1)!\prod_{\alpha\in\CN}\alpha},
+ \qquad \frac{R_N(m)}{T_N(m)}\longrightarrow\frac1{L_N}
+ \quad(m\to\infty).
+\]
+For \(m=\lfloor\rho N\rfloor\) with \(\rho\) in a compact positive interval, Corollary~\ref{cor:integer-total} instead gives the integrality probability under the Boltzmann law at parameter \(u_\rho\sqrt N\). In that law the leading logarithmic decay is \(-\kappa(\rho)N^{3/2}/\log N\).
+
+For a prime \(\ell\le N\), write \(a=\ell c\). The condition \((a,b)=1\) then requires \(\ell\nmid b\) and \((c,b)=1\). Including \(b=1\) temporarily, M\"obius inversion gives the count as
+\[
+ \sum_{\substack{d\le N\\\ell\nmid d}}\mu(d)
+ \left\lfloor\frac{N}{\ell d}\right\rfloor
+ \left(\left\lfloor\frac Nd\right\rfloor-
+       \left\lfloor\frac{N}{\ell d}\right\rfloor\right)
+ =\frac{6N^2}{\pi^2(\ell+1)}+O(N\log N),
+\]
+uniformly in \(\ell\). Here the main term uses
+\(\sum_{\ell\nmid d}\mu(d)d^{-2}=1/(\zeta(2)(1-\ell^{-2}))\), and omitting \(b=1\) does not change the error. Consequently \(e_N=2N^2/\pi^2+O(N\log N)\), while \(n=6N^2/\pi^2+O(N\log N)\). At least \(n-e_N=(2/3+o(1))n\) of the coefficient functions are constant.
+
+For each fixed \(N\ge3\), the counts are strictly log-concave for
+sufficiently large \(m\). Indeed the \(N-1\) fractions \(1/b\), \(2\le b\le N\),
+give \(e_N\le n-3\). With \(d=n-1\), Theorem~\ref{thm:quasipolynomial}
+therefore gives \(R_N(m)=P(m)+O_N(m^{d-3})\) for a degree-\(d\)
+polynomial \(P\) with leading coefficient \(c>0\). Expanding \(P(m\pm1)\)
+shows that
+\[
+ R_N(m)^2-R_N(m-1)R_N(m+1)
+    =d\,c^2m^{2d-2}+O_N(m^{2d-3}).
+\]
+For \(N=2\) the counts are all equal to \(1\).
+\end{remark}
+
+\subsection{Residue sums and a central limit theorem}
+
+Let $\widetilde r_{a/b}$ be independent and uniform on $\{0,\ldots,b-1\}$, and put $\widetilde W_N=\sum_{a/b\in\mathcal C_N}(a/b)\widetilde r_{a/b}$. Write $r=(r_{a/b})$ for the vector of residues under the conditional law given $\widetilde W_N\in\mathbb Z$, and $W_N=\sum_{a/b\in\mathcal C_N}(a/b)r_{a/b}$ for the corresponding sum. Then $\mathbb P(W_N=j)=[z^j]A_N(z)/A_N(1)$. For each prime $p\le N$, denote by $q_p$ its largest power at most $N$, and put $h_N=\lceil N/2\rceil$.
+
+\begin{theorem}\label{thm:residue-moments}
+For $N\ge4$, any collection of fewer than $h_N$ coordinates of $r$ is jointly independent and uniform on the corresponding residue sets. The $h_N$ coordinates with denominator $q_2$ are not independent. The moments of $W_N$ and $\widetilde W_N$ agree through order $h_N-1$, and
+\begin{equation}\label{eq:residue-first-moment}
+ \mathbb E W_N^{h_N}-\mathbb E\widetilde W_N^{h_N}
+ =(-1)^{h_N}h_N!\,\frac{\displaystyle\prod_{\substack{1\le a\le N\\a\ \text{odd}}}a}{(2q_2)^{h_N}}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The map
+\[
+ \prod_{a/b\in\mathcal C_N}\mathbb Z/b\mathbb Z
+ \longrightarrow (L_N^{-1}\mathbb Z)/\mathbb Z,
+ \qquad (r_{a/b})\longmapsto \sum_{a/b\in\mathcal C_N}\frac{a}{b}r_{a/b}\pmod{1}
+\]
+is a surjective homomorphism. For every prime $p\le N$, the class of $a/q_p$ with $(a,p)=1$ generates the subgroup of order $q_p$. The subgroups for all $p$ generate $(L_N^{-1}\mathbb Z)/\mathbb Z$. Consequently $\mathbb P(\widetilde W_N\in\mathbb Z)=1/L_N$ and $A_N(1)=L_N^{-1}\prod_{a/b\in\mathcal C_N}b$.
+
+For each $p\le N$ there are $N-\lfloor N/p\rfloor\ge h_N$ such coordinates with denominator $q_p$. Deleting fewer than $h_N$ coordinates leaves a surjective map on the remaining coordinates. For each assignment of the deleted coordinates, the admissible remaining vectors form a fiber of that map. All fibers have equal size, which proves joint uniformity. Deleting all coordinates with denominator $q_2$ leaves only denominators dividing $L_N/2$, since $q_2$ is the only multiple of $q_2$ at most $N$. If $r_{1/q_2}=1$ and every other deleted residue is zero, no choice of the remaining residues gives an integer total. This proves sharpness. The equality of moments below order $h_N$ follows by expanding each power of the sum, since a monomial of degree less than $h_N$ involves fewer than $h_N$ coordinates.
+
+To compute the difference at order $h_N$, apply character orthogonality to the integrality condition and use $\mathbb P(\widetilde W_N\in\mathbb Z)=1/L_N$. This yields
+\begin{equation}\label{eq:residue-fourier}
+ \mathbb E e^{tW_N}=\sum_{j=0}^{L_N-1}
+ \prod_{a/b\in\mathcal C_N}
+ \frac{1-e^{at}}{b\bigl(1-e^{2\pi ija/b}e^{at/b}\bigr)}.
+\end{equation}
+Each factor is a normalized geometric sum and is analytic at $t=0$. The $j=0$ term is the moment generating function of $\widetilde W_N$. A factor for $a/b$ has a simple zero at $t=0$ precisely when $b\nmid j$, and otherwise has value one there. If $q_p\nmid j$ for any odd prime $p\le N$, the factors with denominator $q_p$ give a zero of order at least $N-\lfloor N/p\rfloor>h_N$, using $N\ge4$. The other indices $j\ne0$ have the form $j=vk$, where $v=L_N/q_2$ is odd and $1\le k<q_2$. For these indices all $h_N$ factors with denominator $q_2$ vanish at zero. Unless $k=q_2/2$, at least one factor with denominator $q_2/2\ge2$ also vanishes. For $j=L_N/2$, the only factors that vanish at zero are those with denominator $q_2$, and each has the expansion
+\[
+ \frac{1-e^{at}}{q_2(1+e^{at/q_2})}=-\frac{a}{2q_2}t+O(t^2)\qquad(a\text{ odd}).
+\]
+Taking the $h_N$-th derivative of \eqref{eq:residue-fourier} proves \eqref{eq:residue-first-moment}.
+\end{proof}
+
+The bound \(N\ge4\) is needed in \eqref{eq:residue-first-moment}.
+For \(N=3\), \(A_3(z)\) gives \(\mathbb E W_3=3/2\) and
+\(\operatorname{Var}(W_3)=5/3\), while the independent residues give
+the same mean and variance \(215/216\). The second moments thus
+differ by \(145/216\), whereas the right side of
+\eqref{eq:residue-first-moment} would give \(3/8\).
+
+\begin{theorem}\label{thm:residue-gaussian}
+For $N\ge5$, let $\mu_N=\mathbb E W_N$ and $\sigma_N^2=\operatorname{Var}(W_N)$. Then
+\begin{align*}
+ \mu_N&=\frac12\sum_{a/b\in\mathcal C_N} a(1-b^{-1})
+       =\frac{3N^3}{2\pi^2}+O(N^2\log N),\\
+ \sigma_N^2&=\frac1{12}\sum_{a/b\in\mathcal C_N} a^2(1-b^{-2})
+       =\frac{N^4}{6\pi^2}+O(N^3\log N).
+\end{align*}
+As $N\to\infty$, the law of $(W_N-\mu_N)/\sigma_N$ converges to the standard normal law, with convergence of every fixed moment.
+\end{theorem}
+
+\begin{proof}
+The first two moments agree with those of $\widetilde W_N$ by Theorem~\ref{thm:residue-moments}. The mean and variance of a uniform variable on $\{0,\ldots,b-1\}$ are $(b-1)/2$ and $(b^2-1)/12$, giving the exact formulas. For $s=1,2$, M\"obius inversion and the power sum estimate give
+\[
+ \sum_{a/b\in\mathcal C_N} a^s
+ =\sum_{d\le N}\mu(d)d^s\left\lfloor\frac Nd\right\rfloor
+       \sum_{u\le N/d}u^s+O(N^{s+1})
+ =\frac{N^{s+2}}{(s+1)\zeta(2)}+O(N^{s+1}\log N).
+\]
+Here $\mu$ is the M\"obius function. The first error accounts for omitting $b=1$. The power sum errors contribute $O(N^{s+1}\sum_{d\le N}d^{-1})$, and replacing $\sum_{d\le N}\mu(d)/d^2$ by $1/\zeta(2)$ gives an error of $O(N^{s+1})$. Omitting the coprimality condition gives upper bounds of $O(N^2\log N)$ and $O(N^3)$ for the sums with $b^{-1}$ in the mean and $b^{-2}$ in the variance, respectively. This proves the asymptotic formulas.
+
+Each centered summand of $\widetilde W_N$ has absolute value at most $N/2$. Its cumulant of any fixed order $s$ is therefore $O_s(N^s)$, since that cumulant is a polynomial in moments of total order $s$. The independent sum has $O(N^2)$ terms and $\sigma_N\asymp N^2$. Hence the cumulant of order $s\ge3$ of $(\widetilde W_N-\mu_N)/\sigma_N$ is $O_s(N^{2-s})$ and tends to zero. Its first two cumulants are zero and one. The moment--cumulant formula gives convergence of every fixed moment to the corresponding normal moment. Since $h_N\to\infty$, these same moments agree eventually with those of $(W_N-\mu_N)/\sigma_N$. The normal law is determined by its moments, so the method of moments \cite{frechet-shohat} gives the claimed distributional convergence.
+\end{proof}
+
+
+\begin{proposition}
+\label{prop:residue-palindromic}
+For \(N\ge2\), the polynomial \(A_N(z)\) is palindromic precisely for \(N=2,3\).
+\end{proposition}
+
+\begin{proof}
+Write \(U_N=\sum_{a/b\in\CN} a\) and \(\tau_N=\sum_{a/b\in\CN}a/b\).
+The reflection \(r_{a/b}\mapsto b-1-r_{a/b}\) sends a residue sum \(w\)
+to \(U_N-\tau_N-w\). If \(\tau_N\) is an integer, the reflected sum is
+integral whenever \(w\) is integral. The vector with every residue at
+its maximum then has sum \(U_N-\tau_N\), the degree of \(A_N\), so the
+reflection proves palindromicity. In particular, \(\tau_3=3\), and
+directly \(A_2=1\).
+
+For \(N\ge4\), Theorem~\ref{thm:residue-moments} gives
+\(\Ee W_N=(U_N-\tau_N)/2\). If \(A_N\) is palindromic, its normalized
+coefficients have mean \(\deg(A_N)/2\). Thus \(\tau_N\) must be an
+integer. For an odd prime \(N/2<p\le N\), the contribution to \(\tau_N\)
+from denominator \(p\) is \(N(N+1)/(2p)-1\). The other terms have
+denominators prime to \(p\), so integrality forces \(p\mid N(N+1)/2\).
+In this interval that is possible only for \(p=N\) or \(p=(N+1)/2\).
+For \(N\ge17\) there are at least three primes in \((N/2,N]\), since
+the third Ramanujan prime is \(17\) \cite{sondow}. For \(N=4\),
+\(6\le N\le8\), \(9\le N\le12\), and \(13\le N\le16\), respectively,
+the primes \(3,5,7,11\) violate the divisibility condition. Finally
+\(\tau_5=51/4\). Hence \(A_N\) is not palindromic for \(N\ge4\).
+\end{proof}
+
+\section{A conjecture and open problems}\label{sec:conjecture}
+
+Let \(\mathcal S_N^\ast\) be the set of primes \(\sqrt N<p\le N\), let
+\(\mathcal E_N^\ast=\bigcap_{p\in\mathcal S_N^\ast}E_p\), and put
+\[
+ \Psi_{N,m}^\ast(\beta)=\beta m+F_N(\beta)+
+ \sum_{p\in\mathcal S_N^\ast}\log\Pp_\beta(E_p)
+ =\log\sum_{x\in\mathcal E_N^\ast}e^{\beta(m-S(x))}.
+\]
+For \(m\ge1\) the function is strictly convex. The empty configuration makes it diverge as \(\beta\to\infty\), and integer totals obtained using \(1/2\) alone make it diverge as \(\beta\downarrow0\). It therefore has a unique minimizer \(\beta^\ast\), at which the conditional mean of \(S\) is \(m\). Let \(\sigma_\ast^2=(\Psi_{N,m}^\ast)''(\beta^\ast)\) be the conditional variance and write \(Q_N=\prod_{\ell\le\sqrt N,\ \ell\ \mathrm{prime}}q_\ell\), where \(q_\ell\) is the largest power of \(\ell\) at most \(N\). On \(\mathcal E_N^\ast\), the total lies in \(Q_N^{-1}\Z\), and \(L_N=Q_N\prod_{p\in\mathcal S_N^\ast}p\). The conditional support
+contains \(0\) and each \(1/q_\ell\) for \(\ell\le\sqrt N\), from the
+empty configuration and configurations with a single part. For \(N\ge4\),
+the integers \(Q_N/q_\ell\) have greatest common divisor \(1\), so
+these values give lattice span exactly \(1/Q_N\).
+For every \(\beta>0\),
+\begin{equation}\label{eq:local-limit-identity}
+ R_N(m)=e^{\Psi_{N,m}^\ast(\beta)}\Pp_\beta(S=m\mid\mathcal E_N^\ast).
+\end{equation}
+
+\begin{conjecture}\label{conj:local-limit}
+Uniformly for \(m/N\) in compact positive intervals,
+\begin{equation}\label{eq:local-limit-conjecture}
+ R_N(m)\sim
+ \frac{e^{\Psi_{N,m}^\ast(\beta^\ast)}}{Q_N\sqrt{2\pi\sigma_\ast^2}}
+ =\frac{e^{\beta^\ast m+F_N(\beta^\ast)}}{L_N\sqrt{2\pi\sigma_\ast^2}}
+ \prod_{p\in\mathcal S_N^\ast}p\,\Pp_{\beta^\ast}(E_p).
+\end{equation}
+\end{conjecture}
+
+This reduces to a local limit theorem at \(m\) for the conditional law
+in \eqref{eq:local-limit-identity}. The identity gives the upper bound
+\(\log R_N(m)\le\Psi_{N,m}^\ast(\beta^\ast)\). To obtain a lower bound
+in terms of the same minimum, take \(\beta=\widehat\beta_{N,m}\)
+from Proposition~\ref{prop:saddle}. For each additional prime
+\(\sqrt N<p\le N/(K+1)\), set aside the fractions \(1/(jp)\),
+\(1\le j\le K\), and fix all other multiplicities. The congruence
+construction in the proof of Proposition~\ref{prop:saddle} gives
+multiplicities for the fractions set aside that ensure \(E_p\),
+with total weight at most \(\pi(K)/p+1/L_K\).
+Conditional on the other multiplicities and on \(\mathcal E_N\),
+the multiplicities of the fractions set aside retain their independent
+geometric laws. The probability that all take the prescribed values
+is therefore at least
+\[
+ \exp\!\left(-\beta\sum_{\sqrt N<p\le N/(K+1)}
+                   \left(\frac{\pi(K)}p+\frac1{L_K}\right)\right)
+ \prod_{\sqrt N<p\le N/(K+1)}\prod_{1\le j\le K}
+                   (1-e^{-\beta/(jp)}).
+\]
+The sum in the exponent is \(O(\sqrt N)\), and the negative logarithm
+of the product is \(O(N)\), by the bounds for the fractions set aside
+in that proof. Thus
+\(\mathbb P_\beta(\mathcal E_N^\ast\mid\mathcal E_N)\ge e^{-CN}\)
+and \(\Psi_{N,m}^\ast(\beta)-\Psi_{N,m}(\beta)\le CN\).
+Since \(\Psi_{N,m}^\ast(\beta^\ast)\le\Psi_{N,m}^\ast(\beta)\),
+Proposition~\ref{prop:saddle} now gives
+\[
+ \Psi_{N,m}^\ast(\beta^\ast)-CN\le\log R_N(m)\le\Psi_{N,m}^\ast(\beta^\ast).
+\]
+The conjecture specifies this difference as \(\log Q_N+\tfrac12\log(2\pi\sigma_\ast^2)+o(1)\).
+To see its scale, let \(\vartheta(x)=\sum_{p\le x}\log p\).
+Then
+\[
+ \log Q_N=2\vartheta(\sqrt N)+\sum_{j\ge3}\vartheta(N^{1/j})
+         =2\vartheta(\sqrt N)+O(N^{1/3}\log N)
+         \sim 2\sqrt N.
+\]
+Also \(\beta^\ast\asymp\sqrt N\) when \(m/N\) stays in a compact positive
+interval. Indeed \(\Psi_{N,m}^\ast(\sqrt N)\ll N^{3/2}\) by
+Lemma~\ref{lem:bulk}, while the empty configuration gives
+\(\Psi_{N,m}^\ast(\beta^\ast)\ge\beta^\ast m\).
+For the lower bound, let \(C_I N^{3/2}\) bound
+\(\Psi_{N,m}^\ast(\sqrt N)\) for the compact range \(I\) of \(m/N\).
+Choose \(a>\max I\) with \(\sqrt{2a}>C_I+1\) and put
+\(m'=\lfloor aN\rfloor\). All configurations of total \(m'\) lie in
+\(\mathcal E_N^\ast\), so
+\[
+ C_I N^{3/2}\ge \Psi_{N,m}^\ast(\beta^\ast)
+ \ge \log R_N(m')-\beta^\ast(m'-m).
+\]
+Theorem~\ref{thm:enumeration} gives \(\log R_N(m')\ge(C_I+1/2)N^{3/2}\)
+for large \(N\), which yields the required lower bound.
+The part \(1/q_2\) is independent of \(\mathcal E_N^\ast\) and contributes
+variance \(\asymp N^{-1}\) at \(\beta^\ast\).
+For an upper bound, use Markov's inequality on
+\(e^{\beta^\ast S/2}\) and the probability of the empty configuration to get
+\(\Pp_{\beta^\ast}(S>x\mid\mathcal E_N^\ast)
+ \le \exp(F_N(\beta^\ast/2)-\beta^\ast x/2)\).
+Using Lemma~\ref{lem:bulk} and integrating for \(x\ge CN\) yields
+\(\sigma_\ast^2\ll N^2\). Thus \(\log \sigma_\ast^2=O(\log N)\), and
+the conjecture predicts a difference of \(2\sqrt N+o(\sqrt N)\).
+
+Exact counts can be computed by including denominators in groups indexed
+by their greatest prime factor, in decreasing order of that prime.
+Start with coefficient \(1\) at total zero. For each allowed fraction
+\(\alpha\), multiply by \((1-z^\alpha)^{-1}\) and drop terms with
+total exceeding \(m\). After processing the group indexed by \(p\),
+keep only the totals whose reduced denominators are prime to \(p\),
+since later denominators are prime to \(p\). The final coefficient
+at total \(m\) is \(R_N(m)\).
+For the terms in \eqref{eq:local-limit-conjecture}, the root-of-unity
+filter gives, with \(k=\lfloor N/p\rfloor\),
+\[
+ \Pp_\beta(E_p)=\frac1p\sum_{h=0}^{p-1}
+    \prod_{\alpha\in B_p}
+    \frac{1-e^{-\beta\alpha}}%
+         {1-e^{-\beta\alpha+2\pi i h L_k\alpha}} .
+\]
+This filters \(pL_kV_p\) modulo \(p\), which is zero exactly on \(E_p\).
+For the diagonal computations in the range \(54\le N\le100\), the relative
+difference between \eqref{eq:local-limit-conjecture} and the exact count
+in absolute value is below \(7\cdot10^{-4}\). For \(20\le N\le53\),
+the largest absolute relative difference is approximately
+\(8.3735\cdot10^{-3}\), at \(N=31\). For example, at \(N=m=100\) the logs of the
+approximation and exact count are \(1272.9403\) and \(1272.9401\),
+respectively. The factors \(p\,\Pp_{\beta^\ast}(E_p)\) are still close
+to one at these sizes. The experiments therefore test primarily the
+local limit approximation on \(Q_N^{-1}\mathbb Z\). The factors
+\(p\,\Pp_{\beta^\ast}(E_p)\) in
+\eqref{eq:local-limit-conjecture} come from an exact factorization.
+
+The following questions remain open.
+\begin{enumerate}
+\item Prove Conjecture~\ref{conj:local-limit}. One approach is to bound the
+conditional characteristic function, including frequencies associated
+with the prime-power residues of \(Q_NS\) modulo \(Q_N\).
+\item Find an explicit approximation to \(\log R_N(m)\) with additive
+error \(o(N)\), uniformly for \(m/N\) in compact positive intervals.
+Under Conjecture~\ref{conj:local-limit}, the normalizing constant in
+Appendix~\ref{sec:free-energy} and \(\log L_N\sim N\) give
+\[
+ \log R_N(m)
+ =\beta^\ast m+\frac{N^2}{2\beta^\ast}-\frac32N
+   +\sum_{p\in\mathcal S_N^\ast}\log\!\bigl(p\,\Pp_{\beta^\ast}(E_p)\bigr)
+   +o(N).
+\]
+This points to the problem of estimating the prime sum and the
+conditional saddle to the requisite accuracy.
+\item Does \(R_N(m-1)R_N(m+1)\le R_N(m)^2\) hold for every \(N\ge2\) and
+\(m\ge1\)? Remark~\ref{rem:fixed-comparison} proves the inequality for
+each fixed \(N\) and sufficiently large \(m\). Exact computations found
+no violation among the \(4899\) pairs with \(2\le N\le70\) and
+\(1\le m<2N\). The inequality and the counting identity would help
+control \(V_p\) inside the transition intervals for uniform partitions.
+\item Extend the ratio and simultaneous concentration results to
+\(0<\rho\le\rho_0\) and \(2\rho_0\le\rho\le\rho_1\), where no limiting
+transition point \(t_j(u_\rho)\) lies in \((1/2,1)\).
+\item Can the exceptional primes in Theorem~\ref{thm:fixed-shells} be eliminated with high probability for \(k\ge2\)?
+\end{enumerate}
+
+\appendix
+
+\section{The Boltzmann normalizing constant}\label{sec:free-energy}
+
+The logarithmic term in the Dedekind eta transformation gives the term of order \(N\) in the expansion of \(F_N(\beta)\), the logarithm of the normalizing constant for the product measure.
+
+\begin{proposition}\label{prop:free-energy-refined}
+Fix $0<b_1<b_2<\infty$. There is a constant $c>0$ such that, uniformly for $b_1\sqrt N\le\beta\le b_2\sqrt N$,
+\begin{align*}
+ F_N(\beta)&=\frac{\pi^2(\Phi_N-1)}{6\beta}-\frac12\log L_N
+                  +O\bigl(N e^{-c\sqrt{\log N}}\bigr)\\
+            &=\frac{N^2}{2\beta}-\frac N2+O\bigl(N e^{-c\sqrt{\log N}}\bigr).
+\end{align*}
+\end{proposition}
+
+\begin{proof}
+Let $\mu$ be the M\"obius function, $M(x)=\sum_{d\le x}\mu(d)$, and $\nu_N(j)=M(N/j)-\mathbf1_{\{j=1\}}$. Extending the numerator sum from $a\le N$ to all $a\ge1$ gives an error of $O(1)$, since the omitted terms are bounded by a constant times
+\[
+ \sum_{b=2}^N \frac{e^{-\beta N/b}}{1-e^{-\beta/b}}
+ \ll e^{-\beta}(N+N^2/\beta).
+\]
+M\"obius inversion on $(a,b)$ and the substitution $b=jd$ give
+\[
+ F_N(\beta)=\sum_{b=2}^N\sum_{d\mid b}\mu(d)g(\beta d/b)+O(1)
+           =\sum_{j\le N}\nu_N(j)g(\beta/j)+O(1).
+\]
+In this sum, \eqref{eq:eta} takes the form
+\[
+ g(s)=\frac{\pi^2}{6s}+\frac12\log\frac{s}{2\pi}+\xi(1/s),
+ \qquad \xi(x)=g(4\pi^2x)-\frac1{24x}.
+\]
+The identities $\sum_{j\mid b}\mu(b/j)j=\phi(b)$, $\sum_{j\mid b}\mu(b/j)=\mathbf1_{\{b=1\}}$, and $\sum_{j\mid b}\mu(b/j)\log j=\Lambda(b)$, where $\Lambda$ is the von Mangoldt function, imply
+\[
+ \sum_{j\le N}\nu_N(j)j=\Phi_N-1,\qquad
+ \sum_{j\le N}\nu_N(j)=0,\qquad
+ \sum_{j\le N}\nu_N(j)\log j=\log L_N.
+\]
+Thus the first equality in the proposition reduces to bounding $\sum_{j\le N}\nu_N(j)\xi(j/\beta)$.
+
+The exponential decay of $g(s)$ for $s\ge1$ gives $|\xi(x)|\ll 1/x$ for $x\ge1$. For $0<x\le1$, applying \eqref{eq:eta} to $g(4\pi^2x)$ gives
+\[
+ \xi(x)=\frac12\log(2\pi x)-\frac{\pi^2x}{6}+g(1/x),
+ \qquad |\xi(x)|\ll 1+|\log x|.
+\]
+For $J=\lfloor N^{3/4}\rfloor$ and $j\le J$, the classical bound $M(x)\ll x e^{-c_0\sqrt{\log x}}$ for $x\ge2$ gives $|M(N/j)|\ll (N/j)e^{-c_1\sqrt{\log N}}$ with $c_1>0$ \cite[Section~6.2, (6.17)]{montgomery-vaughan}. The contribution of these $j$ is consequently bounded by
+\[
+ O(\log N)+ O\!\left(e^{-c_1\sqrt{\log N}}
+  \left[N\sum_{j\le\beta}\frac{1+\log(\beta/j)}{j}
+        +N\beta\sum_{j>\beta}j^{-2}\right]\right)
+ \ll N e^{-c_2\sqrt{\log N}}
+\]
+for some $c_2>0$. Here $O(\log N)$ comes from the subtraction at $j=1$. For $j>J$ and $N$ sufficiently large, $j/\beta\ge1$. The bounds $|M(N/j)|\le N/j$ and $|\xi(j/\beta)|\ll\beta/j$ show that this tail is $O(N\beta/J)=O(N^{3/4})$. This proves the first equality.
+
+Finally, $\Phi_N=3N^2/\pi^2+O(N\log N)$ follows by summing $\phi(b)=\sum_{d\mid b}\mu(d)b/d$, and $\log L_N=\sum_{b\le N}\Lambda(b)=N+O(N e^{-c_3\sqrt{\log N}})$ by the quantitative prime number theorem \cite[Section~6.2, (6.12)]{montgomery-vaughan}. Substitution and a possible decrease of $c$ give the second equality.
+\end{proof}
+
+
+
+\begin{thebibliography}{99}
+\raggedright
+
+\bibitem{apostol-modular}
+T. M. Apostol, \emph{Modular functions and Dirichlet series in number theory},
+2nd ed., Graduate Texts in Mathematics, vol. 41, Springer, New York, 1990.
+\href{https://doi.org/10.1007/978-1-4612-0999-7}{doi:10.1007/978-1-4612-0999-7}.
+
+\bibitem{beck-robins}
+M. Beck and S. Robins, \emph{Computing the continuous discretely: integer-point enumeration in polyhedra},
+2nd ed., Undergraduate Texts in Mathematics, Springer, New York, 2015.
+\href{https://doi.org/10.1007/978-1-4939-2969-6}{doi:10.1007/978-1-4939-2969-6}.
+
+\bibitem{bettin-et-al}
+S. Bettin, L. Greni\'e, G. Molteni and C. Sanna,
+A lower bound for the number of Egyptian fractions,
+\emph{Math. Comp.}, published electronically (2026).
+\href{https://doi.org/10.1090/mcom/4190}{doi:10.1090/mcom/4190}.
+
+\bibitem{bloom}
+T. F. Bloom, On a density conjecture about unit fractions (with an appendix by T. F. Bloom and B. Mehta),
+\emph{J. Eur. Math. Soc.} \textbf{27} (2025), 4563--4589.
+\href{https://doi.org/10.4171/JEMS/1456}{doi:10.4171/JEMS/1456}.
+
+\bibitem{bloom-elsholtz}
+T. F. Bloom and C. Elsholtz, Egyptian fractions,
+\emph{Nieuw Arch. Wiskd.} (5) \textbf{23} (2022), 237--245.
+
+\bibitem{conlon-et-al}
+D. Conlon, J. Fox, X. He, D. Mubayi, H. T. Pham, A. Suk and J. Verstra\"ete,
+A question of Erd\H{o}s and Graham on Egyptian fractions,
+\emph{Discrete Anal.} (2025), Paper No. 28, 13 pp.
+\href{https://doi.org/10.19086/da.154329}{doi:10.19086/da.154329}.
+
+\bibitem{corteel-et-al}
+S. Corteel, B. Pittel, C. D. Savage and H. S. Wilf,
+On the multiplicity of parts in a random partition,
+\emph{Random Structures Algorithms} \textbf{14} (1999), 185--197.
+
+\bibitem{croot}
+E. S. Croot III, On a coloring conjecture about unit fractions,
+\emph{Ann. of Math.} (2) \textbf{157} (2003), 545--552.
+\href{https://doi.org/10.4007/annals.2003.157.545}{doi:10.4007/annals.2003.157.545}.
+
+\bibitem{duchon-et-al}
+P. Duchon, P. Flajolet, G. Louchard and G. Schaeffer,
+Boltzmann samplers for the random generation of combinatorial structures,
+\emph{Combin. Probab. Comput.} \textbf{13} (2004), 577--625.
+\href{https://doi.org/10.1017/S0963548304006315}{doi:10.1017/S0963548304006315}.
+
+\bibitem{erdos-lehner}
+P. Erd\H{o}s and J. Lehner, The distribution of the number of summands in the partitions of a positive integer,
+\emph{Duke Math. J.} \textbf{8} (1941), 335--345.
+\href{https://doi.org/10.1215/S0012-7094-41-00826-8}{doi:10.1215/S0012-7094-41-00826-8}.
+
+\bibitem{frechet-shohat}
+M. Fr\'echet and J. Shohat,
+A proof of the generalized second-limit theorem in the theory of probability,
+\emph{Trans. Amer. Math. Soc.} \textbf{33} (1931), 533--543.
+\href{https://doi.org/10.1090/S0002-9947-1931-1501604-6}{doi:10.1090/S0002-9947-1931-1501604-6}.
+
+\bibitem{fristedt}
+B. Fristedt, The structure of random partitions of large integers,
+\emph{Trans. Amer. Math. Soc.} \textbf{337} (1993), 703--735.
+\href{https://doi.org/10.1090/S0002-9947-1993-1094553-1}{doi:10.1090/S0002-9947-1993-1094553-1}.
+
+\bibitem{granovsky-stark-erlihson}
+B. L. Granovsky, D. Stark and M. Erlihson,
+Meinardus' theorem on weighted partitions: extensions and a probabilistic proof,
+\emph{Adv. in Appl. Math.} \textbf{41} (2008), 307--328.
+\href{https://doi.org/10.1016/j.aam.2007.11.001}{doi:10.1016/j.aam.2007.11.001}.
+
+\bibitem{hardy-ramanujan}
+G. H. Hardy and S. Ramanujan, Asymptotic formulae in combinatory analysis,
+\emph{Proc. London Math. Soc.} (2) \textbf{17} (1918), 75--115.
+\href{https://doi.org/10.1112/plms/s2-17.1.75}{doi:10.1112/plms/s2-17.1.75}.
+
+\bibitem{hardy-wright}
+G. H. Hardy and E. M. Wright, \emph{An introduction to the theory of numbers},
+6th ed., revised by D. R. Heath-Brown and J. H. Silverman, Oxford University Press, Oxford, 2008.
+
+\bibitem{hoelscher-palsson}
+Z. Hoelscher and E. A. Palsson,
+Counting restricted partitions of integers into fractions: symmetry and modes of the generating function and a connection to \(\omega(t)\),
+\emph{PUMP J. Undergrad. Res.} \textbf{3} (2020), 277--307.
+\href{https://doi.org/10.46787/pump.v3i0.2428}{doi:10.46787/pump.v3i0.2428}.
+
+\bibitem{huxley}
+M. N. Huxley, On the difference between consecutive primes,
+\emph{Invent. Math.} \textbf{15} (1972), 164--170.
+\href{https://doi.org/10.1007/BF01418933}{doi:10.1007/BF01418933}.
+
+\bibitem{ingham}
+A. E. Ingham, On the difference between consecutive primes,
+\emph{Quart. J. Math. Oxford Ser.} \textbf{8} (1937), 255--266.
+\href{https://doi.org/10.1093/qmath/os-8.1.255}{doi:10.1093/qmath/os-8.1.255}.
+
+\bibitem{ingham-tauberian}
+A. E. Ingham, A Tauberian theorem for partitions,
+\emph{Ann. of Math.} (2) \textbf{42} (1941), 1075--1090.
+\href{https://doi.org/10.2307/1970462}{doi:10.2307/1970462}.
+
+\bibitem{liu-sawhney}
+Y. P. Liu and M. Sawhney, On further questions regarding unit fractions,
+\emph{Int. Math. Res. Not. IMRN} (2026), no.~2, Paper rnaf382.
+\href{https://doi.org/10.1093/imrn/rnaf382}{doi:10.1093/imrn/rnaf382}.
+
+\bibitem{matomaki-teravainen}
+K. Matom\"aki and J. Ter\"av\"ainen, On the M\"obius function in all short intervals,
+\emph{J. Eur. Math. Soc.} \textbf{25} (2023), 1207--1225.
+\href{https://doi.org/10.4171/JEMS/1205}{doi:10.4171/JEMS/1205}.
+
+\bibitem{meinardus}
+G. Meinardus, Asymptotische Aussagen \"uber Partitionen,
+\emph{Math. Z.} \textbf{59} (1954), 388--398.
+\href{https://doi.org/10.1007/BF01180268}{doi:10.1007/BF01180268}.
+
+\bibitem{montgomery-vaughan-sieve}
+H. L. Montgomery and R. C. Vaughan, The large sieve,
+\emph{Mathematika} \textbf{20} (1973), 119--134.
+\href{https://doi.org/10.1112/S0025579300004708}{doi:10.1112/S0025579300004708}.
+
+\bibitem{montgomery-vaughan}
+H. L. Montgomery and R. C. Vaughan,
+\emph{Multiplicative number theory I. Classical theory},
+Cambridge Studies in Advanced Mathematics, vol. 97, Cambridge University Press, Cambridge, 2007.
+\href{https://doi.org/10.1017/CBO9780511618314}{doi:10.1017/CBO9780511618314}.
+
+\bibitem{mutafchiev}
+L. Mutafchiev, Sampling part sizes of random integer partitions,
+\emph{Ramanujan J.} \textbf{37} (2015), 329--343.
+\href{https://doi.org/10.1007/s11139-014-9559-6}{doi:10.1007/s11139-014-9559-6}.
+
+\bibitem{roth-szekeres}
+K. F. Roth and G. Szekeres, Some asymptotic formulae in the theory of partitions,
+\emph{Quart. J. Math. Oxford Ser.} (2) \textbf{5} (1954), 241--259.
+\href{https://doi.org/10.1093/qmath/5.1.241}{doi:10.1093/qmath/5.1.241}.
+
+\bibitem{sondow}
+J. Sondow, Ramanujan primes and Bertrand's postulate,
+\emph{Amer. Math. Monthly} \textbf{116} (2009), 630--635.
+\href{https://doi.org/10.1080/00029890.2009.11920980}{doi:10.1080/00029890.2009.11920980}.
+
+\bibitem{vaughan}
+R. C. Vaughan, On the number of partitions into primes,
+\emph{Ramanujan J.} \textbf{15} (2008), 109--121.
+
+\bibitem{vershik}
+A. M. Vershik, Statistical mechanics of combinatorial partitions, and their limit shapes,
+\emph{Funktsional. Anal. i Prilozhen.} \textbf{30} (1996), no.~2, 19--32.
+English translation in \emph{Funct. Anal. Appl.} \textbf{30} (1996), 90--105.
+\href{https://doi.org/10.1007/BF02509449}{doi:10.1007/BF02509449}.
+
+\end{thebibliography}
+\end{document}

@@ -1,0 +1,134 @@
+% Insert with \input{rational-partition-algorithm} before \appendix.
+% Uses only the amsart preamble of Diagonal Rational Partitions.
+\section{Exact computation by denominator elimination}
+\label{sec:exact-computation}
+
+Fix \(N\ge2\) and an integer \(M\ge0\). We compute all counts
+\(R_N(m)\), \(0\le m\le M\), in one pass. The last entry for \(N=M=n\)
+is \(R(n)\). If the remaining denominators divide \(\Lambda\), their
+parts have total in \(\Lambda^{-1}\mathbb Z\). A partial sum that can
+be completed to an integer must therefore belong to the same lattice.
+
+Let \(b_1,\ldots,b_d\) be a permutation of \(2,\ldots,N\), where
+\(d=N-1\), and put
+\[
+  \Lambda_d=1,\qquad
+  \Lambda_{i-1}=\operatorname{lcm}(b_i,\Lambda_i)
+  \quad (i=d,d-1,\ldots,1).
+\]
+Thus \(\Lambda_i\) is the least common multiple of the denominators
+following \(b_i\). We order the denominators by decreasing greatest
+prime factor, so that after the group for \(p\) all remaining
+denominators are coprime to \(p\).
+
+\subsection{The recurrence}
+Let \(f_j\) count the retained configurations of total \(j/D\).
+To process denominator \(b\), refine the lattice to denominator
+\(H=\operatorname{lcm}(D,b)\). Each allowed part \(a/b\) now has
+integer weight \(s=aH/b\). After all parts with denominator \(b_i\)
+have been included, the partial sums eligible for retention lie in
+\begin{equation}
+  H^{-1}\mathbb Z\cap\Lambda_i^{-1}\mathbb Z
+  =\gcd(H,\Lambda_i)^{-1}\mathbb Z.
+  \label{eq:exact-lattice-intersection}
+\end{equation}
+The projection therefore keeps every \(H/\gcd(H,\Lambda_i)\)-th
+coefficient, starting at index zero.
+
+\smallskip
+\noindent\begin{minipage}{\linewidth}
+\textsc{RationalPartitionRow}\((N,M)\)
+\begin{quote}
+\small
+\begin{tabbing}
+\hspace{1.2em}\=\hspace{1.2em}\=\hspace{1.2em}\=\kill
+Choose \(b_1,\ldots,b_d\) and compute \(\Lambda_d,\ldots,\Lambda_0\).\\
+\(D\gets1\), \quad \(f\gets(1,0,\ldots,0)\) of length \(M+1\).\\
+\textbf{for} \(i=1,\ldots,d\) \textbf{do}\\
+\> \(b\gets b_i\), \quad \(H\gets\operatorname{lcm}(D,b)\).\\
+\> Set \(g_0,\ldots,g_{MH}\) to zero.\\
+\> \textbf{for} \(j=0,\ldots,MD\) \textbf{do} \(g_{jH/D}\gets f_j\).\\
+\> \textbf{for} \(1\le a\le\min(N,Mb)\) with \(\gcd(a,b)=1\) \textbf{do}\\
+\>\> \(s\gets aH/b\).\\
+\>\> \textbf{for} \(j=s,\ldots,MH\) in increasing order \textbf{do}\\
+\>\>\> \(g_j\gets g_j+g_{j-s}\).\\
+\> \(D\gets\gcd(H,\Lambda_i)\), \quad \(h\gets H/D\).\\
+\> \(f\gets(g_{kh})_{k=0}^{MD}\).\\
+\textbf{return} \(f\).
+\end{tabbing}
+\end{quote}
+\end{minipage}
+
+\begin{proposition}\label{prop:exact-projection}
+The algorithm returns \((R_N(m))_{m=0}^{M}\) for every ordering of the
+denominators.
+\end{proposition}
+\begin{proof}
+The initial array counts the empty multiset, and refinement carries
+each total \(j/D\) to index \(jH/D\). For a new part of weight \(s\),
+let \(u_j,v_j\) be the counts before and after its inclusion. Removing
+one copy from each multiset that contains the new part gives
+\[
+  v_j=u_j+v_{j-s},\qquad v_k=0\quad(k<0).
+\]
+The increasing loop implements this recurrence. Each multiset is
+counted once, since every part is introduced once.
+
+Fix a partition of \(m\le M\), with subtotal \(x\) after \(b_i\).
+Since \(m-x\in\Lambda_i^{-1}\mathbb Z\) and \(m\) is an integer,
+\(x\in\Lambda_i^{-1}\mathbb Z\). If its previous subtotal was retained,
+the updates reach \(x\) on the lattice \(H^{-1}\mathbb Z\).
+By \eqref{eq:exact-lattice-intersection}, \(Hx\) is a multiple of
+\(h\), so this subtotal is retained too. Positivity gives \(x\le m\),
+which justifies truncation at \(M\). By induction every partition of
+\(m\) survives. Finally \(\Lambda_d=1\), hence \(D=1\) and \(f_m=R_N(m)\).
+\end{proof}
+
+\subsection{The count at order three}
+Take the denominators in the order \(3,2\). The thirds must have an
+integer subtotal, since \(\gcd(3,2)=1\). To obtain a subtotal \(j\)
+from \(1/3,2/3\), their multiplicities satisfy \(u+2v=3j\). For
+\(1/2,3/2\) the corresponding equation is \(u+3v=2j\). Thus the two
+counts are \(T_j=\lfloor3j/2\rfloor+1\) and
+\(B_{2j}\), where \(B_s=\lfloor s/3\rfloor+1\) counts a subtotal
+\(s/2\) from the half parts. For \(j=0,1,2,3\) this gives
+\[
+ (T_j)=(1,2,4,5),\qquad (B_{2j})=(1,1,2,3).
+\]
+Pairing complementary subtotals gives
+\[
+ R(3)=\sum_{j=0}^{3}T_jB_{2(3-j)}
+     =1\cdot3+2\cdot2+4\cdot1+5\cdot1=16.
+\]
+
+\subsection{The count at order four}
+Use the order \(3,4,2\). The thirds again have an integer subtotal,
+since the remaining denominators divide \(4\). There is now a third
+part with denominator \(3\), namely \(4/3\). Its inclusion gives the
+count
+\[
+ U_j=[z^{3j}]\frac{1}{(1-z)(1-z^2)(1-z^4)}.
+\]
+For the quarter parts \(1/4,3/4\), the next denominator is \(2\),
+so \eqref{eq:exact-lattice-intersection} retains half-integer
+subtotals. For instance, two copies of \(1/4\) can be completed to
+\(1\) by one copy of \(1/2\). The number of ways to make \(r/2\)
+from \(1/4,3/4\) is
+\[
+ Q_r=\#\{(u,v)\in\mathbb Z_{\ge0}^2:u+3v=2r\}
+     =\left\lfloor\frac{2r}{3}\right\rfloor+1.
+\]
+The half parts are again \(1/2,3/2\). Thus the combined count for
+integer subtotal \(j\) is \(V_j=\sum_{r=0}^{2j}Q_r B_{2j-r}\), giving
+\[
+ \begin{array}{c|rrrrr}
+ j   &0&1&2&3&4\\ \hline
+ U_j &1&2&6&9&16\\
+ V_j &1&4&12&27&48
+ \end{array}
+\]
+and the final convolution is
+\[
+ R(4)=\sum_{j=0}^{4}U_jV_{4-j}
+     =1\cdot48+2\cdot27+6\cdot12+9\cdot4+16\cdot1=226.
+\]

@@ -1,0 +1,781 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,hmargin=22mm,vmargin=22mm]{geometry}
+\usepackage{amsmath,amssymb,longtable,booktabs,microtype,needspace}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Rational partitions: the numbers R(n), the key counts K(n) and asymptotic formulas},
+  pdfauthor={K. Srinivasa Raghava}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\DeclareMathOperator{\lcm}{lcm}
+\title{Rational partitions: the numbers $R(n)$, the key counts $K(n)$\\ and asymptotic formulas\\[2pt]
+ \large Exact values for $1\le n\le 101$}
+\author{K. Srinivasa Raghava\\ \small Pie Mathematics Association\\ \small\texttt{srinivasaraghavak@gmail.com}}
+\date{26 November 2026}
+\begin{document}
+\maketitle
+
+\section*{Definitions}
+The \emph{keys} of a positive integer $n$ are the fractions $a/b$ in lowest terms with $1\le a\le n$ and
+$2\le b\le n$. These are the fractions that may be used as parts. The number of keys of $n$ is denoted by $K(n)$.
+A \emph{rational partition} of $n$ is a multiset of keys of $n$ whose sum is $n$, and $R(n)$ is the number of
+rational partitions of $n$.
+
+\begin{center}
+\begin{tabular}{rlrr}
+\toprule
+$n$ & keys of $n$ & $K(n)$ & $R(n)$\\
+\midrule
+1 & none & 0 & 0\\
+2 & $1/2$ & 1 & 1\\
+3 & $1/3,\ 1/2,\ 2/3,\ 3/2$ & 4 & 16\\
+4 & $1/4,\ 1/3,\ 1/2,\ 2/3,\ 3/4,\ 4/3,\ 3/2$ & 7 & 226\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For example, the only rational partition of $2$ is $2=\frac12+\frac12+\frac12+\frac12$, and
+$3=\frac32+\frac12+\frac23+\frac13$ is one of the $16$ rational partitions of $3$.
+The number $1$ has no keys, so $K(1)=0$ and $R(1)=0$. The number of keys is
+\[
+ K(n)=2\bigl(\varphi(1)+\varphi(2)+\dots+\varphi(n)\bigr)-n-1,
+\]
+where $\varphi$ is Euler's function, so $K(n)$ is about $6n^2/\pi^2$. For $n\ge2$ every key of $n$ occurs in at
+least one rational partition of $n$: take $b$ copies of $a/b$, which add up to $a$, and fill the rest with
+copies of $\frac12$.
+
+More generally, let $R_N(m)$ be the number of multisets of keys of $N$ whose sum is $m$, so that $R(n)=R_n(n)$.
+Then $R_N(m)$ is the coefficient of $z^m$ in the product of $1/(1-z^{a/b})$ over the keys $a/b$ of $N$.
+In the paper \emph{Asymptotics and limit laws for diagonal rational partitions}, called the paper below, the set
+of keys of $N$ is denoted by $\mathcal C_N$, and $R(n)$ is considered for $n\ge2$.
+
+\section*{Asymptotic formulas}
+Which asymptotic formula is the best depends on what is asked. The best proved formula in closed form is the
+theorem below. The most accurate formula is the sharp formula after it, and only part of that one is proved.
+
+\subsection*{The theorem}
+As $n\to\infty$,
+\begin{equation}\label{thm}
+ \log R(n)=\sqrt2\,n^{3/2}-\kappa\,\frac{n^{3/2}}{\log n}-\kappa_2\,\frac{n^{3/2}}{\log^2n}
+ +O\Bigl(\frac{n^{3/2}}{\log^3n}\Bigr),\qquad \kappa=0.0026471306\ldots,\quad \kappa_2=0.0010771199\ldots
+\end{equation}
+This is Theorem~1.1 of the paper, where the two constants are given by explicit integrals. It is the best proved
+formula in closed form. The same theorem contains a second formula with the smaller error
+$O(n^{5/4}/\log n)$. It is the minimum over one real variable of an expression that contains a sum over the
+primes up to $n$, and it is not reproduced here.
+
+The theorem describes the limit and is not meant for the $n$ of this table. By the formula below, $\log R(n)$
+also contains terms of order $n$, the largest being $-\frac32\log\lcm(1,\dots,n)$. They are of smaller order
+than the error term, so the theorem does not show them. For example, for $n=100$ the three terms give
+$1413.59$ and the exact value is $1272.94$. The difference is $140.65$, and
+$\frac32\log\lcm(1,\dots,100)=141.07$.
+
+\subsection*{The sharp formula}
+Let $\beta>0$. Give every key $x$ of $n$ an independent multiplicity that is geometric with ratio $e^{-\beta x}$,
+and put $F_n(\beta)=-\sum_x\log(1-e^{-\beta x})$, where $x$ runs over the keys of $n$.
+For a prime $\ell\le n$ let $q$ be the largest power of $\ell$ not exceeding $n$. The \emph{block} of $\ell$ is
+the set of keys of $n$ whose denominator is divisible by $q$. Let $P_\ell(\beta)$ be the probability that the sum
+of the parts taken from the block has a denominator that is not divisible by $q$. This must happen if the total
+is to be an integer. With $k=\lfloor n/q\rfloor$ and $w(x)=q\,\lcm(1,\dots,k)\,x$, which is an integer for every
+$x$ in the block,
+\[
+ P_\ell(\beta)=\frac1\ell\sum_{r=0}^{\ell-1}\ \prod_{x\text{ in the block of }\ell}
+ \frac{1-e^{-\beta x}}{1-e^{2\pi irw(x)/\ell-\beta x}} .
+\]
+Put
+\[
+ \Psi_n(\beta)=\beta n+F_n(\beta)+\sum_{\ell\le n}\log P_\ell(\beta),
+\]
+where $\ell$ runs over the primes. Let $\beta^*$ be the point where $\Psi_n$ is smallest, let
+$\sigma^2=\Psi_n''(\beta^*)$, and let $D_n$ be $\lcm(1,\dots,n)$ divided by the product of the primes up to $n$.
+The formula is
+\begin{equation}\label{sharp}
+ R(n)\approx\frac{e^{\Psi_n(\beta^*)}}{D_n\sqrt{2\pi\sigma^2}}\,(1+c_2),\qquad
+ c_2=\frac{\Psi_n''''(\beta^*)}{8\sigma^4}-\frac{5\,\Psi_n'''(\beta^*)^2}{24\,\sigma^6}.
+\end{equation}
+For example, for $n=2$ the only key is $\frac12$, and $\Psi_2(\beta)=2\beta-\log(1-e^{-\beta})$. Its minimum is
+at $\beta^*=\log\frac32$, where $e^{\Psi_2}=\frac{27}4$, $\sigma^2=6$, $D_2=1$ and $c_2=-\frac7{72}$. The formula
+gives $R(2)\approx0.992$, and $R(2)=1$.
+
+What is proved and what is not:
+\begin{itemize}\itemsep0pt
+\item \emph{Proved.} For every $\beta>0$, the number $R(n)$ equals $e^{\Psi_n(\beta)}$ times the probability
+that the total is $n$, given that the condition above holds for every prime. So $\log R(n)\le\Psi_n(\beta)$ for
+every $\beta$. With Proposition~4.1 of the paper this gives
+$\Psi_n(\beta^*)-Cn\le\log R(n)\le\Psi_n(\beta^*)$ with a constant $C$. So $\log R(n)$ is known with an
+error $O(n)$, and this is the most precise statement that is proved.
+\item \emph{Conjecture.} Given the conditions, the total is a multiple of $1/D_n$, and for $\beta=\beta^*$ its
+mean is $n$ and its variance is $\sigma^2$. The statement that the probability above is asymptotic to
+$1/(D_n\sqrt{2\pi\sigma^2})$ is a local limit theorem on this lattice, and it is not proved. Conjecture~8.1 of
+the paper is the same statement with only the primes above $\sqrt n$ in the sum and the matching lattice.
+For a prime $\ell$ below $\sqrt n$ the number $\ell P_\ell(\beta^*)$ is close to $1$, so the two forms should
+agree in the limit, but for the $n$ of this table the difference is visible.
+\item \emph{Numerical evidence only.} The factor $1+c_2$ is the next term of the local limit expansion. The
+number $c_2$ is negative and of order $n^{-3/2}$: for $48\le n\le 101$ it lies between
+$-0.31\,n^{-3/2}$ and $-0.26\,n^{-3/2}$, and for $n=100$ it is $-0.000279$. The smooth part
+$\beta n+n^2/(2\beta)$ of $\Psi_n$ alone would give $-\frac{3}{8\sqrt2}\,n^{-3/2}$, which is
+$-0.265\,n^{-3/2}$. This factor is not in the paper.
+\end{itemize}
+
+\Needspace{24\baselineskip}
+\subsection*{Accuracy}
+The relative error of a formula is its value divided by $R(n)$, minus $1$.
+\begin{center}
+\small
+\begin{tabular}{rrrrlll}
+\toprule
+ & $\log R(n)$ & theorem \eqref{thm}, & formula \eqref{sharp}, & \multicolumn{3}{c}{relative error of}\\
+$n$ & exact & three terms & logarithm & formula \eqref{sharp} & \eqref{sharp} without $c_2$ & Conjecture 8.1\\
+\midrule
+10 & 31.024050 & 44.6786 & 31.016673 & $-7.3\cdot10^{-3}$ & $-1.6\cdot10^{-3}$ & $-1.9\cdot10^{-2}$\\
+20 & 98.384483 & 126.4013 & 98.383379 & $-1.1\cdot10^{-3}$ & $+1.0\cdot10^{-3}$ & $-1.9\cdot10^{-3}$\\
+30 & 189.312506 & 232.2358 & 189.312486 & $-2.0\cdot10^{-5}$ & $+1.4\cdot10^{-3}$ & $-6.5\cdot10^{-3}$\\
+40 & 302.583733 & 357.5693 & 302.583687 & $-4.6\cdot10^{-5}$ & $+1.1\cdot10^{-3}$ & $-5.4\cdot10^{-4}$\\
+50 & 428.851456 & 499.7359 & 428.851456 & $-7.0\cdot10^{-7}$ & $+8.2\cdot10^{-4}$ & $-8.8\cdot10^{-4}$\\
+60 & 571.748592 & 656.9367 & 571.748591 & $-8.5\cdot10^{-7}$ & $+6.4\cdot10^{-4}$ & $-3.6\cdot10^{-4}$\\
+70 & 728.401204 & 827.8513 & 728.401204 & $-4.4\cdot10^{-7}$ & $+5.2\cdot10^{-4}$ & $+4.8\cdot10^{-4}$\\
+80 & 897.335666 & 1011.4565 & 897.335665 & $-4.9\cdot10^{-7}$ & $+4.2\cdot10^{-4}$ & $+3.6\cdot10^{-4}$\\
+90 & 1076.967540 & 1206.9290 & 1076.967538 & $-1.8\cdot10^{-6}$ & $+3.3\cdot10^{-4}$ & $+2.2\cdot10^{-4}$\\
+100 & 1272.940067 & 1413.5880 & 1272.940067 & $-5.6\cdot10^{-7}$ & $+2.8\cdot10^{-4}$ & $+2.6\cdot10^{-4}$\\
+101 & 1296.569274 & 1434.8462 & 1296.569274 & $-4.9\cdot10^{-7}$ & $+2.8\cdot10^{-4}$ & $+2.6\cdot10^{-4}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+For $48\le n\le 101$ the relative error of formula \eqref{sharp} is below $3\cdot10^{-6}$. Without $c_2$ it is
+below $9\cdot10^{-4}$, and for Conjecture~8.1 in its original form it is below $4\cdot10^{-3}$. For $30\le n\le 47$ the
+three bounds are $2\cdot10^{-4}$, $2\cdot10^{-3}$ and $9\cdot10^{-3}$. For $2\le n\le 29$ the relative error of formula
+\eqref{sharp} is below $3\cdot10^{-2}$.
+
+For $48\le n\le 101$ the relative error without $c_2$ equals $-c_2$ to within $1$ per cent. For $n=100$
+it is $+2.8\cdot10^{-4}$, and $c_2$ is $-2.8\cdot10^{-4}$. This is what one expects if $1+c_2$ is the right second term.
+
+The comparison is made by the program \texttt{asymptotics.py}, which also checks its own evaluation of
+$P_\ell(\beta)$ against a direct convolution modulo $\ell$. The Mathematica code below was run as printed for
+$n=2$, $10$, $30$ and $100$. Its results agree with those of \texttt{asymptotics.py} to eight decimal places.
+The run for $n=100$ takes about a minute.
+
+\begingroup\footnotesize
+\begin{verbatim}
+keys[n_] := Union[Select[Flatten[Table[a/b, {b, 2, n}, {a, 1, n}]], ! IntegerQ[#] &]];
+
+(* Psi_n as a function of beta *)
+psi[n_] := Module[{ks = keys[n], blocks},
+   blocks = Table[Module[{q = l^(IntegerLength[n, l] - 1), xs, ws},
+      xs = Select[ks, Divisible[Denominator[#], q] &];
+      ws = Mod[q (LCM @@ Range[Quotient[n, q]]) xs, l];
+      {l, xs, Table[N[Exp[2 Pi I Mod[r ws, l]/l], 40], {r, 0, l - 1}]}], {l, Prime[Range[PrimePi[n]]]}];
+   Function[beta, beta n - Total[Log[1 - Exp[-beta ks]]] +
+     Total[Function[blk, With[{t = Exp[-beta blk[[2]]]},
+          Log[Re[Total[(Times @@ ((1 - t)/(1 - # t))) & /@ blk[[3]]]]/blk[[1]]]]] /@ blocks]]];
+
+(* {minimiser, minimum of Psi_n, sigma^2, log of the formula without c2, log of the sharp formula} *)
+logRSharp[n_] := Module[{f = psi[n], h = 10^-5, b, d1, d2, d3, d4, logD, v},
+   b = N[Sqrt[n/2], 40];
+   Do[d1 = (f[b + h] - f[b - h])/(2 h); d2 = (f[b + h] - 2 f[b] + f[b - h])/h^2;
+    b = SetPrecision[Max[b - d1/d2, b/2], 40], {8}];
+   d2 = (f[b + h] - 2 f[b] + f[b - h])/h^2;
+   d3 = (f[b + 2 h] - 2 f[b + h] + 2 f[b - h] - f[b - 2 h])/(2 h^3);
+   d4 = (f[b + 2 h] - 4 f[b + h] + 6 f[b] - 4 f[b - h] + f[b - 2 h])/h^4;
+   logD = Log[(LCM @@ Range[n])/(Times @@ Prime[Range[PrimePi[n]]])];
+   v = f[b] - logD - Log[2 Pi d2]/2;
+   N[{b, f[b], d2, v, v + Log[1 + d4/(8 d2^2) - 5 d3^2/(24 d2^3)]}, 13]];
+
+logRSharp[100]
+(* {7.062133740648, 1285.848493768, 28.34858559291, 1272.940345835, 1272.940066617} *)
+(* exact: log R(100) = 1272.940067174 *)
+
+(* the three terms of the theorem *)
+logRTheorem[n_] := Sqrt[2] n^(3/2) - 0.0026471306 n^(3/2)/Log[n] - 0.0010771199 n^(3/2)/Log[n]^2;
+logRTheorem[100]   (* 1413.588 *)
+\end{verbatim}
+\endgroup
+
+\section*{Computation of the exact values}
+The product is multiplied out with exact integers. The denominators are grouped by their largest prime factor,
+and the primes are taken in decreasing order. Once all denominators with largest prime factor $p$ are multiplied
+in, no later denominator is divisible by $p$, so every term whose exponent still has $p$ in its denominator is
+dropped. For $n\le 101$ the exponents then lie on a lattice with denominator at most $27720$.
+The program is \texttt{rational\_partitions.py}.
+
+\section*{Checks}
+All numbers in the table passed the following checks.
+\begin{enumerate}\itemsep0pt
+\item For all $n\le 101$: $K(n)$ recomputed as the number of distinct non-integral values of $a/b$ with
+$1\le a,b\le n$, and from the formula above.
+\item For $n\le8$: $R(n)$ counted from the definition with exact fractions, without generating functions.
+\item For $n\le12$: comparison with a direct computation on the full lattice of exponents, for all $R_n(m)$ with $m\le n$.
+\item For all $n\le 101$: the product recomputed modulo $2^{64}$ by a second implementation.
+\item For all $n\le 101$: the value recomputed modulo $2^{64}$ from the formula
+\[
+ \prod_{a/b\in\mathcal C_N}\frac1{1-z^{a/b}}=\frac1{\mathcal P_N(z)}\prod_{d\le N}\ \prod_{j\le N/d}
+ \mathcal P_{\lfloor N/d\rfloor}\bigl(z^{1/j}\bigr)^{\mu(d)},\qquad \mathcal P_K(z)=\prod_{k\le K}\frac1{1-z^k}.
+\]
+\item For $n\le10$ the values $R(n)$, and for $n\le60$ the values $K(n)$, recomputed in Mathematica from the definitions.
+\item For $48\le n\le 101$: agreement with formula \eqref{sharp}, with a relative error below $3\cdot10^{-6}$. This check is of a
+different kind, since the formula does not use the exact computation.
+\end{enumerate}
+Checks 1, 2, 4 and 5 are carried out by the program \texttt{verify.py}, and check 7 by \texttt{asymptotics.py}.
+
+\section*{Size}
+\begin{center}
+\begin{tabular}{rrrlr}
+\toprule
+$n$ & $K(n)$ & digits of $R(n)$ & $R(n)$, rounded & $\log R(n)$\\
+\midrule
+10 & 53 & 14 & $2.976\times10^{13}$ & 31.0240\\
+20 & 235 & 43 & $5.344\times10^{42}$ & 98.3845\\
+30 & 525 & 83 & $1.650\times10^{82}$ & 189.3125\\
+40 & 939 & 132 & $2.573\times10^{131}$ & 302.5837\\
+50 & 1497 & 187 & $1.769\times10^{186}$ & 428.8515\\
+60 & 2143 & 249 & $2.029\times10^{248}$ & 571.7486\\
+70 & 2917 & 317 & $2.191\times10^{316}$ & 728.4012\\
+80 & 3851 & 390 & $5.104\times10^{389}$ & 897.3357\\
+90 & 4869 & 468 & $5.261\times10^{467}$ & 1076.9675\\
+100 & 5987 & 553 & $6.774\times10^{552}$ & 1272.9401\\
+101 & 6186 & 564 & $1.238\times10^{563}$ & 1296.5693\\
+\bottomrule
+\end{tabular}
+\end{center}
+Here $\log$ is the natural logarithm.
+
+\section*{The table}
+The digits of $R(n)$ are printed in groups of ten, sixty to a line. The third column is the number of digits of $R(n)$.
+
+\begingroup
+\small
+\begin{longtable}{@{}r@{\quad}r@{\quad}r@{\quad}l@{}}
+\toprule
+$n$ & $K(n)$ & digits & $R(n)$\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+1 & 0 & 1 & \texttt{0}\\
+\addlinespace[2pt]
+2 & 1 & 1 & \texttt{1}\\
+\addlinespace[2pt]
+3 & 4 & 2 & \texttt{16}\\
+\addlinespace[2pt]
+4 & 7 & 3 & \texttt{226}\\
+\addlinespace[2pt]
+5 & 14 & 4 & \texttt{8047}\\
+\addlinespace[2pt]
+6 & 17 & 6 & \texttt{223310}\\
+\addlinespace[2pt]
+7 & 28 & 8 & \texttt{19427673}\\
+\addlinespace[2pt]
+8 & 35 & 10 & \texttt{1208928320}\\
+\addlinespace[2pt]
+9 & 46 & 12 & \texttt{2099243878 16}\\
+\addlinespace[2pt]
+10 & 53 & 14 & \texttt{2975593670 3990}\\
+\addlinespace[2pt]
+11 & 72 & 17 & \texttt{1143558464 9661823}\\
+\addlinespace[2pt]
+12 & 79 & 19 & \texttt{1722867557 733626077}\\
+\addlinespace[2pt]
+13 & 102 & 22 & \texttt{1308567615 0186036412 55}\\
+\addlinespace[2pt]
+14 & 113 & 24 & \texttt{6165638158 2535284812 4715}\\
+\addlinespace[2pt]
+15 & 128 & 28 & \texttt{1073916756 7167602879 94290630}\\
+\addlinespace[2pt]
+16 & 143 & 30 & \texttt{6541925764 1339046538 9509894893}\\
+\addlinespace[2pt]
+17 & 174 & 34 & \texttt{1713579344 1114252369 0967949906 6846}\\
+\addlinespace[2pt]
+18 & 185 & 36 & \texttt{8327970748 6643922011 1041884387 838792}\\
+\addlinespace[2pt]
+19 & 220 & 40 & \texttt{3787994310 8668448879 2190015667 5831824405}\\
+\addlinespace[2pt]
+20 & 235 & 43 & \texttt{5343649357 2684666788 6513871797 3085492092 027}\\
+\addlinespace[2pt]
+21 & 258 & 47 & \texttt{5565906685 3112618668 6967242585 2097495889 5208295}\\
+\addlinespace[2pt]
+22 & 277 & 51 & \texttt{1915591220 6191169919 6340327907 9774733880 7290727690 3}\\
+\addlinespace[2pt]
+23 & 320 & 55 & \texttt{2645089154 2815660860 3953111655 4182801522 0312495360 40441}\\
+\addlinespace[2pt]
+24 & 335 & 58 & \texttt{3573028045 2705713034 4749281551 5542627470 9396759262 33039487}\\
+\addlinespace[2pt]
+25 & 374 & 63 & \texttt{1266374084 4428040314 0441974135 6298121799 1612531908 5708684298}\\*
+ & &  & \texttt{011}\\
+\addlinespace[2pt]
+26 & 397 & 66 & \texttt{9710330615 1085646652 7698732604 5369266493 5287991118 4057642013}\\*
+ & &  & \texttt{257042}\\
+\addlinespace[2pt]
+27 & 432 & 71 & \texttt{2362605737 9493707057 1619914611 6355908175 5443065716 7194237325}\\*
+ & &  & \texttt{1089994164 8}\\
+\addlinespace[2pt]
+28 & 455 & 75 & \texttt{1855500421 6691644591 9770483398 6488736960 9034241606 9487335075}\\*
+ & &  & \texttt{9605940260 74280}\\
+\addlinespace[2pt]
+29 & 510 & 80 & \texttt{1140526661 9777829385 7531831133 0663168018 9533396207 1780325249}\\*
+ & &  & \texttt{2403088271 6482886017}\\
+\addlinespace[2pt]
+30 & 525 & 83 & \texttt{1649591824 6886874946 7814177209 9720202630 2647499107 7208321069}\\*
+ & &  & \texttt{9761731852 2025532711 500}\\
+\addlinespace[2pt]
+31 & 584 & 88 & \texttt{1625444928 6145586418 7045260631 4512305926 9751811730 8209034841}\\*
+ & &  & \texttt{9218806985 2338724220 81214482}\\
+\addlinespace[2pt]
+32 & 615 & 92 & \texttt{2183088884 2738911177 9260291450 7478206220 8871428597 3879653895}\\*
+ & &  & \texttt{7216141090 3982559920 6506269274 37}\\
+\addlinespace[2pt]
+33 & 654 & 97 & \texttt{3691460012 9485551937 8178424230 7323585761 6035898078 3581519922}\\*
+ & &  & \texttt{1172581164 0907098465 6340031833 4229658}\\
+\addlinespace[2pt]
+34 & 685 & 102 & \texttt{1203809365 5211799977 1467788143 8489018670 6641044030 1615507774}\\*
+ & &  & \texttt{8024795575 0224947249 0824520919 3066799804 97}\\
+\addlinespace[2pt]
+35 & 732 & 107 & \texttt{8821617750 8766297221 0449650895 4351822751 2835552115 3448298151}\\*
+ & &  & \texttt{7666183256 1431161311 5328016006 8736732815 3025503}\\
+\addlinespace[2pt]
+36 & 755 & 111 & \texttt{6241928524 7777364491 3745770197 0211119080 3287106654 8839996195}\\*
+ & &  & \texttt{2898388726 4092388861 8349408509 0244856692 4346840177 9}\\
+\addlinespace[2pt]
+37 & 826 & 117 & \texttt{2415041068 7163754559 7380498557 7114953678 0075589888 9825793822}\\*
+ & &  & \texttt{4234594894 5645153492 6728431428 9609213824 7151845278 2189559}\\
+\addlinespace[2pt]
+38 & 861 & 122 & \texttt{1500307595 2483481940 0630062159 3833654788 3906788076 8652936292}\\*
+ & &  & \texttt{4918749885 8998777023 8411035538 6747480868 8394244190 0799010444}\\*
+ & &  & \texttt{42}\\
+\addlinespace[2pt]
+39 & 908 & 127 & \texttt{8416388865 2791502260 8043739208 7591017879 5729164459 9389306764}\\*
+ & &  & \texttt{8231027240 7990898229 8401105328 5115991662 7442765566 4809180815}\\*
+ & &  & \texttt{4947317}\\
+\addlinespace[2pt]
+40 & 939 & 132 & \texttt{2573034232 8834740852 6608851837 7389750925 8810580732 6716635760}\\*
+ & &  & \texttt{4527983053 3274205369 0086444577 9099443045 2270750586 8514610472}\\*
+ & &  & \texttt{9900798767 06}\\
+\addlinespace[2pt]
+41 & 1018 & 138 & \texttt{2269458538 0147850262 7776719573 8386023239 8746979356 7805863817}\\*
+ & &  & \texttt{7145849364 0925018187 1044717372 1391363532 7698074314 8539084568}\\*
+ & &  & \texttt{2997937788 75535545}\\
+\addlinespace[2pt]
+42 & 1041 & 142 & \texttt{1702532105 0008037617 0392024245 8651008795 9940204086 2508412795}\\*
+ & &  & \texttt{0729465516 5857467126 1810164562 2617013958 3050305794 8187248119}\\*
+ & &  & \texttt{3079459108 0037227808 86}\\
+\addlinespace[2pt]
+43 & 1124 & 148 & \texttt{2231285589 2726093395 0250981765 6864714292 1472283027 8779255524}\\*
+ & &  & \texttt{4438145068 4875578179 3291656948 7677949994 2278305475 3635714141}\\*
+ & &  & \texttt{4118891053 0167813375 83367859}\\
+\addlinespace[2pt]
+44 & 1163 & 153 & \texttt{2527874559 1251939114 0524695859 0477426327 6692643852 3271944700}\\*
+ & &  & \texttt{8712658710 3363358278 9589584117 5909305419 1951855840 3205888995}\\*
+ & &  & \texttt{1263156758 0516594479 4479680857 133}\\
+\addlinespace[2pt]
+45 & 1210 & 159 & \texttt{1142954908 9713016365 2438424899 3186204364 8055470334 1953883569}\\*
+ & &  & \texttt{7676341720 1433026722 4693040240 4885001777 7183773474 6633183529}\\*
+ & &  & \texttt{0957057885 1032380799 2264267360 323738900}\\
+\addlinespace[2pt]
+46 & 1253 & 164 & \texttt{2375114108 4215645266 7982781291 7413569248 1771365834 9428335918}\\*
+ & &  & \texttt{0255637293 0064486794 3869368986 6927574872 6599677723 7244877758}\\*
+ & &  & \texttt{4167375037 2983253691 0011640861 8425305338 9684}\\
+\addlinespace[2pt]
+47 & 1344 & 170 & \texttt{6852867207 8547735048 3773396738 5632620724 9891036133 7913910416}\\*
+ & &  & \texttt{2657398155 7569531193 0695711632 3842357844 3170645444 2437345856}\\*
+ & &  & \texttt{8995667053 7886610327 7033610578 9393741981 4751679606}\\
+\addlinespace[2pt]
+48 & 1375 & 175 & \texttt{1930889302 9532517186 6828127416 7859253974 5117887708 2474955884}\\*
+ & &  & \texttt{5746173507 8051527837 0506115150 8623627749 7143681482 7035323326}\\*
+ & &  & \texttt{8031473675 6677248710 0513424494 9133949197 9442903318 63335}\\
+\addlinespace[2pt]
+49 & 1458 & 182 & \texttt{1715183815 4799095721 7335296286 4069781276 8194695915 8400675179}\\*
+ & &  & \texttt{9382596538 3291640213 4063497462 6873899223 3126145446 7398326310}\\*
+ & &  & \texttt{0652376799 8217567089 5168652753 1805844861 5515959442 4999877072}\\*
+ & &  & \texttt{46}\\
+\addlinespace[2pt]
+50 & 1497 & 187 & \texttt{1769379726 0061514225 3180755278 1197857242 5897570372 3266368620}\\*
+ & &  & \texttt{0497000338 5548811479 6597774782 3705719537 3713800177 1446510513}\\*
+ & &  & \texttt{2867273301 6314397929 1779798550 3810301158 4980495739 5946971560}\\*
+ & &  & \texttt{1506446}\\
+\addlinespace[2pt]
+51 & 1560 & 193 & \texttt{8125272906 8213713453 3152932941 7928389257 9501974180 7466812652}\\*
+ & &  & \texttt{3936740118 4400074777 3023261138 4878300911 1081579832 5735564799}\\*
+ & &  & \texttt{4552274136 1794273990 5142805113 3577323570 9419789017 5144897373}\\*
+ & &  & \texttt{2818601851 129}\\
+\addlinespace[2pt]
+52 & 1607 & 199 & \texttt{2910330451 8216940201 8853541971 0770412867 2570707683 8537584218}\\*
+ & &  & \texttt{8638757003 8627008617 1281382269 9265455402 9625432395 4346374988}\\*
+ & &  & \texttt{6165410759 0124417023 3323450527 1919882723 9248027662 6150877216}\\*
+ & &  & \texttt{7642911308 517806823}\\
+\addlinespace[2pt]
+53 & 1710 & 206 & \texttt{2607046788 0695943576 6082788245 6195235082 5280781563 6745255172}\\*
+ & &  & \texttt{1905774203 1688547084 2571496517 6687921533 1800900604 0235242715}\\*
+ & &  & \texttt{2690367857 1517433772 1247418503 3738237141 5544973687 3085473637}\\*
+ & &  & \texttt{9327821608 2014617951 823938}\\
+\addlinespace[2pt]
+54 & 1745 & 211 & \texttt{1371346596 6283704672 3871139453 9238150022 8358677533 0402664668}\\*
+ & &  & \texttt{8029367706 8099315299 5908667523 4630211381 3231226846 1802267793}\\*
+ & &  & \texttt{9446631221 9343765519 8369731653 0518071573 2417220225 1964307604}\\*
+ & &  & \texttt{1292129563 4190187191 6061047224 5}\\
+\addlinespace[2pt]
+55 & 1824 & 218 & \texttt{6209976022 3702586418 4158426338 7014492028 0636295340 3781595083}\\*
+ & &  & \texttt{4084587479 7853031080 4356637237 3894698837 9023102215 6619293411}\\*
+ & &  & \texttt{4662941876 7158551520 0858181878 1741152482 3518337233 4645219983}\\*
+ & &  & \texttt{8502480399 9810321751 6120417787 91976095}\\
+\addlinespace[2pt]
+56 & 1871 & 224 & \texttt{2075391804 7660695623 2717871028 3224833909 2895654627 0080254035}\\*
+ & &  & \texttt{3779294945 2473750582 4634322428 1303450860 3422847504 2065590652}\\*
+ & &  & \texttt{7643133508 7597978107 1300870292 6206716532 8188028708 3882482292}\\*
+ & &  & \texttt{3095974337 3518599699 4867324864 1690396975 1492}\\
+\addlinespace[2pt]
+57 & 1942 & 231 & \texttt{2492037383 2896983640 4983685543 1174219238 1884654551 8666188561}\\*
+ & &  & \texttt{2833126005 2964657100 6791690204 8330093782 6355350275 6633315197}\\*
+ & &  & \texttt{5616730275 9306397448 8611387054 8263398411 2728564483 5764592264}\\*
+ & &  & \texttt{2762697746 3272996249 4401409242 8878583866 9929667697 7}\\
+\addlinespace[2pt]
+58 & 1997 & 237 & \texttt{2541886214 9689527292 0990530795 4162140956 6211208951 2194851127}\\*
+ & &  & \texttt{1816725162 6835201834 3789308998 5176509109 7459700524 8917997337}\\*
+ & &  & \texttt{2453602946 7896355762 8002399779 0576200119 2149430455 8362080536}\\*
+ & &  & \texttt{8544821946 7725704122 6158506629 6155944502 4567485669 2998318}\\
+\addlinespace[2pt]
+59 & 2112 & 244 & \texttt{6822458724 5363525282 2635067997 6717530553 7878753136 6995654197}\\*
+ & &  & \texttt{6415339512 6353653459 3252877575 8161379142 8287733019 1651178324}\\*
+ & &  & \texttt{5753136141 6852238884 9351137267 8983308997 0875959719 9565136470}\\*
+ & &  & \texttt{0637912799 7838794101 3935663871 3810206373 2689467258 4191362058}\\*
+ & &  & \texttt{8048}\\
+\addlinespace[2pt]
+60 & 2143 & 249 & \texttt{2028889675 3198321548 9649676838 7395467014 9380145790 5868527931}\\*
+ & &  & \texttt{2606261910 7026880060 9679046169 6110620207 3297123724 6736709648}\\*
+ & &  & \texttt{7845665312 8482459639 5633026818 7635021281 7754672376 3031494594}\\*
+ & &  & \texttt{5629839480 6206375552 7020895202 4843339150 9167354901 6553638147}\\*
+ & &  & \texttt{895038671}\\
+\addlinespace[2pt]
+61 & 2262 & 256 & \texttt{7670626418 5736459357 0961647387 1112107857 2646934395 4615932059}\\*
+ & &  & \texttt{0076473020 0542309864 9630685287 5759724876 9402006767 0890224420}\\*
+ & &  & \texttt{3712920517 6360562207 0997191389 8932767857 4187221353 2975325130}\\*
+ & &  & \texttt{1695804733 8890239612 4812099230 2333346100 8309469116 1889488523}\\*
+ & &  & \texttt{7020152428 711711}\\
+\addlinespace[2pt]
+62 & 2321 & 263 & \texttt{1245811987 8451939001 7060758832 5908330762 0263046194 1726230332}\\*
+ & &  & \texttt{4903605945 5849878205 8515275125 0348132154 1060873084 3077941914}\\*
+ & &  & \texttt{8728379521 8834887482 1009240106 8018043911 7050924735 8979623467}\\*
+ & &  & \texttt{8585995757 8728474338 8246041305 4795291846 5369232801 3690903330}\\*
+ & &  & \texttt{6377999535 2803520912 577}\\
+\addlinespace[2pt]
+63 & 2392 & 270 & \texttt{1229758015 9149611585 3778576793 5263576208 0528942552 8426955464}\\*
+ & &  & \texttt{0177199418 2618421668 8278363348 2486070209 5568380771 9605779484}\\*
+ & &  & \texttt{0698652979 2863742733 8830542841 9544435469 7475951214 4758116241}\\*
+ & &  & \texttt{3543990236 0881995419 7588895998 7396593863 2863684737 4048626048}\\*
+ & &  & \texttt{1055129953 2241028717 8968162291}\\
+\addlinespace[2pt]
+64 & 2455 & 276 & \texttt{1362968086 0483468171 7282380916 8069903734 1220560180 1649217760}\\*
+ & &  & \texttt{6996851690 2702664413 0316132914 7006555893 9642153849 9346930544}\\*
+ & &  & \texttt{8847398098 0862121816 5847801153 8282057082 9363289901 2024413457}\\*
+ & &  & \texttt{2061641234 1877049540 5783826036 7540235071 0351843785 1659100081}\\*
+ & &  & \texttt{0832812358 5947411537 9465416211 850661}\\
+\addlinespace[2pt]
+65 & 2550 & 284 & \texttt{3530221774 8225510349 2429463127 8087275609 9649096928 6031624742}\\*
+ & &  & \texttt{9261049910 1640440676 9968701686 3963911575 3025149850 1579162844}\\*
+ & &  & \texttt{9817448281 7557833465 9296741007 5692928187 5883415897 2338165912}\\*
+ & &  & \texttt{0203530280 8195825841 0066715987 5028448164 0384403055 7214688497}\\*
+ & &  & \texttt{1065752208 4795533627 8840076795 3065097669 6036}\\
+\addlinespace[2pt]
+66 & 2589 & 289 & \texttt{3599602588 3984299092 9324382873 6270782988 3450124226 9638804335}\\*
+ & &  & \texttt{3759375206 7580674293 5040335515 9056182199 8807646509 2856231801}\\*
+ & &  & \texttt{3029091489 9334627122 3088239861 7750663379 4691281470 0638527052}\\*
+ & &  & \texttt{1903625315 4300562911 1485634309 1438272476 4318914962 9419178159}\\*
+ & &  & \texttt{4034074160 2393002739 3332379763 5164597951 071945762}\\
+\addlinespace[2pt]
+67 & 2720 & 297 & \texttt{3855114237 5089773741 3637473532 9021174970 8586107116 0662206454}\\*
+ & &  & \texttt{0899811442 9102459341 4724530350 5754908218 9407338938 6892855666}\\*
+ & &  & \texttt{9724560166 4956260740 7596390663 3061648229 7260263271 6504997732}\\*
+ & &  & \texttt{6007999103 0409881807 2494370249 4607461905 7843700158 6635913362}\\*
+ & &  & \texttt{0578308233 5069034576 6349740674 3685548539 7128801373 6484909}\\
+\addlinespace[2pt]
+68 & 2783 & 304 & \texttt{1020006593 3738573948 1009709962 3655612615 2865397682 8180689591}\\*
+ & &  & \texttt{1471872700 6083482066 8246403006 4989307469 4654911607 6464341365}\\*
+ & &  & \texttt{6982247058 9324428955 0213890483 5679470418 8108044790 4096056691}\\*
+ & &  & \texttt{4348504245 5122198318 9828625314 6028104881 4744447673 8647672908}\\*
+ & &  & \texttt{3776567355 9110674566 7686082993 3040846723 9739955314 1675514957}\\*
+ & &  & \texttt{4082}\\
+\addlinespace[2pt]
+69 & 2870 & 311 & \texttt{6923733779 3784849437 3089972615 3153525964 5407541668 7947771319}\\*
+ & &  & \texttt{8739109079 0448650660 1743758084 3360529083 8146613150 2686226128}\\*
+ & &  & \texttt{6559477116 6518795725 0615106662 0780519700 2073625096 3826988697}\\*
+ & &  & \texttt{9485794438 1219435177 6684433633 0048890942 9496020415 4525962492}\\*
+ & &  & \texttt{6774329292 7392894998 8284308370 4370667436 4237940267 9149626633}\\*
+ & &  & \texttt{7653819745 4}\\
+\addlinespace[2pt]
+70 & 2917 & 317 & \texttt{2190904898 4650550890 5996883236 9470190071 9715420000 8452127253}\\*
+ & &  & \texttt{1774788257 8323121589 9548186833 0621744700 2168221956 0135643377}\\*
+ & &  & \texttt{9171830821 1421739966 1416791078 5143976888 6628893688 9191135860}\\*
+ & &  & \texttt{1902709744 6461595987 1918260822 4833771233 9447435039 7819064229}\\*
+ & &  & \texttt{2703853437 7502584965 9423839137 4723415954 9871711691 7749345391}\\*
+ & &  & \texttt{1087379243 9257065}\\
+\addlinespace[2pt]
+71 & 3056 & 325 & \texttt{4523489814 0145151490 6626026062 5900252124 4065919257 8791233590}\\*
+ & &  & \texttt{3512480042 8057687287 4942123296 7450289116 4233558015 5551338509}\\*
+ & &  & \texttt{1335517610 4759258354 7921465012 9484491750 7618090905 3676249443}\\*
+ & &  & \texttt{7139371120 1199084028 2113117042 7444925669 5501817854 5813984393}\\*
+ & &  & \texttt{7700104314 6132053254 7242530155 8651604273 9833052976 7465953646}\\*
+ & &  & \texttt{6338627306 5416776780 02164}\\
+\addlinespace[2pt]
+72 & 3103 & 331 & \texttt{1294147426 9415090577 1649053798 5313195854 3149446519 7482685294}\\*
+ & &  & \texttt{0769775302 0593155070 4038984121 5065602797 8540386140 6911119601}\\*
+ & &  & \texttt{0009929778 4646014138 7024112942 4608815235 6444858727 2814177800}\\*
+ & &  & \texttt{7633065456 9046400552 4054141290 1524046288 7024753689 7050694863}\\*
+ & &  & \texttt{5178298658 4075070823 9833926187 4133559149 5524497441 0473800440}\\*
+ & &  & \texttt{7462142533 6706832614 2615908661 1}\\
+\addlinespace[2pt]
+73 & 3246 & 339 & \texttt{3586342771 0542813432 6054067921 7139584801 3927957638 9858284150}\\*
+ & &  & \texttt{5128211475 3198231996 3224697819 9386559558 0556333985 7692471123}\\*
+ & &  & \texttt{2160324955 7664914692 9928827660 8103780292 2276626944 4835437834}\\*
+ & &  & \texttt{5735722287 0662292254 0111992610 9204554565 6932781231 7216422054}\\*
+ & &  & \texttt{6382227153 6380521215 5786534517 8681297423 6627019241 0534539269}\\*
+ & &  & \texttt{1250617279 0352611232 2420963413 231639299}\\
+\addlinespace[2pt]
+74 & 3317 & 346 & \texttt{2298844676 2777107552 6298863542 7632852108 9166450547 2123720514}\\*
+ & &  & \texttt{3653145907 9499685671 3347659586 2221048312 3581209726 6545014796}\\*
+ & &  & \texttt{0570170008 0022045334 2356331617 7010072692 7155383410 0009271535}\\*
+ & &  & \texttt{5874947241 7400342443 4757058610 7322073688 2377667478 7162924629}\\*
+ & &  & \texttt{7892725709 9023644861 1250139790 2769578986 3621886319 2998146869}\\*
+ & &  & \texttt{0424895832 3265105598 7678168591 3346102199 911981}\\
+\addlinespace[2pt]
+75 & 3396 & 353 & \texttt{4672555066 2109808098 5361199776 3324568934 9291300761 7188653333}\\*
+ & &  & \texttt{4684116442 8630822929 7766055478 8925585094 1124707524 9353393044}\\*
+ & &  & \texttt{7675176578 9294508429 7467344216 3438511753 7475393777 5957441152}\\*
+ & &  & \texttt{6539513496 4796476913 8389672340 2303662691 7369478136 7613480023}\\*
+ & &  & \texttt{8551513420 3219547635 1729457194 0570682774 5020522206 1751327492}\\*
+ & &  & \texttt{9932336449 4780890253 6529933268 0129526089 0981018871 758}\\
+\addlinespace[2pt]
+76 & 3467 & 360 & \texttt{3092873647 8225411119 6052909409 6871967988 6567972329 0465749763}\\*
+ & &  & \texttt{2973919173 2829301337 3665783293 6370009951 3882133670 4387586948}\\*
+ & &  & \texttt{5654784013 2566503076 3141650723 7464922161 4885600903 4603369948}\\*
+ & &  & \texttt{1840593829 5680661277 8732764473 5170290913 8559331487 8962870888}\\*
+ & &  & \texttt{5920789766 6959257611 2833629967 6108572212 0205838541 4829078114}\\*
+ & &  & \texttt{8068676074 8329047282 8918225715 1523645839 7961121527 7707371629}\\
+\addlinespace[2pt]
+77 & 3586 & 370 & \texttt{1011777787 3853633043 5601720113 3125692597 7663095141 4142645319}\\*
+ & &  & \texttt{5690845748 7081629842 9990080226 4214728474 8330661989 1254454405}\\*
+ & &  & \texttt{5444362632 1187836170 2326844304 8157392226 7034185357 7855544302}\\*
+ & &  & \texttt{4390234968 1452299136 0177956291 1331606200 6973547680 7534352614}\\*
+ & &  & \texttt{8060228240 3559956103 7546347165 3348849878 1786571444 7056155638}\\*
+ & &  & \texttt{4111164486 7487124622 2149093368 4485238569 1279077327 6481984030}\\*
+ & &  & \texttt{4329521427}\\
+\addlinespace[2pt]
+78 & 3633 & 375 & \texttt{3112839358 6299586619 4656859218 4320431161 7702672816 7863168994}\\*
+ & &  & \texttt{7022384668 2804802650 4170877652 2305517802 6172227313 4640716832}\\*
+ & &  & \texttt{5022461590 6570018820 5174144256 0648310616 3378422296 8668528570}\\*
+ & &  & \texttt{2405754206 8902809819 2917701985 2881011811 2827567842 3858601840}\\*
+ & &  & \texttt{0115389613 9647503665 7601091387 3920000341 9708753281 7573775319}\\*
+ & &  & \texttt{8174039519 0873022243 3872735757 5490205952 8529428073 8981086053}\\*
+ & &  & \texttt{8465838871 83710}\\
+\addlinespace[2pt]
+79 & 3788 & 384 & \texttt{2271660623 6073119112 4724138086 0566068454 5032524345 9584939727}\\*
+ & &  & \texttt{4918339502 3294255536 6907886338 5250653959 6305887036 3096496753}\\*
+ & &  & \texttt{4681320860 6871827277 9510250715 4113112241 0039772978 8159509305}\\*
+ & &  & \texttt{5744672724 4737557666 7767903086 2159365670 5580573451 9241246866}\\*
+ & &  & \texttt{8526799440 8447620126 7277880508 2292129605 8841859769 9372458289}\\*
+ & &  & \texttt{9577266242 9558602415 5762814010 9707962157 8433142532 4511223353}\\*
+ & &  & \texttt{0727711289 3825007160 2056}\\
+\addlinespace[2pt]
+80 & 3851 & 390 & \texttt{5104203433 5969954149 4265172356 0216493435 5947254336 5366470165}\\*
+ & &  & \texttt{6479472831 9634186558 6105167095 8522191998 1365869927 6842825725}\\*
+ & &  & \texttt{7706981125 0295854478 6238865629 4067123368 1360010071 0059656178}\\*
+ & &  & \texttt{7080491859 1617957041 9992349219 2479218127 1776618502 9003968146}\\*
+ & &  & \texttt{6523671828 6044431466 2804901300 1128294807 0100317193 9769605521}\\*
+ & &  & \texttt{9367977377 2225260936 2687580380 2411896216 7408964167 1155261342}\\*
+ & &  & \texttt{8739941474 5642430029 1945484486}\\
+\addlinespace[2pt]
+81 & 3958 & 398 & \texttt{6608776305 4855410920 2954652050 7125475443 9728513547 6327805733}\\*
+ & &  & \texttt{7750232639 6990819211 7901534861 2448493371 4170134610 7544066733}\\*
+ & &  & \texttt{4958735186 9399347712 2703228833 7485125436 7588825757 9250849050}\\*
+ & &  & \texttt{6223968616 7543727902 9470137547 7000517748 2960896848 9218794453}\\*
+ & &  & \texttt{8838824975 0134557245 3079674022 6553978207 7516618573 5299594378}\\*
+ & &  & \texttt{6018613628 6180582955 2565772303 5951369478 6720690523 5326462279}\\*
+ & &  & \texttt{6370666318 4695144168 8309505679 42038259}\\
+\addlinespace[2pt]
+82 & 4037 & 406 & \texttt{1011945848 0229460177 2154602751 6636009207 5468012368 7161787298}\\*
+ & &  & \texttt{2505176613 3843183545 5984009180 7498576225 1404027391 7451646169}\\*
+ & &  & \texttt{1761068886 4394736644 6358406793 1685534255 9807632849 0614544120}\\*
+ & &  & \texttt{1596244117 5753313458 8341977664 7612867929 2139919729 4228761124}\\*
+ & &  & \texttt{2914870033 7912643829 4704910950 2446284055 4709466076 1426079835}\\*
+ & &  & \texttt{2545517987 0807588645 9024061107 1027208284 3723414760 1312434559}\\*
+ & &  & \texttt{0943774481 8239024757 3828791083 4432907995 232819}\\
+\addlinespace[2pt]
+83 & 4200 & 415 & \texttt{1321947904 8470442659 5972412689 7442228575 6746183977 6445753021}\\*
+ & &  & \texttt{8486136660 8851204282 7223851824 8496107279 0810402102 2067531605}\\*
+ & &  & \texttt{9222243391 6283513109 7919502616 5139438935 0531498366 5105626510}\\*
+ & &  & \texttt{5604499606 4218983720 3355557454 7678459763 9647943849 3090250776}\\*
+ & &  & \texttt{9444391396 3741765560 7363262072 2646048114 7130584569 8653165771}\\*
+ & &  & \texttt{4996896490 2083700430 6235325342 7803731253 9555647625 6072736395}\\*
+ & &  & \texttt{0310338420 9683516615 9354057883 7006401170 1824370490 60060}\\
+\addlinespace[2pt]
+84 & 4247 & 420 & \texttt{3937333720 5318236729 6561867891 6667889043 9078588116 2662022220}\\*
+ & &  & \texttt{1423912985 8800586839 3652087886 6975273405 5168664375 0800396625}\\*
+ & &  & \texttt{6979334994 9458592615 4634112106 9084511590 3200236432 2928867926}\\*
+ & &  & \texttt{4936693975 8378987060 1748171947 8775566043 6128023123 0294175554}\\*
+ & &  & \texttt{8252783635 9217594010 6999309517 9281462344 3468859641 3978101232}\\*
+ & &  & \texttt{4396302186 0449632703 4358198398 3842348502 3855809134 6669840974}\\*
+ & &  & \texttt{0353309693 0007255442 6862431367 9483069294 0556046733 3565626255}\\
+\addlinespace[2pt]
+85 & 4374 & 430 & \texttt{2234412912 6107302153 2250007274 0644360865 4078516486 1505601511}\\*
+ & &  & \texttt{8872662809 6018733918 3058909361 1061221393 4889441823 6263666861}\\*
+ & &  & \texttt{4835679989 1702188408 0807817472 4219014864 4376277591 3621725197}\\*
+ & &  & \texttt{7610444813 3121587232 5544319627 4743958440 6086872670 6152276323}\\*
+ & &  & \texttt{4000883812 5391800826 2618521135 4401728074 6466538971 5508746406}\\*
+ & &  & \texttt{1784109273 0529697919 8685355168 7543728447 3263200239 2833663904}\\*
+ & &  & \texttt{9141220264 4989201110 1612589610 4392295051 5193142685 3922747990}\\*
+ & &  & \texttt{9497169425}\\
+\addlinespace[2pt]
+86 & 4457 & 437 & \texttt{5122826887 8083836863 8749687974 9322914470 5511853468 3187041751}\\*
+ & &  & \texttt{4142986283 0652446622 6564306350 9869050989 6087797046 0511467211}\\*
+ & &  & \texttt{6777670109 9403040841 0769852592 6319892395 0618531357 0529256961}\\*
+ & &  & \texttt{7371807130 4958486117 6427090954 1937521205 0359089897 2147574465}\\*
+ & &  & \texttt{3448037800 4861988406 2985709839 0503439923 8463850864 2641720626}\\*
+ & &  & \texttt{7449313113 8646691814 0384112322 0220231671 6145599546 9568101174}\\*
+ & &  & \texttt{1267625404 7163820635 7979926400 5274285708 8053499779 7330644513}\\*
+ & &  & \texttt{7239407051 0977778}\\
+\addlinespace[2pt]
+87 & 4568 & 446 & \texttt{3646966703 9770680435 2118015729 7594674593 8040283749 0640567303}\\*
+ & &  & \texttt{4758346186 8464424326 4892959775 4336346462 3212557575 5356232618}\\*
+ & &  & \texttt{3486815591 4653819931 9477638828 6061394129 4407193609 6887207166}\\*
+ & &  & \texttt{6648018677 4769623303 9564247507 0282259422 1759111448 0391639443}\\*
+ & &  & \texttt{2946961819 1822332839 7439474886 9548485718 2786152160 3548434629}\\*
+ & &  & \texttt{8637207576 8830976996 5021246390 7886203933 9957209843 0206025028}\\*
+ & &  & \texttt{2271129895 3022345241 3502815841 9761285076 0340071152 2552616403}\\*
+ & &  & \texttt{2402820463 3086253819 179396}\\
+\addlinespace[2pt]
+88 & 4647 & 453 & \texttt{5444524398 3060156932 0468983312 6396382695 4162758307 0114384199}\\*
+ & &  & \texttt{0658191207 3737376179 9180984676 1822691074 2777820033 7348110147}\\*
+ & &  & \texttt{6267011419 7371790323 7910191950 0662354539 8660700875 3305224875}\\*
+ & &  & \texttt{2431902059 3529730412 9089976376 7319848148 8323998224 9959644689}\\*
+ & &  & \texttt{9480419953 6731581053 7998188004 3256948051 5268168973 2272438118}\\*
+ & &  & \texttt{1966570516 9640727687 5670388621 2299002876 0635454430 4283336345}\\*
+ & &  & \texttt{0391439834 7425288644 1155243241 2767623015 5285543488 2547296853}\\*
+ & &  & \texttt{2967266900 9561617999 1590806838 670}\\
+\addlinespace[2pt]
+89 & 4822 & 463 & \texttt{1752284341 1082411671 5582277580 4807047549 3724355734 7930489788}\\*
+ & &  & \texttt{7709799952 5369696621 7485250961 0592393397 8598511568 2958032422}\\*
+ & &  & \texttt{4103016702 1780290373 4425312887 5176546064 5464519562 2886879852}\\*
+ & &  & \texttt{5744319067 0838180300 2014497056 5221485288 5720348950 0010119230}\\*
+ & &  & \texttt{5510089990 5536464703 8913639744 7449520870 4071559677 1574583536}\\*
+ & &  & \texttt{0873514346 1118647796 7510117103 0758770739 5235365926 8877593352}\\*
+ & &  & \texttt{7040064103 3082754145 4663663731 3755055852 2078091658 1710073852}\\*
+ & &  & \texttt{9333682118 8329886702 4907422239 0951175508 739}\\
+\addlinespace[2pt]
+90 & 4869 & 468 & \texttt{5260895617 4623445040 8236800491 8768325533 1204846847 8926439858}\\*
+ & &  & \texttt{5650844572 3989888134 3614228794 8884299048 0605573971 4835486463}\\*
+ & &  & \texttt{5859670182 8241077750 8517732386 9352471536 0643286847 8107906979}\\*
+ & &  & \texttt{7931599302 0313355842 2427876546 1729650766 1357862405 0269068809}\\*
+ & &  & \texttt{8917743877 1310536315 2411708659 4865690899 3066561725 4174198321}\\*
+ & &  & \texttt{8287524007 1989004849 9803264453 5462448890 2779811001 5495368693}\\*
+ & &  & \texttt{3655504569 7374115563 2952560204 7360187388 4076358405 1246379910}\\*
+ & &  & \texttt{1324435655 3915938141 8084487187 8401018516 36597460}\\
+\addlinespace[2pt]
+91 & 5012 & 479 & \texttt{1512862542 7876520251 8677965823 0278949606 3071537899 4394621597}\\*
+ & &  & \texttt{3129368741 5154080162 9714042521 2028719213 3655778996 5787987269}\\*
+ & &  & \texttt{3510333195 1286748723 5366298324 5069779599 5864498138 5517954803}\\*
+ & &  & \texttt{8656203599 4122521403 9102754157 2282917417 5708556907 7878051221}\\*
+ & &  & \texttt{1066634597 8179681623 9605793283 4181938707 2671957520 6754588807}\\*
+ & &  & \texttt{2154180546 2948542752 6485059561 0152091590 1041421549 5116154294}\\*
+ & &  & \texttt{6908810216 2024704345 5510247025 0184463702 1224608670 0497758788}\\*
+ & &  & \texttt{5007142627 9162927434 7429724013 1843039194 9841232419 528122203}\\
+\addlinespace[2pt]
+92 & 5099 & 486 & \texttt{5338748518 9959698728 4192011731 2065732453 4081018335 1865678922}\\*
+ & &  & \texttt{2662147791 5307048886 0014519681 9628182429 3051952193 5455407960}\\*
+ & &  & \texttt{0704003085 5251990618 2524887507 7199773623 1080331852 2434403474}\\*
+ & &  & \texttt{5672064341 9535425933 6565711737 4961179896 4016221497 0779515490}\\*
+ & &  & \texttt{3741910624 9219741413 6990058980 9922878490 7342758719 9930682001}\\*
+ & &  & \texttt{7349164008 4865941931 1690409879 3603813977 1498726347 4588547327}\\*
+ & &  & \texttt{1403963151 7301398407 5774072284 8536236390 5956512814 3391770460}\\*
+ & &  & \texttt{8388722572 2280846020 3102384271 2361218750 8207851903 1218786960}\\*
+ & &  & \texttt{548408}\\
+\addlinespace[2pt]
+93 & 5218 & 495 & \texttt{7861144389 6443836648 6232626478 6187383685 1516244075 4514408272}\\*
+ & &  & \texttt{7636165573 6081968626 4204737675 7977459270 5570699547 3646589197}\\*
+ & &  & \texttt{2058901838 4482926180 4228624420 4922741082 0096136136 9606256851}\\*
+ & &  & \texttt{9903272706 9225981719 3185665741 7767046612 4539418796 2508468605}\\*
+ & &  & \texttt{4496364826 3934432667 6606111219 3869418910 2761578723 1285622163}\\*
+ & &  & \texttt{6709152533 4581086431 1663414077 1064550190 9863704588 7070592853}\\*
+ & &  & \texttt{8741076462 3941062951 1385934358 0808837110 6004093706 9412284024}\\*
+ & &  & \texttt{3618316590 6682180856 8624456169 8519075232 0130809203 3807646535}\\*
+ & &  & \texttt{3479540377 39079}\\
+\addlinespace[2pt]
+94 & 5309 & 503 & \texttt{4005334120 2607290059 8891865481 0451669573 4458596728 4835337245}\\*
+ & &  & \texttt{5023329819 3460259337 0982266637 9211582533 0346568956 0127438276}\\*
+ & &  & \texttt{6212864787 5897665163 4247077263 4426349059 2106579267 8959091639}\\*
+ & &  & \texttt{2359533094 7930039234 9160778064 4881148335 5003628424 0229822546}\\*
+ & &  & \texttt{8979611570 8298612261 8946633872 1844343203 3212541156 6880773877}\\*
+ & &  & \texttt{2866815071 1925493133 6195884664 0472312773 1913638756 1750799075}\\*
+ & &  & \texttt{5765435490 6506923450 2495496986 0935562356 8041866813 5582687167}\\*
+ & &  & \texttt{7341629124 8996666156 7250314392 5107555105 1097531889 2257246294}\\*
+ & &  & \texttt{0510821229 1751118629 386}\\
+\addlinespace[2pt]
+95 & 5452 & 513 & \texttt{9250888898 4246779141 8043487851 8865802831 0941420647 6058958445}\\*
+ & &  & \texttt{3163780462 4716824794 7874482114 3310357242 5819756343 2211572798}\\*
+ & &  & \texttt{6968152335 8689016437 2042232582 1180030401 1723951706 1418770670}\\*
+ & &  & \texttt{6682240867 8315665903 3416234899 8559312109 8071848682 0293138792}\\*
+ & &  & \texttt{8989094247 3802077042 0125046215 4904108024 0236203728 2568672194}\\*
+ & &  & \texttt{2723341928 4495213436 7378433391 7592639660 8965488009 1273785702}\\*
+ & &  & \texttt{3343995761 0419302239 4010547195 1149659245 4057777236 9982278421}\\*
+ & &  & \texttt{8965234450 1756116683 7183400001 0520573722 2561895162 3602200643}\\*
+ & &  & \texttt{2821192382 1247440237 1004023125 360}\\
+\addlinespace[2pt]
+96 & 5515 & 520 & \texttt{1861683180 5487824568 7530452355 2093051564 8387028098 0619807659}\\*
+ & &  & \texttt{5231764571 3609210317 3325669357 3814378677 9785142230 6181901922}\\*
+ & &  & \texttt{6974831835 8080019588 5269253758 2898309917 7927282368 7180414994}\\*
+ & &  & \texttt{4887455965 6681832005 5424711047 8024812706 6929316482 3770318786}\\*
+ & &  & \texttt{6538197748 8107854309 7014460961 2557860339 5768032734 6294982303}\\*
+ & &  & \texttt{4401854657 7146658952 2156877271 2194228149 1041745997 9070804445}\\*
+ & &  & \texttt{4067268669 6333067542 9171745379 0561673572 7897207181 2314328575}\\*
+ & &  & \texttt{9759785111 3637886845 0432399814 7162095727 5138011414 0640525475}\\*
+ & &  & \texttt{3648493060 8349832292 2758705028 5396111314}\\
+\addlinespace[2pt]
+97 & 5706 & 530 & \texttt{1939247027 8149724263 9963138588 5387699518 0006056304 8606961552}\\*
+ & &  & \texttt{0123906493 8942706668 5536757109 0193393507 4987271228 6244294731}\\*
+ & &  & \texttt{6122414529 6481362433 6337218290 8155694701 8697047548 4178961853}\\*
+ & &  & \texttt{6170158267 3754321421 8031173005 2799331812 1655889789 0290947468}\\*
+ & &  & \texttt{7859583228 6336963110 9181411400 1230420486 4204296908 1217271500}\\*
+ & &  & \texttt{4460202328 3220555690 0426359999 9395896207 7428928025 6219836167}\\*
+ & &  & \texttt{3800011688 5158900373 2743201229 0281093273 3626612870 2212350556}\\*
+ & &  & \texttt{4165064430 5638806724 7446416030 4908045804 7132370423 0236015512}\\*
+ & &  & \texttt{8542875778 0488087047 1038468171 5925302757 9369593504}\\
+\addlinespace[2pt]
+98 & 5789 & 537 & \texttt{4004624557 5734401914 2882233841 4576251347 6380863419 4647330734}\\*
+ & &  & \texttt{9772744629 2759852621 0208747278 8262468191 3023040342 6285268058}\\*
+ & &  & \texttt{1839891977 0861253956 1907665528 4587045187 2413596202 9201050537}\\*
+ & &  & \texttt{7786929550 5174904663 0844859537 5041409278 7645625898 5477546880}\\*
+ & &  & \texttt{8012198665 9621824873 8799015025 1883047929 4357461392 0736013397}\\*
+ & &  & \texttt{6191861115 8535313400 8222865204 9807353596 9888456365 7739345093}\\*
+ & &  & \texttt{7259217892 1297572059 2965420465 4377420817 2245626087 3959349786}\\*
+ & &  & \texttt{7235843705 9134701033 6591525401 7949073993 2892909811 5713351567}\\*
+ & &  & \texttt{8247416991 7834984890 4354151843 3789514714 0735285391 0972859}\\
+\addlinespace[2pt]
+99 & 5908 & 546 & \texttt{5297724643 0287454854 2996587955 3079881668 3102683154 0067434166}\\*
+ & &  & \texttt{7892613940 3486911177 2160473410 5237649912 7826107685 6253099181}\\*
+ & &  & \texttt{0221711593 9441518880 0034162916 1264047661 1939932447 9684254317}\\*
+ & &  & \texttt{5700010725 6874148761 2054600994 8335488382 8553687899 5140208015}\\*
+ & &  & \texttt{0151702699 3757356837 0834904800 0811763975 3674044460 6448854259}\\*
+ & &  & \texttt{6117410566 6594502431 4129256520 0894547566 5091247263 3604000583}\\*
+ & &  & \texttt{2208120011 6485110946 8961437557 9369621631 8418663177 9256535072}\\*
+ & &  & \texttt{2691666937 7278305049 1563632786 2328079749 6518455951 3299297645}\\*
+ & &  & \texttt{3677560617 7449346349 7284593782 0811112567 3788751387 8838916977}\\*
+ & &  & \texttt{157910}\\
+\addlinespace[2pt]
+100 & 5987 & 553 & \texttt{6774027683 4196981905 7921502420 5161646846 4697433398 7866858343}\\*
+ & &  & \texttt{4796058215 4192985419 4319184042 4763905297 3851596287 2401064043}\\*
+ & &  & \texttt{7054844927 0474276320 6695544816 1902159080 3793622391 7607196567}\\*
+ & &  & \texttt{3062513950 9690322526 7851860050 1053928715 3510137000 4593509349}\\*
+ & &  & \texttt{3586361357 2223613982 0152327698 0635564186 0567231138 4907221739}\\*
+ & &  & \texttt{1655265778 2003294705 3353488094 8559385139 4671128271 3521358489}\\*
+ & &  & \texttt{6376650208 0641510756 6411364827 0779669189 1185514210 2419110185}\\*
+ & &  & \texttt{9000623905 7180304857 2765609921 5117234354 4589659690 9978048419}\\*
+ & &  & \texttt{7325630625 9332645106 8886912335 6382383406 3355241331 3129785743}\\*
+ & &  & \texttt{1417559624 935}\\
+\addlinespace[2pt]
+101 & 6186 & 564 & \texttt{1238457733 4984414245 7918131262 4640383317 6284139118 2282168711}\\*
+ & &  & \texttt{1345000202 5832908562 5392880494 6947651108 8102439521 3449076712}\\*
+ & &  & \texttt{0268749674 6815118631 3202838041 7608168098 8344730695 7255558061}\\*
+ & &  & \texttt{4267540400 9801702275 2388842116 2501335829 3054926750 3325732741}\\*
+ & &  & \texttt{6475170433 9777595744 1495266534 2005619419 9166609360 7833413425}\\*
+ & &  & \texttt{3484444731 6052663707 7969199930 5394822024 7210587928 0865476834}\\*
+ & &  & \texttt{2349013106 4554000608 9503716709 7082459197 5465755756 4075116100}\\*
+ & &  & \texttt{2791137077 5258001400 7934882172 4471340931 1878236487 2744430221}\\*
+ & &  & \texttt{0574657968 6337045553 8548620166 5421711121 1111905129 7294754136}\\*
+ & &  & \texttt{6550137174 2151955286 5080}\\
+\end{longtable}
+\endgroup
+\end{document}
